@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.EntityFrameworkCore;
 
 namespace BooksAPI
 {
@@ -26,6 +27,11 @@ namespace BooksAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            var connection = @"Server=JEFFRO-X1C5\SQLEXPRESS;Database=BooksDB2;Trusted_Connection=True;ConnectRetryCount=0";
+            services.AddDbContext<BooksAPI.Models.BooksContext> (options => options.UseSqlServer(connection));
+
+            services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,8 +46,13 @@ namespace BooksAPI
                 app.UseHsts();
             }
 
+            app.UseCors(builder => builder.WithOrigins("http://localhost:8080"));
+
+            // app.UseCors(builder => builder.AllowAnyOrigin());
+
             app.UseHttpsRedirection();
             app.UseMvc();
+            
         }
     }
 }
