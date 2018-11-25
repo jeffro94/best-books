@@ -12,7 +12,7 @@
 
 <body>
     <div class="container">
-        <h1>Best Books!</h1>
+        <h1><a href="index.html">Best Books!</a></h1>
 
         <div class="row">
             <div class="col-sm-11">
@@ -81,7 +81,73 @@
                             <input type="text" class="form-control" id="inputCategories">
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">Save</button>
+                    <div class="form-group row">
+                        <label for="inputWAntToReadScore" class="col-sm-2 col-form-label">Want-to-Read Score</label>
+                        <div class="col-sm-10">
+                            <input type="number" min="1" max="5" step="1" class="form-control" id="inputWantToReadScore">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-2 col-form-label">Reading Flags</div>
+                        <div class="col-sm-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="flagRead">
+                                <label class="form-check-label" for="flagRead">Read</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="flagCurrentlyReading">
+                                <label class="form-check-label" for="flagCurrentlyReading">Currently Reading</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="flagPartiallyRead">
+                                <label class="form-check-label" for="flagPartiallyRead">Partially Read</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="flagWantToRead">
+                                <label class="form-check-label" for="flagWantToRead">Want to Read</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-2 col-form-label">Ownership Flags</div>
+                        <div class="col-sm-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="ownPrint">
+                                <label class="form-check-label" for="ownPrint">Print</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="ownKindle">
+                                <label class="form-check-label" for="ownKindle">Kindle</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="ownKindleSample">
+                                <label class="form-check-label" for="ownKindleSample">Kindle Sample</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="ownAudible">
+                                <label class="form-check-label" for="ownAudible">Audible</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="ownPDF">
+                                <label class="form-check-label" for="ownPDF">PDF</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="ownOtherAudio">
+                                <label class="form-check-label" for="ownOtherAudio">Other Audio</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-10 offset-sm-2">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </div>
+                    <input type="hidden" id="inputDateCreated" name="inputDateCreated">
+                    <input type="hidden" id="hdnGR_Title" name="hdnGR_Title">
+                    <input type="hidden" id="hdnGR_Author" name="hdnGR_Author">
+                    <input type="hidden" id="hdnGR_Rating" name="hdnGR_Rating">
+                    <input type="hidden" id="hdnGR_ReviewCount" name="hdnGR_ReviewCount">
+                    <input type="hidden" id="hdnGR_SyncDate" name="hdnGR_SyncDate">
+                    <input type="hidden" id="hdnGR_Status" name="hdnGR_Status">
+                    <input type="hidden" id="hdnGR_StatusMessage" name="hdnGR_StatusMessage">
                 </form>
             </div>
             <div id="externalNav" class="col-sm-1">
