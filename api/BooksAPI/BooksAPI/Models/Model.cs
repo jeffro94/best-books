@@ -44,9 +44,18 @@ namespace BooksAPI.Models
 
         public bool OwnPrint { get; set; }
         public bool OwnKindle { get; set; }
+        public bool OwnKindleSample { get; set; }
         public bool OwnPDF { get; set; }
         public bool OwnAudible { get; set; }
         public bool OwnOtherAudio { get; set; }
+
+        public string GR_Title { get; set; }
+        public string GR_Author { get; set; }
+        public float? GR_Rating { get; set; }
+        public int? GR_ReviewCount { get; set; } 
+        public DateTime? GR_SyncDate { get; set; }
+        public string GR_Status { get; set; }
+        public string GR_StatusMessage { get; set; }
 
         public DateTime? DateCreated { get; set; }
         public DateTime? DateModified { get; set;  }

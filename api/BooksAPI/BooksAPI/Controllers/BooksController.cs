@@ -82,6 +82,24 @@ namespace BooksAPI.Controllers
             return NoContent();
         }
 
+        // POST: api/Books
+        [HttpPost]
+        public async Task<IActionResult> PostBook([FromBody] Book book)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            book.DateModified = DateTime.Now;
+            book.DateCreated = DateTime.Now;
+            _context.Books.Add(book);
+
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetBook", new { id = book.BookId }, book);
+        }
+
         private bool BookExists(int id)
         {
             return _context.Books.Any(e => e.BookId == id);

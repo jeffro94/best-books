@@ -46,9 +46,10 @@ namespace BooksAPI
                 app.UseHsts();
             }
 
-            app.UseCors(builder => builder.WithOrigins("http://localhost:8080"));
-
-            // app.UseCors(builder => builder.AllowAnyOrigin());
+            app.UseCors(builder =>
+                builder.WithOrigins("http://localhost:8080", "https://localhost:8080")
+                    .WithMethods("GET", "POST", "PUT")
+                    .AllowAnyHeader());
 
             app.UseHttpsRedirection();
             app.UseMvc();
