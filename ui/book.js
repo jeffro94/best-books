@@ -135,6 +135,14 @@ function saveData() {
 
         xhr.onreadystatechange = function() {
             if (this.readyState === XMLHttpRequest.DONE && this.status === 204) {
+                // show the success message for one second
+                const msg = document.getElementById("successMessage");
+
+                msg.style.opacity = 1;
+                setTimeout(function() { 
+                    msg.style.opacity = 0;
+                }, 2000);
+
                 configureLinks(data);
             }
         };

@@ -26,6 +26,15 @@ function createTable(data) {
 
         row.attributes["data-bookId"] = book.bookId;
 
+        const colCurrent = document.createElement("td");
+        colCurrent.innerText = (book.flagCurrentlyReading ? "\u2713" : "");
+
+        const colWant = document.createElement("td");
+        colWant.innerText = (book.flagWantToRead ? "\u2713" : "");
+
+        const colScore = document.createElement("td");
+        colScore.innerText = book.wantToReadScore;
+
         const col0 = document.createElement("td");
         col0.innerText = book.goodReadsID;
 
@@ -41,6 +50,9 @@ function createTable(data) {
         const col3 = document.createElement("td");
         col3.innerText = book.yearPublished;
 
+        row.appendChild(colCurrent);
+        row.appendChild(colWant);
+        row.appendChild(colScore);
         row.appendChild(col0);
         row.appendChild(col1);
         row.appendChild(col2);

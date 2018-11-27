@@ -5,3 +5,7 @@
 #externalNav a {
     display: none;
 }
+
+#successMessage {
+    transition: opacity 0.4s linear;
+}
