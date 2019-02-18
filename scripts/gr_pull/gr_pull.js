@@ -25,15 +25,16 @@ fetch("https://localhost:44344/api/books")
 async function doWork() {
     for (let i = 0; i < bookList.length; i++) {  
         try {
-            console.log("Processing " + bookList[i].title);
-            getBookFromGRandUpdateDB(bookList[i]);
+            if (bookList[i].gR_Status != 'OK') {
+                console.log("Processing " + bookList[i].title);
+                getBookFromGRandUpdateDB(bookList[i]);
+                await sleep(1200);
+            }
         }
         catch(err) {
             console.log("Error in getBookFromGRandUpdateDB", err);
             return;
         }
-
-        await sleep(1500);
     }
 
     // use this to update a single book
@@ -84,7 +85,8 @@ function updateDB(book, grResponseObject) {
 
     // console.log(book["bookId"] + ": " + bookResponse.title[0]);
     // console.log(JSON.stringify(book));
-    console.log(util.inspect(bookResponse, false, null));
+    
+    // console.log(util.inspect(bookResponse, false, null));
 
     // update the relevant GR fields
     try {
