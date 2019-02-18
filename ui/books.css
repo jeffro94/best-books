@@ -9,3 +9,8 @@
 #successMessage {
     transition: opacity 0.4s linear;
 }
+
+#populateFromGR {
+    display: none;
+    width: 30rem;
+}

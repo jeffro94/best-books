@@ -6,6 +6,11 @@ if (bookID > 0) {
         .then(response => response.json())
         .then(populateForm);
 }
+else {
+    document.getElementById("populateFromGR").style.display = "block";
+}
+
+document.getElementById("grSearch").addEventListener("click", grSearch); 
 
 document.getElementById("bookForm").addEventListener("submit", function(e) {
     e.preventDefault();
@@ -162,4 +167,8 @@ function saveData() {
     }
 
     xhr.send(JSON.stringify(data));
+}
+
+function grSearch() {
+    
 }
