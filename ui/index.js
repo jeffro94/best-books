@@ -46,9 +46,21 @@ function createTable(data) {
 
         const col2 = document.createElement("td");
         col2.innerText = book.author;
+        col2.title = book.author;
+        col2.classList.add("text-truncate");
+        col2.style.maxWidth = "250px";
 
         const col3 = document.createElement("td");
         col3.innerText = book.yearPublished;
+
+        const colRating = document.createElement("td");
+        colRating.innerText = book.gR_Rating ? Number(book.gR_Rating).toFixed(2) : "";
+        colRating.classList.add("text-right");
+
+        const colRatingCount = document.createElement("td");
+        // colRatingCount.innerText = book.gR_RatingCount ? Number(book.gR_RatingCount).toLocaleString() : "";
+        colRatingCount.innerText = book.gR_RatingCount;
+        colRatingCount.classList.add("text-right");
 
         row.appendChild(colCurrent);
         row.appendChild(colWant);
@@ -57,6 +69,8 @@ function createTable(data) {
         row.appendChild(col1);
         row.appendChild(col2);
         row.appendChild(col3);
+        row.appendChild(colRating);
+        row.appendChild(colRatingCount);
 
         row.addEventListener("click", rowClicked);
 
