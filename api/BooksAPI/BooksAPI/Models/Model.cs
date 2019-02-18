@@ -13,11 +13,16 @@ namespace BooksAPI.Models
 
         public DbSet<Book> Books { get; set; }
         public DbSet<Tag> Tags { get; set; }
+        public DbSet<User> Users { get; set; }
     }
 
     public class Book
     {
         public int BookId { get; set; }
+
+        public int? UserId { get; set; }
+        public User User { get; set; }
+
         public int? GoodReadsID { get; set; }
         public string ASIN { get; set; }
 
@@ -72,6 +77,16 @@ namespace BooksAPI.Models
 
         public int BookId { get; set; }
         public Book Book { get; set; }
+    }
+
+    public class User
+    {
+        public int UserId { get; set; }
+        public string Username { get; set; }
+
+        public DateTime? DateCreated { get; set; }
+
+        public List<Book> Books { get; set; }
     }
 
 }

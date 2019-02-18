@@ -46,6 +46,29 @@ namespace BooksAPI.Controllers
             return Ok(book);
         }
 
+        // GET: api/Books/UserId/2
+        [HttpGet("UserId/{userId}")]
+        public async Task<IActionResult> GetBooksByUserId([FromRoute] int userId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            // first make sure the user exists. if not, return 404
+            var userCount = await _context.Users.CountAsync(m => m.UserId == userId);
+
+            if (userCount == 0)
+            {
+                return NotFound();
+            }
+
+            // todo: check performance of this ?
+            var books = await _context.Books.Where(m => m.UserId == userId).ToListAsync();
+
+            return Ok(books);
+        }
+
         // PUT: api/Books/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutBook([FromRoute] int id, [FromBody] Book book)

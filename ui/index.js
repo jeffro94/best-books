@@ -1,4 +1,4 @@
-fetch("https://localhost:44344/api/books")
+fetch("https://localhost:44344/api/books/userId/1")
     .then(response => response.json())
     .then(createTable);
 
