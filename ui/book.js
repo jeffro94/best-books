@@ -5,17 +5,16 @@ if (bookID > 0) {
     fetch(`https://localhost:44344/api/books/${bookID}`)
         .then(response => response.json())
         .then(populateForm);
-}
-else {
+} else {
     document.getElementById("populateFromGR").style.display = "block";
 }
 
-document.getElementById("grSearch").addEventListener("click", grSearch); 
+document.getElementById("grSearch").addEventListener("click", grSearch);
 
 document.getElementById("bookForm").addEventListener("submit", function(e) {
     e.preventDefault();
     saveData();
-}); 
+});
 
 function populateForm(data) {
     document.getElementById("inputTitle").value = data.title;
@@ -59,30 +58,27 @@ function populateForm(data) {
 
 function configureLinks(data) {
     const w = document.getElementById("linkToW");
-    if (data.wikipediaURL) { 
+    if (data.wikipediaURL) {
         w.href = data.wikipediaURL;
         w.style.display = "block";
-    }
-    else {
+    } else {
         w.style.display = "none";
     }
 
     const g = document.getElementById("linkToG");
-    if (data.goodReadsID) { 
+    if (data.goodReadsID) {
         const url = `https://www.goodreads.com/book/show/${data.goodReadsID}`;
         g.href = url;
         g.style.display = "block";
-    }
-    else {
+    } else {
         g.style.display = "none";
     }
 
     const a = document.getElementById("linkToA");
-    if (data.asin) { 
+    if (data.asin) {
         a.href = data.asin;
         a.style.display = "block";
-    }
-    else {
+    } else {
         a.style.display = "none";
     }
 }
@@ -144,15 +140,14 @@ function saveData() {
                 const msg = document.getElementById("successMessage");
 
                 msg.style.opacity = 1;
-                setTimeout(function() { 
+                setTimeout(function() {
                     msg.style.opacity = 0;
                 }, 2000);
 
                 configureLinks(data);
             }
         };
-    }
-    else {
+    } else {
         // this is a create
         xhr.open("POST", "https://localhost:44344/api/books", true);
         xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
@@ -170,5 +165,5 @@ function saveData() {
 }
 
 function grSearch() {
-    
+
 }
