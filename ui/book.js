@@ -149,6 +149,8 @@ function saveData() {
         };
     } else {
         // this is a create
+        data.userId = 1; // the logged in user
+
         xhr.open("POST", "https://localhost:44344/api/books", true);
         xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
         xhr.responseType = "json";
