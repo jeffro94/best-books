@@ -165,5 +165,17 @@ function saveData() {
 }
 
 function grSearch() {
+    const id = document.getElementById("grIDforLookup").value;
+
+    console.log(`searching for book w/ gr-id ${id}!`);
+
+    fetch(`http://localhost:3000/book/${id}`)
+        .then(response => response.json())
+        .then(function(data) {
+            if (data.gR_Title) document.getElementById("inputTitle").value = data.gR_Title;
+            if (data.gR_Author) document.getElementById("inputAuthor").value = data.gR_Author;
+            if (data.gR_OriginalPublicationYear) document.getElementById("inputYearPublished").value = data.gR_OriginalPublicationYear;
+            if (data.gR_Id) document.getElementById("inputGoodReadsID").value = data.gR_Id;
+        });
 
 }
