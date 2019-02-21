@@ -1,16 +1,11 @@
-const xml2js = require("xml2js");
 const fetch = require("node-fetch");
 const util = require("util");
-
-const apiKey = "p7YoeD7BsZq3d69eaDpdA";
 
 // this is only to allow node to work with the self-signed cert on localhost https
 // it should be removed once the API is moved to cloud host
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
 
 let bookList = [];
-
-let grID = 50;
 
 fetch("https://localhost:44344/api/books")
     .then(response => response.json())
@@ -44,7 +39,7 @@ async function doWork() {
 
 function getBookFromGRandUpdateDB(book) {
     let grID = book["goodReadsID"];
-    let url = `https://www.goodreads.com/book/show/${grID}?key=${apiKey}`;
+    let url = `http://localhost:3000/book/${grID}`;
     
     fetch(url)
         .then(function(response) {
@@ -53,15 +48,8 @@ function getBookFromGRandUpdateDB(book) {
                 return;
             }
 
-            response.text().then(function(data) {
-                xml2js.parseString(data, {trim: true}, function (err, result) {
-                    if (err) {
-                        console.log("Error parsing XML: " + err);
-                    }
-                    else {
-                        updateDB(book, result);
-                    }
-                });
+            response.json().then(function(data) {
+                updateDB(book, data);
             })
             .catch(function(err) {
                 console.log('Error getting response text: ', err);
@@ -72,39 +60,21 @@ function getBookFromGRandUpdateDB(book) {
         });
 }
 
-function updateDB(book, grResponseObject) {
+function updateDB(book, apiResponse) {
     // this will print the entire object to the console
-    // console.log(util.inspect(result, false, null));
-
-    if (!grResponseObject || !grResponseObject["GoodreadsResponse"] || !grResponseObject["GoodreadsResponse"]["book"]) {
-        console.log("malformed response for bookID: " + bookID);
-        return;
-    }
-
-    const bookResponse = grResponseObject["GoodreadsResponse"]["book"][0];
-
-    // console.log(book["bookId"] + ": " + bookResponse.title[0]);
-    // console.log(JSON.stringify(book));
-    
-    // console.log(util.inspect(bookResponse, false, null));
+    // console.log(util.inspect(apiResponse, false, null));
 
     // update the relevant GR fields
-    try {
-        book.gR_Author = bookResponse.authors[0]["author"][0]["name"][0];
-        book.gR_OriginalPublicationYear = bookResponse.work[0]["original_publication_year"][0]["_"];
-        book.gR_Rating = bookResponse.average_rating[0];
-        book.gR_RatingCount = bookResponse.work[0]["ratings_count"][0]["_"];
-        book.gR_ReviewCount = bookResponse.work[0]["text_reviews_count"][0]["_"];
-        book.gR_Status = "OK";
-        book.gR_Status_Message = "";
-        book.gR_SyncDate = new Date().toISOString();
-        book.gR_Title = bookResponse.title[0];
-    }
-    catch(err) {
-        book.gR_Status = "Error";
-        book.gR_Status_Message = err.toString();
-    }
-    
+    book.gR_Title = apiResponse.gR_Title;
+    book.gR_Author = apiResponse.gR_Author;
+    book.gR_OriginalPublicationYear = apiResponse.gR_OriginalPublicationYear;
+    book.gR_Rating = apiResponse.gR_Rating;
+    book.gR_RatingCount = apiResponse.gR_RatingCount;
+    book.gR_ReviewCount = apiResponse.gR_ReviewCount;
+    book.gR_Status = apiResponse.gR_Status;
+    book.gR_Status_Message = apiResponse.gR_Status_Message;
+    book.gR_SyncDate = new Date().toISOString();
+
     // now update it in the DB
     fetch(`https://localhost:44344/api/books/${book.bookId}`, {
         method: "PUT",
@@ -117,7 +87,7 @@ function updateDB(book, grResponseObject) {
         }
     })
     .catch(function(err) {
-        console.log("Error on update", err);
+        console.log("Error on update: ", err);
     });
 }
 

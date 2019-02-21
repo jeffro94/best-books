@@ -4,6 +4,7 @@
   "description": "",
   "main": "gr_pull.js",
   "scripts": {
+    "start": "node gr_pull.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
