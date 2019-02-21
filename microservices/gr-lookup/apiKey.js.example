@@ -1,0 +1,3 @@
+const key = "0123456789";  // Goodreads developer API Key goes here
+
+module.exports = key;
