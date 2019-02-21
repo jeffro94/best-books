@@ -18,12 +18,20 @@ app.use(cors());
 app.options('*', cors());
 
 app.get('/book/:bookId', async function(req, res) {
+    let rawResult = null;
 
     if (!req.params || !req.params["bookId"]) {
         res.status(500).send("Invalid params!");
+        return;
     }
 
-    const rawResult = await getBookFromGR(req.params["bookId"]);
+    try {
+        rawResult = await getBookFromGR(req.params["bookId"]);
+    }
+    catch(e) {
+        res.status(500).send(`API Error: ${e}`);
+        return;
+    }
 
     const book = convertRawToReadable(rawResult);
 
