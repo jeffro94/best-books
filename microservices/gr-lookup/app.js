@@ -66,21 +66,27 @@ async function getBookFromGR(bookId) {
 function convertRawToReadable(response) {
     const book = {};
 
-    try {
-        const bookResponse = response["GoodreadsResponse"]["book"][0];
-
-        book.gR_Id = bookResponse.id[0];
-        book.gR_Title = bookResponse.title[0];
-        book.gR_Author = bookResponse.authors[0]["author"][0]["name"][0];
-        book.gR_OriginalPublicationYear = bookResponse.work[0]["original_publication_year"][0]["_"];
-        book.gR_Rating = bookResponse.average_rating[0];
-        book.gR_RatingCount = bookResponse.work[0]["ratings_count"][0]["_"];
-        book.gR_ReviewCount = bookResponse.work[0]["text_reviews_count"][0]["_"];
-        book.gR_Status = "OK";
-    }
-    catch(err) {
+    if (!response || !response["GoodreadsResponse"] || !response["GoodreadsResponse"]["book"]) {
         book.gR_Status = "Error";
-        book.gR_Status_Message = err.toString();
+        book.gR_Status_Message = "malformed response";
+    }
+    else {
+        try {
+            const bookResponse = response["GoodreadsResponse"]["book"][0];
+    
+            book.gR_Id = bookResponse.id[0];
+            book.gR_Title = bookResponse.title[0];
+            book.gR_Author = bookResponse.authors[0]["author"][0]["name"][0];
+            book.gR_OriginalPublicationYear = bookResponse.work[0]["original_publication_year"][0]["_"];
+            book.gR_Rating = bookResponse.average_rating[0];
+            book.gR_RatingCount = bookResponse.work[0]["ratings_count"][0]["_"];
+            book.gR_ReviewCount = bookResponse.work[0]["text_reviews_count"][0]["_"];
+            book.gR_Status = "OK";
+        }
+        catch(err) {
+            book.gR_Status = "Error";
+            book.gR_Status_Message = err.toString();
+        }
     }
 
     return book;
