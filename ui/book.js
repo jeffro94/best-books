@@ -76,7 +76,8 @@ function configureLinks(data) {
 
     const a = document.getElementById("linkToA");
     if (data.asin) {
-        a.href = data.asin;
+        const url = `https://www.amazon.com/gp/product/${data.asin}`;
+        a.href = url;
         a.style.display = "block";
     } else {
         a.style.display = "none";

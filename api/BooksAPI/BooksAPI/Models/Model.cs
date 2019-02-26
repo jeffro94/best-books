@@ -25,6 +25,7 @@ namespace BooksAPI.Models
 
         public int? GoodReadsID { get; set; }
         public string ASIN { get; set; }
+        public string AmazonUrl { get; set; }
 
         public string Title { get; set; }
         public string Author { get; set; }
@@ -63,6 +64,12 @@ namespace BooksAPI.Models
         public string GR_Status { get; set; }
         public string GR_StatusMessage { get; set; }
         public int? GR_OriginalPublicationYear { get; set; }
+
+        public string Temp1 { get; set; }
+        public string Temp2 { get; set; }
+        public string Temp3 { get; set; }
+        public string Temp4 { get; set; }
+        public string Temp5 { get; set; }
 
         public DateTime? DateCreated { get; set; }
         public DateTime? DateModified { get; set;  }
