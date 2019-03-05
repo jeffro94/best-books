@@ -71,6 +71,8 @@ namespace BooksAPI.Models
         public string Temp4 { get; set; }
         public string Temp5 { get; set; }
 
+        public Boolean Demo { get; set; }
+
         public DateTime? DateCreated { get; set; }
         public DateTime? DateModified { get; set;  }
 
