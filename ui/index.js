@@ -35,9 +35,6 @@ function createTable(data) {
         const colScore = document.createElement("td");
         colScore.innerText = book.wantToReadScore;
 
-        const col0 = document.createElement("td");
-        col0.innerText = book.goodReadsID;
-
         const col1 = document.createElement("td");
         col1.innerText = book.title;
         col1.title = book.title;
@@ -65,7 +62,6 @@ function createTable(data) {
         row.appendChild(colCurrent);
         row.appendChild(colWant);
         row.appendChild(colScore);
-        row.appendChild(col0);
         row.appendChild(col1);
         row.appendChild(col2);
         row.appendChild(col3);
