@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import { Container } from 'react-bootstrap';
 import './App.css';
 import Home from './Home.js';
-import Book from './Book.js';
+import Book from './Book';
 
 class App extends Component {
   render() {
