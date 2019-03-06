@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import { Table } from 'react-bootstrap';
 import './Home.css';
 
@@ -64,9 +65,8 @@ class BookTable extends Component {
   }
 }
 
-function BookTableRow(props) {
-  return (
-    <tr>
+const BookTableRow = withRouter((props) => (
+    <tr onClick={() => { props.history.push(`/book/${props.book.bookId}`) }}>
       <td>{ props.book.flagCurrentlyReading ? "✓" : "" }</td>
       <td>{ props.book.flagWantToRead ? "✓" : "" }</td>
       <td>{ props.book.wantToReadScore }</td>
@@ -76,8 +76,7 @@ function BookTableRow(props) {
       <td className="text-right">{ props.book.gR_Rating }</td>
       <td className="text-right">{ props.book.gR_RatingCount }</td>
     </tr>
-  );
-}
+  ));
 
 class ExampleTable extends Component {
   render() {
