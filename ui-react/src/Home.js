@@ -9,7 +9,7 @@ class Home extends Component {
       <div>
         <h1>Best Books!</h1>
         <p className="mt-3">
-            <a href="book.html?bookID=0">Add a new book</a>
+          <a href="book.html?bookID=0">Add a new book</a>
         </p>
         <BookTable className="mt-3" />
         <ExampleTable className="mt-3" />
@@ -32,7 +32,7 @@ class BookTable extends Component {
       .then(result => {
         this.setState({
           books: result
-        })
+        });
       });
   }
 
