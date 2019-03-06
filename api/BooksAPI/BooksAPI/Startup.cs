@@ -47,7 +47,7 @@ namespace BooksAPI
             }
 
             app.UseCors(builder =>
-                builder.WithOrigins("http://localhost:8080", "https://localhost:8080")
+                builder.WithOrigins("http://localhost:8080", "http://localhost:3000")
                     .WithMethods("GET", "POST", "PUT")
                     .AllowAnyHeader());
 
