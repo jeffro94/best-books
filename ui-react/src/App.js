@@ -30,9 +30,30 @@ class BookTable extends Component {
       .then(response => response.json())
       .then(result => {
         this.setState({
-          books: result
-        })
+          books: result,
+          sortOrder: null
+        });
       });
+  }
+
+  sortColumns(bookPropertyName) {
+    const books = this.state.books.slice();
+
+    const sortOrder = (this.state.sortOrder === "Ascending") ? "Descending" : "Ascending";
+
+    books.sort((a,b) => {
+      if (sortOrder === "Ascending") {
+        return (a[bookPropertyName] > b[bookPropertyName]) ? 1 : -1;
+      }
+      else {
+        return (a[bookPropertyName] > b[bookPropertyName]) ? -1 : 1;
+      }
+    });
+
+    this.setState({
+      books,
+      sortOrder
+    });
   }
 
   render() {
@@ -46,14 +67,14 @@ class BookTable extends Component {
       <Table responsive="lg" bordered hover>
         <thead className="thead-light">
           <tr>
-            <th scope="col">Current</th>
-            <th scope="col">Want</th>
-            <th scope="col">Score</th>
-            <th scope="col">Title</th>
-            <th scope="col">Author</th>
-            <th scope="col">Year</th>
-            <th scope="col">Rating</th>
-            <th scope="col">Count</th>
+            <th scope="col" onClick={ () => this.sortColumns("flagCurrentlyReading") }>Current</th>
+            <th scope="col" onClick={ () => this.sortColumns("flagWantToRead") }>Want</th>
+            <th scope="col" onClick={ () => this.sortColumns("wantToReadScore") }>Score</th>
+            <th scope="col" onClick={ () => this.sortColumns("title") }>Title</th>
+            <th scope="col" onClick={ () => this.sortColumns("author") }>Author</th>
+            <th scope="col" onClick={ () => this.sortColumns("yearPublished") }>Year</th>
+            <th scope="col" onClick={ () => this.sortColumns("gR_Rating") }>Rating</th>
+            <th scope="col" onClick={ () => this.sortColumns("gR_RatingCount") }>Count</th>
           </tr>
         </thead>
         <tbody>
