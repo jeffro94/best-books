@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { RouteProps } from 'react-router';
 import { Row, Col, Form } from 'react-bootstrap';
 import './Home.css';
 
-class Book extends Component<any & RouteProps, any> {
-  constructor(props: any) {
+class Book extends Component {
+  constructor(props) {
     super(props);
     this.state = {
       title: "",
@@ -20,18 +19,18 @@ class Book extends Component<any & RouteProps, any> {
 
     fetch(`https://localhost:44344/api/books/${bookId}`)
       .then(response => response.json())
-      .then(result => {
+      .then((result) => {
         this.setState({
           book: result,
-          title: result["title"],
-          author: result["author"],
-          yearPublished: result["yearPublished"] || "",
-          yearRevised: result["yearRevised"] || ""
+          title: result.title,
+          author: result.author,
+          yearPublished: result.yearPublished || "",
+          yearRevised: result.yearRevised || ""
         });
       });
   }
 
-  handleUserInput (e: any) {
+  handleUserInput (e) {
     const name = e.target.name;
     const value = e.target.value;
     this.setState({
@@ -75,5 +74,6 @@ class Book extends Component<any & RouteProps, any> {
     );
   }
 }
+
 
 export default Book;

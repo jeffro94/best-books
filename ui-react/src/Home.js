@@ -1,3 +1,5 @@
+/// <reference path="./interfaces.d.ts" />
+
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Table } from 'react-bootstrap';
@@ -12,7 +14,6 @@ class Home extends Component {
           <a href="book.html?bookID=0">Add a new book</a>
         </p>
         <BookTable className="mt-3" />
-        <ExampleTable className="mt-3" />
       </div>
     );
   }
@@ -22,7 +23,8 @@ class BookTable extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      books: []
+      books: [],
+      sortOrder: ""
     };
   }
 
@@ -31,8 +33,7 @@ class BookTable extends Component {
       .then(response => response.json())
       .then(result => {
         this.setState({
-          books: result,
-          sortOrder: null
+          books: result
         });
       });
   }
@@ -98,42 +99,6 @@ const BookTableRow = withRouter((props) => (
     <td className="text-right">{ props.book.gR_RatingCount }</td>
   </tr>
 ));
-
-class ExampleTable extends Component {
-  render() {
-    return (
-      <Table responsive="lg" bordered hover>
-        <thead className="thead-light">
-          <tr>
-            <th>#</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Username</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td colSpan={2}>Larry the Bird</td>
-            <td>@twitter</td>
-          </tr>
-        </tbody>
-      </Table>
-    );
-  }
-}
 
 
 export default Home;
