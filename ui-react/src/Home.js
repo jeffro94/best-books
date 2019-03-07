@@ -1,5 +1,3 @@
-/// <reference path="./interfaces.d.ts" />
-
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Table } from 'react-bootstrap';
