@@ -14,13 +14,16 @@ import './Home.css';
 class Book extends Component {
   constructor(props) {
     super(props);
-    this.state = getEmptyState();
+    this.state = {
+      bookId: props.match.params.bookId,
+      book: getEmptyBook()
+    };
   }
 
   componentDidMount() {
-    const bookId = this.props.match.params.bookId;
+    window.scrollTo(0, 0); // fix scrolling; scroll to top on mount
 
-    fetch(`https://localhost:44344/api/books/${bookId}`)
+    fetch(`https://localhost:44344/api/books/${this.state.bookId}`)
       .then(response => response.json())
       .then(result => {
         // set any null fields to empty string..
@@ -218,32 +221,30 @@ class Book extends Component {
   }
 }
 
-function getEmptyState() {
+function getEmptyBook() {
   return {
-    book: {
-      title: "",
-      author: "",
-      yearPublished: "",
-      yearRevised: "",
-      whereHeardAbout: "",
-      whenHeardAbout: "",
-      asin: "",
-      goodReadsID: "",
-      wikipediaURL: "",
-      notes: "",
-      categories: "",
-      wantToReadScore: "",
-      flagRead: false,
-      flagCurrentlyReading: false,
-      flagPartiallyRead: false,
-      flagWantToRead: false,
-      ownPrint: false,
-      ownKindle: false,
-      ownKindleSample: false,
-      ownPDF: false,
-      ownAudible: false,
-      ownOtherAudio: false,
-    }
+    title: "",
+    author: "",
+    yearPublished: "",
+    yearRevised: "",
+    whereHeardAbout: "",
+    whenHeardAbout: "",
+    asin: "",
+    goodReadsID: "",
+    wikipediaURL: "",
+    notes: "",
+    categories: "",
+    wantToReadScore: "",
+    flagRead: false,
+    flagCurrentlyReading: false,
+    flagPartiallyRead: false,
+    flagWantToRead: false,
+    ownPrint: false,
+    ownKindle: false,
+    ownKindleSample: false,
+    ownPDF: false,
+    ownAudible: false,
+    ownOtherAudio: false
   };
 }
 
