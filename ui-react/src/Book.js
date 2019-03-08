@@ -16,17 +16,20 @@ class Book extends Component {
     super(props);
     this.state = {
       bookId: props.match.params.bookId,
-      book: getEmptyBook()
+      book: getEmptyBook(),
+      showSuccessMessage: false
     };
   }
 
   componentDidMount() {
-    window.scrollTo(0, 0); // fix scrolling; scroll to top on mount
+    window.scrollTo(0, 0); // fix scrolling; scroll to top on mount. ref: https://github.com/ReactTraining/react-router/blob/master/packages/react-router-dom/docs/guides/scroll-restoration.md
 
     fetch(`https://localhost:44344/api/books/${this.state.bookId}`)
       .then(response => response.json())
       .then(result => {
         // set any null fields to empty string..
+        // ref: https://stackoverflow.com/questions/921789/how-to-loop-through-a-plain-javascript-object-with-the-objects-as-members
+        //
         Object.keys(result).forEach(key => {
           if (result[key] === null) result[key] = "";
         });
@@ -62,15 +65,28 @@ class Book extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    console.log("submitted");
-    return;
+
+    const data = this.state.book; // do I need to modify this somehow b4 submitting? dealing w/ null, empty strings...
+
+    fetch(`https://localhost:44344/api/books/${this.state.bookId}`, {
+      method: "PUT",
+      body: JSON.stringify(data), // data can be `string` or {object}!
+      headers:{ 'Content-Type': 'application/json' }
+    })
+    .then(res => {
+      // show the success message, then hide it after 2 seconds
+      this.setState({ showSuccessMessage: true });
+      setTimeout(() => this.setState({ showSuccessMessage: false }), 2000);
+    })
+    .catch(error => console.error("Error:", error));
+
   }
 
   render() {
     return (
       <div>
         <h1><a href="/">Best Books!</a></h1>
-        <form className="mt-3" onSubmit={ this.handleSubmit }>
+        <form className="mt-3" onSubmit={ (e) => this.handleSubmit(e) }>
           <div className="form-group row">
             <label htmlFor="title" className="col-sm-2 col-form-label">Title</label>
             <div className="col-sm-10">
@@ -212,7 +228,7 @@ class Book extends Component {
           <div className="form-group row">
             <div className="col-sm-10 offset-sm-2">
               <button type="submit" className="btn btn-primary">Save</button>
-              <span id="successMessage" className="alert alert-success ml-2" role="alert" style={ { opacity: 0 } }>Saved succesfully!</span>
+              <span id="successMessage" className="alert alert-success ml-2" role="alert" style={ { opacity: this.state.showSuccessMessage ? 100 : 0 } }>Saved succesfully!</span>
             </div>
           </div>
         </form>
