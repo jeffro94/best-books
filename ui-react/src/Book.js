@@ -86,152 +86,176 @@ class Book extends Component {
     return (
       <div>
         <h1><a href="/">Best Books!</a></h1>
-        <form className="mt-3" onSubmit={ (e) => this.handleSubmit(e) }>
-          <div className="form-group row">
-            <label htmlFor="title" className="col-sm-2 col-form-label">Title</label>
-            <div className="col-sm-10">
-                <input type="text" className="form-control" id="title" 
-                  value={ this.state.book.title } onChange={ (e) => this.handleUserInput(e) } />
-            </div>
-          </div>
-          <div className="form-group row">
-            <label htmlFor="title" className="col-sm-2 col-form-label">Author</label>
-            <div className="col-sm-10">
-                <input type="text" className="form-control" id="author" 
-                  value={ this.state.book.author } onChange={ (e) => this.handleUserInput(e) } />
-            </div>
-          </div>
-          <div className="form-group row">
-            <label htmlFor="yearPublished" className="col-sm-2 col-form-label">Year Published</label>
-            <div className="col-sm-4">
-              <input type="text" className="form-control" id="yearPublished" 
-                value={ this.state.book.yearPublished } onChange={ (e) => this.handleUserInput(e) }/>
-            </div>
-            <label htmlFor="yearRevised" className="col-sm-2 col-form-label">Year Revised</label>
-            <div className="col-sm-4">
-              <input type="text" className="form-control" id="yearRevised" 
-                value={ this.state.book.yearRevised } onChange={ (e) => this.handleUserInput(e) }/>
-            </div>
-          </div>
-          <div className="form-group row">
-            <label htmlFor="goodReadsID" className="col-sm-2 col-form-label">GoodReads ID</label>
-            <div className="col-sm-4">
-              <input type="text" className="form-control" id="goodReadsID" 
-                value={ this.state.book.goodReadsID } onChange={ (e) => this.handleUserInput(e) }/>
-            </div>
-            <label htmlFor="asin" className="col-sm-2 col-form-label">ASIN</label>
-            <div className="col-sm-4">
-              <input type="text" className="form-control" id="asin" 
-                value={ this.state.book.asin } onChange={ (e) => this.handleUserInput(e) }/>
-            </div>
-          </div>
-          <div className="form-group row">
-            <label htmlFor="wikipediaURL" className="col-sm-2 col-form-label">Wikipedia URL</label>
-            <div className="col-sm-10">
-              <input type="text" className="form-control" id="wikipediaURL" 
-                value={ this.state.book.wikipediaURL } onChange={ (e) => this.handleUserInput(e) }/>
-            </div>
-          </div>
-          <div className="form-group row">
-            <label htmlFor="whereHeardAbout" className="col-sm-2 col-form-label">Where I heard about it</label>
-            <div className="col-sm-10">
-              <input type="text" className="form-control" id="whereHeardAbout" 
-                value={ this.state.book.whereHeardAbout } onChange={ (e) => this.handleUserInput(e) }/>
-            </div>
-          </div>
-          <div className="form-group row">
-            <label htmlFor="whenHeardAbout" className="col-sm-2 col-form-label">When I heard about it</label>
-            <div className="col-sm-10">
-              <input type="text" className="form-control" id="whenHeardAbout" 
-                value={ this.state.book.whenHeardAbout } onChange={ (e) => this.handleUserInput(e) }/>
-            </div>
-          </div>
-          <div className="form-group row">
-            <label htmlFor="notes" className="col-sm-2 col-form-label">Notes</label>
-            <div className="col-sm-10">
-              <textarea className="form-control" id="notes" rows="3"
-                value={ this.state.book.notes } onChange={ (e) => this.handleUserInput(e) }></textarea>
-            </div>
-          </div>
-          <div className="form-group row">
-            <label htmlFor="categories" className="col-sm-2 col-form-label">Categories</label>
-            <div className="col-sm-10">
-              <input type="text" className="form-control" id="categories" 
-                value={ this.state.book.categories } onChange={ (e) => this.handleUserInput(e) }/>
-            </div>
-          </div>
-          <div className="form-group row">
-            <label htmlFor="wantToReadScore" className="col-sm-2 col-form-label">Want-to-Read Score</label>
-            <div className="col-sm-10">
-              <input type="number" min="1" max="5" step="1" className="form-control" id="wantToReadScore" 
-                value={ this.state.book.wantToReadScore } onChange={ (e) => this.handleUserInput(e) }/>
-            </div>
-          </div>
-          <div className="form-group row">
-            <div className="col-sm-2 col-form-label">Reading Flags</div>
-            <div className="col-sm-4">
-              <div className="form-check">
-                  <input className="form-check-input" type="checkbox" id="flagRead" 
-                    checked={ this.state.book.flagRead } onChange={ (e) => this.handleUserInput(e) }/>
-                  <label className="form-check-label" htmlFor="flagRead">Read</label>
-              </div>
-              <div className="form-check">
-                  <input className="form-check-input" type="checkbox" id="flagCurrentlyReading" 
-                    checked={ this.state.book.flagCurrentlyReading } onChange={ (e) => this.handleUserInput(e) }/>
-                  <label className="form-check-label" htmlFor="flagCurrentlyReading">Currently Reading</label>
-              </div>
-              <div className="form-check">
-                  <input className="form-check-input" type="checkbox" id="flagPartiallyRead" 
-                    checked={ this.state.book.flagPartiallyRead } onChange={ (e) => this.handleUserInput(e) }/>
-                  <label className="form-check-label" htmlFor="flagPartiallyRead">Partially Read</label>
-              </div>
-              <div className="form-check">
-                  <input className="form-check-input" type="checkbox" id="flagWantToRead" 
-                    checked={ this.state.book.flagWantToRead } onChange={ (e) => this.handleUserInput(e) }/>
-                  <label className="form-check-label" htmlFor="flagWantToRead">Want to Read</label>
+        <div className="row">
+          <div className="col-sm-11">
+            <form className="mt-3" onSubmit={ (e) => this.handleSubmit(e) }>
+              <div className="form-group row">
+                <label htmlFor="title" className="col-sm-2 col-form-label">Title</label>
+                <div className="col-sm-10">
+                    <input type="text" className="form-control" id="title" 
+                      value={ this.state.book.title } onChange={ (e) => this.handleUserInput(e) } />
                 </div>
               </div>
-            <div className="col-sm-2 col-form-label">Ownership Flags</div>
-            <div className="col-sm-4">
-              <div className="form-check">
-                <input className="form-check-input" type="checkbox" id="ownPrint" 
-                  checked={ this.state.book.wnPrint } onChange={ (e) => this.handleUserInput(e) }/>
-                <label className="form-check-label" htmlFor="ownPrint">Print</label>
+              <div className="form-group row">
+                <label htmlFor="title" className="col-sm-2 col-form-label">Author</label>
+                <div className="col-sm-10">
+                    <input type="text" className="form-control" id="author" 
+                      value={ this.state.book.author } onChange={ (e) => this.handleUserInput(e) } />
+                </div>
               </div>
-              <div className="form-check">
-                <input className="form-check-input" type="checkbox" id="ownKindle" 
-                  checked={ this.state.book.ownKindle } onChange={ (e) => this.handleUserInput(e) }/>
-                <label className="form-check-label" htmlFor="ownKindle">Kindle</label>
+              <div className="form-group row">
+                <label htmlFor="yearPublished" className="col-sm-2 col-form-label">Year Published</label>
+                <div className="col-sm-4">
+                  <input type="text" className="form-control" id="yearPublished" 
+                    value={ this.state.book.yearPublished } onChange={ (e) => this.handleUserInput(e) }/>
+                </div>
+                <label htmlFor="yearRevised" className="col-sm-2 col-form-label">Year Revised</label>
+                <div className="col-sm-4">
+                  <input type="text" className="form-control" id="yearRevised" 
+                    value={ this.state.book.yearRevised } onChange={ (e) => this.handleUserInput(e) }/>
+                </div>
               </div>
-              <div className="form-check">
-                <input className="form-check-input" type="checkbox" id="ownKindleSample" 
-                  checked={ this.state.book.wnKindleSample } onChange={ (e) => this.handleUserInput(e) }/>
-                <label className="form-check-label" htmlFor="ownKindleSample">Kindle Sample</label>
+              <div className="form-group row">
+                <label htmlFor="goodReadsID" className="col-sm-2 col-form-label">GoodReads ID</label>
+                <div className="col-sm-4">
+                  <input type="text" className="form-control" id="goodReadsID" 
+                    value={ this.state.book.goodReadsID } onChange={ (e) => this.handleUserInput(e) }/>
+                </div>
+                <label htmlFor="asin" className="col-sm-2 col-form-label">ASIN</label>
+                <div className="col-sm-4">
+                  <input type="text" className="form-control" id="asin" 
+                    value={ this.state.book.asin } onChange={ (e) => this.handleUserInput(e) }/>
+                </div>
               </div>
-              <div className="form-check">
-                <input className="form-check-input" type="checkbox" id="ownAudible" 
-                  checked={ this.state.book.ownAudible } onChange={ (e) => this.handleUserInput(e) }/>
-                <label className="form-check-label" htmlFor="ownAudible">Audible</label>
+              <div className="form-group row">
+                <label htmlFor="wikipediaURL" className="col-sm-2 col-form-label">Wikipedia URL</label>
+                <div className="col-sm-10">
+                  <input type="text" className="form-control" id="wikipediaURL" 
+                    value={ this.state.book.wikipediaURL } onChange={ (e) => this.handleUserInput(e) }/>
+                </div>
               </div>
-              <div className="form-check">
-                <input className="form-check-input" type="checkbox" id="ownPDF" 
-                  checked={ this.state.book.ownPDF } onChange={ (e) => this.handleUserInput(e) }/>
-                <label className="form-check-label" htmlFor="ownPDF">PDF</label>
+              <div className="form-group row">
+                <label htmlFor="whereHeardAbout" className="col-sm-2 col-form-label">Where I heard about it</label>
+                <div className="col-sm-10">
+                  <input type="text" className="form-control" id="whereHeardAbout" 
+                    value={ this.state.book.whereHeardAbout } onChange={ (e) => this.handleUserInput(e) }/>
+                </div>
               </div>
-              <div className="form-check">
-                <input className="form-check-input" type="checkbox" id="ownOtherAudio" 
-                  checked={ this.state.book.ownOtherAudio } onChange={ (e) => this.handleUserInput(e) }/>
-                <label className="form-check-label" htmlFor="ownOtherAudio">Other Audio</label>
+              <div className="form-group row">
+                <label htmlFor="whenHeardAbout" className="col-sm-2 col-form-label">When I heard about it</label>
+                <div className="col-sm-10">
+                  <input type="text" className="form-control" id="whenHeardAbout" 
+                    value={ this.state.book.whenHeardAbout } onChange={ (e) => this.handleUserInput(e) }/>
+                </div>
               </div>
+              <div className="form-group row">
+                <label htmlFor="notes" className="col-sm-2 col-form-label">Notes</label>
+                <div className="col-sm-10">
+                  <textarea className="form-control" id="notes" rows="3"
+                    value={ this.state.book.notes } onChange={ (e) => this.handleUserInput(e) }></textarea>
+                </div>
+              </div>
+              <div className="form-group row">
+                <label htmlFor="categories" className="col-sm-2 col-form-label">Categories</label>
+                <div className="col-sm-10">
+                  <input type="text" className="form-control" id="categories" 
+                    value={ this.state.book.categories } onChange={ (e) => this.handleUserInput(e) }/>
+                </div>
+              </div>
+              <div className="form-group row">
+                <label htmlFor="wantToReadScore" className="col-sm-2 col-form-label">Want-to-Read Score</label>
+                <div className="col-sm-10">
+                  <input type="number" min="1" max="5" step="1" className="form-control" id="wantToReadScore" 
+                    value={ this.state.book.wantToReadScore } onChange={ (e) => this.handleUserInput(e) }/>
+                </div>
+              </div>
+              <div className="form-group row">
+                <div className="col-sm-2 col-form-label">Reading Flags</div>
+                <div className="col-sm-4">
+                  <div className="form-check">
+                      <input className="form-check-input" type="checkbox" id="flagRead" 
+                        checked={ this.state.book.flagRead } onChange={ (e) => this.handleUserInput(e) }/>
+                      <label className="form-check-label" htmlFor="flagRead">Read</label>
+                  </div>
+                  <div className="form-check">
+                      <input className="form-check-input" type="checkbox" id="flagCurrentlyReading" 
+                        checked={ this.state.book.flagCurrentlyReading } onChange={ (e) => this.handleUserInput(e) }/>
+                      <label className="form-check-label" htmlFor="flagCurrentlyReading">Currently Reading</label>
+                  </div>
+                  <div className="form-check">
+                      <input className="form-check-input" type="checkbox" id="flagPartiallyRead" 
+                        checked={ this.state.book.flagPartiallyRead } onChange={ (e) => this.handleUserInput(e) }/>
+                      <label className="form-check-label" htmlFor="flagPartiallyRead">Partially Read</label>
+                  </div>
+                  <div className="form-check">
+                      <input className="form-check-input" type="checkbox" id="flagWantToRead" 
+                        checked={ this.state.book.flagWantToRead } onChange={ (e) => this.handleUserInput(e) }/>
+                      <label className="form-check-label" htmlFor="flagWantToRead">Want to Read</label>
+                    </div>
+                  </div>
+                <div className="col-sm-2 col-form-label">Ownership Flags</div>
+                <div className="col-sm-4">
+                  <div className="form-check">
+                    <input className="form-check-input" type="checkbox" id="ownPrint" 
+                      checked={ this.state.book.wnPrint } onChange={ (e) => this.handleUserInput(e) }/>
+                    <label className="form-check-label" htmlFor="ownPrint">Print</label>
+                  </div>
+                  <div className="form-check">
+                    <input className="form-check-input" type="checkbox" id="ownKindle" 
+                      checked={ this.state.book.ownKindle } onChange={ (e) => this.handleUserInput(e) }/>
+                    <label className="form-check-label" htmlFor="ownKindle">Kindle</label>
+                  </div>
+                  <div className="form-check">
+                    <input className="form-check-input" type="checkbox" id="ownKindleSample" 
+                      checked={ this.state.book.wnKindleSample } onChange={ (e) => this.handleUserInput(e) }/>
+                    <label className="form-check-label" htmlFor="ownKindleSample">Kindle Sample</label>
+                  </div>
+                  <div className="form-check">
+                    <input className="form-check-input" type="checkbox" id="ownAudible" 
+                      checked={ this.state.book.ownAudible } onChange={ (e) => this.handleUserInput(e) }/>
+                    <label className="form-check-label" htmlFor="ownAudible">Audible</label>
+                  </div>
+                  <div className="form-check">
+                    <input className="form-check-input" type="checkbox" id="ownPDF" 
+                      checked={ this.state.book.ownPDF } onChange={ (e) => this.handleUserInput(e) }/>
+                    <label className="form-check-label" htmlFor="ownPDF">PDF</label>
+                  </div>
+                  <div className="form-check">
+                    <input className="form-check-input" type="checkbox" id="ownOtherAudio" 
+                      checked={ this.state.book.ownOtherAudio } onChange={ (e) => this.handleUserInput(e) }/>
+                    <label className="form-check-label" htmlFor="ownOtherAudio">Other Audio</label>
+                  </div>
+                </div>
+              </div>
+              <div className="form-group row">
+                <div className="col-sm-10 offset-sm-2">
+                  <button type="submit" className="btn btn-primary">Save</button>
+                  <span id="successMessage" className="alert alert-success ml-2" role="alert" style={ { opacity: this.state.showSuccessMessage ? 100 : 0 } }>Saved succesfully!</span>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div id="externalNav" className="col-sm-1">
+            <div className="mt-4">
+              <a id="linkToA" target="_blank"
+                href={ this.state.book.asin ? `https://www.amazon.com/gp/product/${this.state.book.asin}` : "" }
+                style={ { display: this.state.book.asin ? "block" : "none" } }>
+              <img src="/images/a.jpg" height="50px" width="50px" alt="Open in Amazon" /></a>
+            </div>
+            <div className="mt-2">
+              <a id="linkToG" target="_blank"
+                href={ this.state.book.goodReadsID ? `https://www.goodreads.com/book/show/${this.state.book.goodReadsID}` : "" }
+                style={ { display: this.state.book.goodReadsID ? "block" : "none" } }>
+                <img src="/images/g.jpg" height="50px" width="50px" alt="Open in GoodReads" /></a>
+            </div>
+            <div className="mt-2">
+              <a id="linkToW" target="_blank"
+                href={ this.state.book.wikipediaURL ? this.state.book.wikipediaURL : "" }
+                style={ { display: this.state.book.wikipediaURL ? "block" : "none" } }>
+                <img src="/images/w.jpg" height="50px" width="50px" alt="Open in Wikipedia" /></a>
             </div>
           </div>
-          <div className="form-group row">
-            <div className="col-sm-10 offset-sm-2">
-              <button type="submit" className="btn btn-primary">Save</button>
-              <span id="successMessage" className="alert alert-success ml-2" role="alert" style={ { opacity: this.state.showSuccessMessage ? 100 : 0 } }>Saved succesfully!</span>
-            </div>
-          </div>
-        </form>
+        </div>
       </div>
     );
   }
