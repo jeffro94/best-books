@@ -24,7 +24,7 @@ namespace BooksAPI.Controllers
         [HttpGet]
         public IEnumerable<Book> GetBooks()
         {
-            return _context.Books.Where(book => book.Demo.Equals(true));
+            return _context.Books;
         }
 
         // GET: api/Books/5
@@ -64,7 +64,9 @@ namespace BooksAPI.Controllers
             }
 
             // todo: check performance of this ?
-            var books = await _context.Books.Where(book => book.UserId.Equals(userId) && book.Demo.Equals(true)).ToListAsync();
+            // var books = await _context.Books.Where(book => book.UserId.Equals(userId) && book.Demo.Equals(true)).ToListAsync();
+
+            var books = await _context.Books.Where(book => book.UserId.Equals(userId)).ToListAsync();
 
             return Ok(books);
         }
@@ -113,6 +115,8 @@ namespace BooksAPI.Controllers
             {
                 return BadRequest(ModelState);
             }
+
+            book.UserId = 1;
 
             book.DateModified = DateTime.Now;
             book.DateCreated = DateTime.Now;

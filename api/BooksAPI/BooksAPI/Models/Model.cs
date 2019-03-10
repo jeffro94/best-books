@@ -65,6 +65,12 @@ namespace BooksAPI.Models
         public string GR_StatusMessage { get; set; }
         public int? GR_OriginalPublicationYear { get; set; }
 
+        public float? Amz_Rating { get; set; }
+        public int? Amz_ReviewCount { get; set; }
+        public string Amz_Status { get; set; }
+        public string Amz_StatusMessage { get; set; }
+        public DateTime? Amz_SyncDate { get; set; }
+
         public string Temp1 { get; set; }
         public string Temp2 { get; set; }
         public string Temp3 { get; set; }
