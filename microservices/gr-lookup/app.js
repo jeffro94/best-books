@@ -6,7 +6,7 @@ const cors = require('cors');
 const apiKey = require('./apiKey');
 
 const app = express();
-const port = 3000;
+const port = 3010;
 
 // ref: https://stackoverflow.com/questions/35756453/promisifying-xml2js-parse-function-es6-promises
 xml2js.parseStringPromise = util.promisify(xml2js.parseString);
