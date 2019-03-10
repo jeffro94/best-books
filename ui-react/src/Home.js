@@ -9,7 +9,7 @@ class Home extends Component {
       <div>
         <h1>Best Books!</h1>
         <p className="mt-3">
-          <a href="book.html?bookID=0">Add a new book</a>
+          <a href="/add">Add a new book</a>
         </p>
         <BookTable className="mt-3" />
       </div>
@@ -86,7 +86,7 @@ class BookTable extends Component {
 }
 
 const BookTableRow = withRouter((props) => (
-  <tr onClick={() => { props.history.push(`/book/${props.book.bookId}`) }}>
+  <tr onClick={() => { props.history.push(`/edit/${props.book.bookId}`) }}>
     <td>{ props.book.flagCurrentlyReading ? "✓" : "" }</td>
     <td>{ props.book.flagWantToRead ? "✓" : "" }</td>
     <td>{ props.book.wantToReadScore }</td>

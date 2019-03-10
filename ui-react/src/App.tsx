@@ -3,7 +3,8 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import { Container } from 'react-bootstrap';
 import './App.css';
 import Home from './Home.js';
-import Book from './Book.js';
+import AddBook from './AddBook.js';
+import EditBook from './EditBook.js';
 
 class App extends Component {
   render() {
@@ -12,7 +13,8 @@ class App extends Component {
         <div>
           <Container>
             <Route exact path="/" component={ Home } />
-            <Route path="/book/:bookId" component={ Book } />
+            <Route path="/add" component={ AddBook } />
+            <Route path="/edit/:bookId" component={ EditBook } />
           </Container>
         </div>
       </Router>
