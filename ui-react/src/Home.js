@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { Table } from 'react-bootstrap';
+import { Table, Collapse } from 'react-bootstrap';
 import './Home.css';
 
 class Home extends Component {
@@ -57,9 +57,25 @@ class BookTable extends Component {
     });
   }
 
+  handleColumnSelectChange(e) {
+    let updatedColumns = [];
+    Object.assign(updatedColumns, this.state.columns);
+
+    // toggle the selected value
+    updatedColumns.find(c => c.key === e.target.id).selected = !updatedColumns.find(c => c.key === e.target.id).selected;
+    
+    this.setState({ columns: updatedColumns });
+  }
+
   render() {
-    const tableHeaders = this.state.columns.map(col =>
-      <th scope="col" onClick={ () => this.sortColumns(col.key) }>{ col.name }</th>
+    const tableHeaders = this.state.columns.filter(c => c.selected).map(col =>
+      <th 
+        scope="col" key={ col.key } 
+        onClick={ () => this.sortColumns(col.key) } 
+        {...col.headerAttributes} title={ col.headerTitle ? col.headerTitle : undefined }
+      >
+        { col.name }
+      </th>
     );
 
     const tableRows = this.state.books.map(book => 
@@ -67,16 +83,19 @@ class BookTable extends Component {
     );
 
     return (
-      <Table responsive="lg" bordered hover>
-        <thead className="thead-light">
-          <tr>
-            { tableHeaders }
-          </tr>
-        </thead>
-        <tbody>
-          { tableRows }
-        </tbody>
-      </Table>
+      <div>
+        <ColumnSelectorTable columns={ this.state.columns } onChange={ (e) => this.handleColumnSelectChange(e) } />
+        <Table bordered hover>
+          <thead className="thead-light">
+            <tr>
+              { tableHeaders }
+            </tr>
+          </thead>
+          <tbody>
+            { tableRows }
+          </tbody>
+        </Table>
+      </div>
     );
   }
 }
@@ -84,7 +103,7 @@ class BookTable extends Component {
 const BookTableRow = withRouter(props => {
   const cols = props.columns.filter(c => c.selected).map(c => (
     <td 
-      {...c.attributes}
+      key ={ c.key } {...c.attributes}
       title={ c.showTitle ? props.book[c.key] : undefined }
     >
       { c.transform ? c.transform(props.book[c.key]) : props.book[c.key] }
@@ -98,65 +117,158 @@ const BookTableRow = withRouter(props => {
   );
 });
 
-class ColumnsSelector extends Component {
+class ColumnSelectorTable extends Component {
+  constructor(props, context) {
+    super(props, context);
 
+    this.state = {
+      open: false
+    };
+  }
+
+  render() {
+    const { open } = this.state;
+
+    const inputs =  this.props.columns.map(col => (
+      <div className="form-check" key={ col.key }>
+        <input className="form-check-input" type="checkbox" id={ col.key } 
+          checked={ col.selected } onChange={ (e) => this.props.onChange(e) } />
+        <label className="form-check-label" htmlFor={ col.key }>{ col.name }</label>
+      </div>
+    ));
+
+    /*
+    const inputs = [];
+
+    const checkboxColumns = Array(4).fill(null).map(() => [] );
+    
+    for (let i = 0; i < this.props.columns.length; i++) {
+      const currentColumn = this.props.columns[i];
+      checkboxColumns[Math.floor(i * 4 / this.props.columns.length)].push(
+        <div className="form-check" key={ currentColumn.key }>
+          <input className="form-check-input" type="checkbox" id={ currentColumn.key } 
+            checked={ currentColumn.selected } onChange={ (e) => this.props.onChange(e) } />
+          <label className="form-check-label" htmlFor={ currentColumn.key }>{ currentColumn.name }</label>
+        </div>
+      );
+    }
+
+    inputs.push(...checkboxColumns.map((item, index) => (
+      <div className="form-group col-lg-3" key={ index }>{ item }</div>
+    ))); 
+    */
+
+    return (
+      <div>
+        <div className="card">
+          <div className="card-header">
+            <div
+              onClick={() => this.setState({ open: !open })}
+              aria-controls="example-collapse-text2"
+              aria-expanded={open}
+            >
+              <span role="img" title="Open Settings" aria-label="Open Settings">⚙️</span>
+            </div>
+          </div>
+          <Collapse in={this.state.open}>
+            <div id="example-collapse-text2">
+              <div className="card-body">
+                <div className="form-group">
+                  { inputs }
+                </div>
+              </div>
+            </div>
+          </Collapse>
+        </div>
+      </div>
+    );
+  }
 }
 
 function getTableColumns() {
   return ([
       {
         key: "flagCurrentlyReading",
-        name: "Current",
+        name: "🕮",
         selected: true,
-        transform: val => val ? "✓" : ""
+        transform: val => val ? "✓" : "",
+        attributes: { className: "d-none d-xl-table-cell" },
+        headerTitle: "Currently Reading"
       },
       {
         key: "flagWantToRead",
-        name: "Want",
+        name: "🛒",
         selected: true,
-        transform: val => val ? "✓" : ""
+        transform: val => val ? "✓" : "",
+        attributes: { className: "d-none d-xl-table-cell" },
+        headerAttributes: { className: "d-none d-xl-table-cell" },
+        headerTitle: "Want to Read"
       },
       {
         key: "wantToReadScore",
-        name: "Score",
-        selected: true
+        name: "💯",
+        selected: true,
+        attributes: { className: "d-none d-xl-table-cell" },
+        headerAttributes: { className: "d-none d-xl-table-cell" },
+        headerTitle: "Want to Read Score"
       },
       {
         key: "title",
         name: "Title",
         selected: true,
+        showTitle: true,
         attributes: {
           className: "text-truncate",
           style: { maxWidth: "450px" },
-        },
-        showTitle: true
+        }
       },
       {
         key: "author",
         name: "Author",
         selected: true,
+        showTitle: true,
         attributes: {
-          className: "text-truncate",
-          style: { maxWidth: "250px" }
+          className: "text-truncate d-none d-md-table-cell",
+          style: { maxWidth: "240px" }
         },
-        showTitle: true
+        headerAttributes: { className: "d-none d-md-table-cell" }
+        
       },
       {
         key: "yearPublished",
         name: "Year",
-        selected: true
+        selected: true,
+        attributes: { className: "d-none d-lg-table-cell" },
+        headerAttributes: { className: "d-none d-lg-table-cell" }
+
       },
       {
         key: "gR_Rating",
-        name: "Rating",
+        name: "Goodreads\nRating",
         selected: true,
-        attributes: { className: "text-right" }
+        attributes: { className: "text-right d-none d-xl-table-cell" },
+        headerAttributes: { className: "d-none d-xl-table-cell" }
       },
       {
         key: "gR_RatingCount",
-        name: "Count",
+        name: "Goodreads\nCount",
         selected: true,
-        attributes: { className: "text-right" }
+        attributes: { className: "text-right d-none d-xl-table-cell" },
+        headerAttributes: { className: "d-none d-xl-table-cell" }
+      },
+      {
+        key: "amz_Rating",
+        name: "Amazon\nRating",
+        selected: false,
+        attributes: { className: "text-right d-none d-xl-table-cell" },
+        headerAttributes: { className: "d-none d-xl-table-cell" }
+      },
+      {
+        key: "amz_ReviewCount",
+        name: "Amazon\nCount",
+        selected: false,
+        attributes: { className: "text-right d-none d-xl-table-cell" },
+        headerAttributes: { className: "d-none d-xl-table-cell" }
       }
     ]);
 }
