@@ -39,7 +39,7 @@ async function doWork() {
 
 function getBookFromGRandUpdateDB(book) {
     let grID = book["goodReadsID"];
-    let url = `http://localhost:3000/book/${grID}`;
+    let url = `http://localhost:3010/book/${grID}`;
     
     fetch(url)
         .then(function(response) {
