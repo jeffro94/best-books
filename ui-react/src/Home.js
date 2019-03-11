@@ -22,7 +22,8 @@ class BookTable extends Component {
     super(props);
     this.state = {
       books: [],
-      sortOrder: ""
+      sortOrder: "",
+      columns: getTableColumns()
     };
   }
 
@@ -57,24 +58,19 @@ class BookTable extends Component {
   }
 
   render() {
-    const tableRows = [];
+    const tableHeaders = this.state.columns.map(col =>
+      <th scope="col" onClick={ () => this.sortColumns(col.key) }>{ col.name }</th>
+    );
 
-    this.state.books.forEach(book => {
-      tableRows.push(<BookTableRow book={ book } key={ book.bookId } />);
-    });
+    const tableRows = this.state.books.map(book => 
+      <BookTableRow key={ book.bookId } book={ book } columns={ this.state.columns } />
+    );
 
     return (
       <Table responsive="lg" bordered hover>
         <thead className="thead-light">
           <tr>
-            <th scope="col" onClick={ () => this.sortColumns("flagCurrentlyReading") }>Current</th>
-            <th scope="col" onClick={ () => this.sortColumns("flagWantToRead") }>Want</th>
-            <th scope="col" onClick={ () => this.sortColumns("wantToReadScore") }>Score</th>
-            <th scope="col" onClick={ () => this.sortColumns("title") }>Title</th>
-            <th scope="col" onClick={ () => this.sortColumns("author") }>Author</th>
-            <th scope="col" onClick={ () => this.sortColumns("yearPublished") }>Year</th>
-            <th scope="col" onClick={ () => this.sortColumns("gR_Rating") }>Rating</th>
-            <th scope="col" onClick={ () => this.sortColumns("gR_RatingCount") }>Count</th>
+            { tableHeaders }
           </tr>
         </thead>
         <tbody>
@@ -85,18 +81,85 @@ class BookTable extends Component {
   }
 }
 
-const BookTableRow = withRouter((props) => (
-  <tr onClick={() => { props.history.push(`/edit/${props.book.bookId}`) }}>
-    <td>{ props.book.flagCurrentlyReading ? "✓" : "" }</td>
-    <td>{ props.book.flagWantToRead ? "✓" : "" }</td>
-    <td>{ props.book.wantToReadScore }</td>
-    <td title={ props.book.title } className="text-truncate" style={ { maxWidth: "450px" } }>{ props.book.title }</td>
-    <td title={ props.book.author } className="text-truncate" style={ { maxWidth: "250px" } }>{ props.book.author }</td>
-    <td>{ props.book.yearPublished }</td>
-    <td className="text-right">{ props.book.gR_Rating }</td>
-    <td className="text-right">{ props.book.gR_RatingCount }</td>
-  </tr>
-));
+const BookTableRow = withRouter(props => {
+  const cols = props.columns.filter(c => c.selected).map(c => (
+    <td 
+      {...c.attributes}
+      title={ c.showTitle ? props.book[c.key] : undefined }
+    >
+      { c.transform ? c.transform(props.book[c.key]) : props.book[c.key] }
+    </td>
+  ));
+
+  return (
+    <tr onClick={() => { props.history.push(`/edit/${props.book.bookId}`) }}>
+      { cols }
+    </tr>
+  );
+});
+
+class ColumnsSelector extends Component {
+
+}
+
+function getTableColumns() {
+  return ([
+      {
+        key: "flagCurrentlyReading",
+        name: "Current",
+        selected: true,
+        transform: val => val ? "✓" : ""
+      },
+      {
+        key: "flagWantToRead",
+        name: "Want",
+        selected: true,
+        transform: val => val ? "✓" : ""
+      },
+      {
+        key: "wantToReadScore",
+        name: "Score",
+        selected: true
+      },
+      {
+        key: "title",
+        name: "Title",
+        selected: true,
+        attributes: {
+          className: "text-truncate",
+          style: { maxWidth: "450px" },
+        },
+        showTitle: true
+      },
+      {
+        key: "author",
+        name: "Author",
+        selected: true,
+        attributes: {
+          className: "text-truncate",
+          style: { maxWidth: "250px" }
+        },
+        showTitle: true
+      },
+      {
+        key: "yearPublished",
+        name: "Year",
+        selected: true
+      },
+      {
+        key: "gR_Rating",
+        name: "Rating",
+        selected: true,
+        attributes: { className: "text-right" }
+      },
+      {
+        key: "gR_RatingCount",
+        name: "Count",
+        selected: true,
+        attributes: { className: "text-right" }
+      }
+    ]);
+}
 
 
 export default Home;
