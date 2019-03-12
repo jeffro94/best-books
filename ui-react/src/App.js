@@ -5,6 +5,7 @@ import './App.css';
 import Home from './Home.js';
 import AddBook from './AddBook.js';
 import EditBook from './EditBook.js';
+import Visuals from './Visuals.js';
 import { Navbar, Nav } from 'react-bootstrap';
 
 class App extends Component {
@@ -17,6 +18,7 @@ class App extends Component {
             <Route exact path="/" component={ Home } />
             <Route path="/add" component={ AddBook } />
             <Route path="/edit/:bookId" component={ EditBook } />
+            <Route path="/visuals" component={ Visuals } />
           </Container>
         </div>
       </Router>
@@ -25,7 +27,7 @@ class App extends Component {
 }
 
 const BooksNavBar = withRouter(props => (
-  <Navbar bg="dark" variant="dark" className="mb-5">
+  <Navbar bg="dark" variant="dark" className="mb-4">
     <Link to="/">
       <Navbar.Brand>
         <img
