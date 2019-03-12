@@ -68,7 +68,7 @@ class BookTable extends Component {
         onClick={ () => this.sortColumns(col.key) } 
         {...col.headerAttributes} title={ col.headerTitle ? col.headerTitle : undefined }
       >
-        { col.name }
+        { col.headerAbbreviation ? col.headerAbbreviation : col.name }
       </th>
     );
 
@@ -127,7 +127,7 @@ class ColumnSelectorTable extends Component {
       <div className="form-check" key={ col.key }>
         <input className="form-check-input" type="checkbox" id={ col.key } 
           checked={ col.selected } onChange={ (e) => this.props.onChange(e) } />
-        <label className="form-check-label" htmlFor={ col.key }>{ col.name }</label>
+        <label className="form-check-label" htmlFor={ col.key }>{ `${ col.headerAbbreviation ? col.headerAbbreviation + ' ' : '' }${col.name}` }</label>
       </div>
     ));
 
@@ -183,38 +183,42 @@ function getTableColumns() {
   return ([
       {
         key: "flagRead",
-        name: "📗",
+        name: "Completed",
         selected: true,
         transform: val => val ? "✓" : "",
         attributes: { className: "d-none d-xl-table-cell" },
         headerAttributes: { className: "d-none d-xl-table-cell" },
-        headerTitle: "Completed"
+        headerTitle: "Completed",
+        headerAbbreviation: "📗"
       },
       {
         key: "flagCurrentlyReading",
-        name: "🕮",
+        name: "Currently Reading",
         selected: true,
         transform: val => val ? "✓" : "",
         attributes: { className: "d-none d-xl-table-cell" },
         headerAttributes: { className: "d-none d-xl-table-cell" },
-        headerTitle: "Currently Reading"
+        headerTitle: "Currently Reading",
+        headerAbbreviation: "🕮"
       },
       {
         key: "flagWantToRead",
-        name: "🛒",
+        name: "Want to Read",
         selected: true,
         transform: val => val ? "✓" : "",
         attributes: { className: "d-none d-xl-table-cell" },
         headerAttributes: { className: "d-none d-xl-table-cell" },
-        headerTitle: "Want to Read"
+        headerTitle: "Want to Read",
+        headerAbbreviation: "🛒"
       },
       {
         key: "wantToReadScore",
-        name: "💯",
+        name: "Want to Read Score",
         selected: true,
         attributes: { className: "d-none d-xl-table-cell" },
         headerAttributes: { className: "d-none d-xl-table-cell" },
-        headerTitle: "Want to Read Score"
+        headerTitle: "Want to Read Score",
+        headerAbbreviation: "💯"
       },
       {
         key: "title",
