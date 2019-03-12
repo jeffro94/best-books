@@ -94,7 +94,6 @@ class AddBook extends Component {
   render() {
     return (
       <div>
-        <h1><a href="/">Best Books!</a></h1>
         <div id="populateFromGR" className="card ml-auto">
           <div className="card-body">
             <h5>Populate from GoodReads</h5>

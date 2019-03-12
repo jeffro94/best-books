@@ -6,13 +6,7 @@ import './Home.css';
 class Home extends Component {
   render() {
     return (
-      <div>
-        <h1>Best Books!</h1>
-        <p className="mt-3">
-          <a href="/add">Add a new book</a>
-        </p>
-        <BookTable className="mt-3" />
-      </div>
+      <BookTable />
     );
   }
 }
@@ -188,11 +182,21 @@ class ColumnSelectorTable extends Component {
 function getTableColumns() {
   return ([
       {
+        key: "flagRead",
+        name: "📗",
+        selected: true,
+        transform: val => val ? "✓" : "",
+        attributes: { className: "d-none d-xl-table-cell" },
+        headerAttributes: { className: "d-none d-xl-table-cell" },
+        headerTitle: "Completed"
+      },
+      {
         key: "flagCurrentlyReading",
         name: "🕮",
         selected: true,
         transform: val => val ? "✓" : "",
         attributes: { className: "d-none d-xl-table-cell" },
+        headerAttributes: { className: "d-none d-xl-table-cell" },
         headerTitle: "Currently Reading"
       },
       {
@@ -245,14 +249,14 @@ function getTableColumns() {
       {
         key: "gR_Rating",
         name: "Goodreads\nRating",
-        selected: true,
+        selected: false,
         attributes: { className: "text-right d-none d-xl-table-cell" },
         headerAttributes: { className: "d-none d-xl-table-cell" }
       },
       {
         key: "gR_RatingCount",
         name: "Goodreads\nCount",
-        selected: true,
+        selected: false,
         attributes: { className: "text-right d-none d-xl-table-cell" },
         headerAttributes: { className: "d-none d-xl-table-cell" }
       },
