@@ -3,9 +3,9 @@ import { BrowserRouter as Router, Route, Link, withRouter } from "react-router-d
 import { Container } from 'react-bootstrap';
 import './App.css';
 import Home from './Home.js';
-import AddBook from './AddBook.js';
-import EditBook from './EditBook.js';
-import Visuals from './Visuals.js';
+import AddBook from './AddBook';
+import EditBook from './EditBook';
+import Visuals from './Visuals';
 import { Navbar, Nav } from 'react-bootstrap';
 
 class App extends Component {

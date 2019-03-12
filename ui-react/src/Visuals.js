@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import GoodreadsScoreToCount from './Components/Visuals/GoodreadsScoreToCount.js';
+import GoodreadsScoreToCount from './Components/Visuals/GoodreadsScoreToCount';
 import './Visuals.css';
 
 class Visuals extends Component {

@@ -3,22 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@types/d3": "^5.7.1",
-    "@types/jest": "24.0.9",
-    "@types/node": "11.10.4",
-    "@types/react": "16.8.6",
-    "@types/react-dom": "16.8.2",
-    "@types/react-faux-dom": "^4.1.2",
-    "@types/react-router-dom": "^4.3.1",
     "bootstrap": "^4.3.1",
     "d3": "^5.9.1",
-    "react": "^16.8.3",
+    "react": "^16.8.4",
     "react-bootstrap": "^1.0.0-beta.5",
-    "react-dom": "^16.8.3",
+    "react-dom": "^16.8.4",
     "react-faux-dom": "^4.4.0",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "2.1.5",
-    "typescript": "3.3.3333"
+    "react-scripts": "2.1.8"
   },
   "scripts": {
     "start": "react-scripts start",

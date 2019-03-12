@@ -9,8 +9,8 @@
  */
 
 import React, { Component } from 'react';
-import ExternalLinks from './Components/ExternalLinks.js';
-import BookFormFields, { getEmptyBook } from './Components/BookFormFields.js';
+import ExternalLinks from './Components/ExternalLinks';
+import BookFormFields, { getEmptyBook } from './Components/BookFormFields';
 import './EditBook.css';
 
 class EditBook extends Component {
