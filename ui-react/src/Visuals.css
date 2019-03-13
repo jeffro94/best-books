@@ -1,8 +1,14 @@
-svg circle {
+.chart {
+    position: relative;
+    padding-bottom: 70px;
+}
+
+.chart svg circle {
     fill: lightblue;
 }
 
-.tooltip {
+.chart .tooltip {
+    position: "absolute";
     opacity: 0.75;
     background-color: blue;
     font-family: sans-serif;
@@ -12,11 +18,7 @@ svg circle {
     padding: 5px;
 }
 
-.tooltip p {
+.chart .tooltip p {
     padding: 1px;
     margin: 1px; 
-}
-
-div .chart {
-    position: relative;
 }
