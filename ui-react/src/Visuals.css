@@ -1,3 +1,22 @@
 svg circle {
-    fill: blue;
+    fill: lightblue;
+}
+
+.tooltip {
+    opacity: 0.75;
+    background-color: blue;
+    font-family: sans-serif;
+    font-size: 10px;
+    font-weight: bold;
+    color: white;
+    padding: 5px;
+}
+
+.tooltip p {
+    padding: 1px;
+    margin: 1px; 
+}
+
+div .chart {
+    position: relative;
 }
