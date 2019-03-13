@@ -5,7 +5,36 @@ import * as d3 from "d3";
 class GoodreadsScoreToCount extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      tooltipState: {}
+    }
+  }
+
+  updateTooltipState(tooltipState) {
+    this.setState({
+      tooltipState
+    });
+  }
+
+  render() {
+    console.log("rendering parent...");
+
+    return (
+      <div className="chart">
+        <TheChart 
+          books={ this.props.books }
+          updateTooltipState={ newState => this.updateTooltipState(newState) } />
+        <ToolTipsy 
+          tooltipState={ this.state.tooltipState }
+          key="chart-tooltip" />
+      </div>
+    );
+  }
+}
+
+class TheChart extends Component {
+  shouldComponentUpdate(nextProps) {
+    return (this.props.books !== nextProps.books);
   }
 
   render() {
@@ -48,16 +77,16 @@ class GoodreadsScoreToCount extends Component {
         .attr("cy", d => yScale(d.gR_RatingCount) )
         .attr("r", 4)
         .on('mouseover', d => {
-          this.setState({
-            tooltipLeft: xScale(d.gR_Rating),
-            tooltipTop: yScale(d.gR_RatingCount),
-            tooltipOpacity: 0.8,
-            tooltipData: d
+          this.props.updateTooltipState({
+            left: xScale(d.gR_Rating) + 5,
+            top: yScale(d.gR_RatingCount) + 5,
+            opacity: 0.8,
+            data: d
           });
         })
         .on('mouseout', () => {
-          this.setState({
-            tooltipData: null
+          this.props.updateTooltipState({
+            data: null
           });
         });
 
@@ -95,41 +124,29 @@ class GoodreadsScoreToCount extends Component {
         .attr("text-anchor", "middle")
         .classed("title", true);
 
-    const rootNode = ReactFauxDOM.createElement("div");
-    
-    d3.select(rootNode).attr("class", "chart");
-
-    rootNode.appendChild(svgNode);
-    rootNode.appendChild(
-      <ToolTipsy 
-        left={ this.state.tooltipLeft + 3 }
-        top={ this.state.tooltipTop + 4 }
-        opacity={ this.state.tooltipOpacity }
-        data={ this.state.tooltipData }
-        key="chart-tooltip" />
-      );
-
-    return rootNode.toReact();
+    return svgNode.toReact();
 
   }
 }
 
 class ToolTipsy extends Component {
   render() {
+    console.log("rendering tooltip...");
+
     return (
       <div 
         className="tooltip"
         style={ { 
-          display: this.props.data ? "block" : "none",
+          display: this.props.tooltipState.data ? "block" : "none",
           position: "absolute",
-          top: `${this.props.top}px`,
-          left: `${this.props.left}px`
+          top: `${this.props.tooltipState.top}px`,
+          left: `${this.props.tooltipState.left}px`
         } }
       >
-        <p>Title: { this.props.data ? this.props.data.title : "" }</p>
-        <p>Author: {  this.props.data ? this.props.data.author : "" }</p>
-        <p>Rating: {  this.props.data ? this.props.data.gR_Rating : "" }</p>
-        <p>Count: {  this.props.data ? this.props.data.gR_RatingCount : "" }</p>
+        <p>Title: { this.props.tooltipState.data ? this.props.tooltipState.data.title : "" }</p>
+        <p>Author: {  this.props.tooltipState.data ? this.props.tooltipState.data.author : "" }</p>
+        <p>Rating: {  this.props.tooltipState.data ? this.props.tooltipState.data.gR_Rating : "" }</p>
+        <p>Count: {  this.props.tooltipState.data ? this.props.tooltipState.data.gR_RatingCount : "" }</p>
       </div>
     );
   }
