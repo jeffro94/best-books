@@ -6,61 +6,50 @@ const util = require("util");
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
 
 let bookList = [];
+(async () => {
 
-fetch("https://localhost:44344/api/books")
-    .then(response => response.json())
-    .then(function(data) {
-        bookList = data;
-        doWork();
-    })
-    .catch(function(err) {
-        console.log("Call to local books API failed", err);
-    });
+    const books = await fetch("https://localhost:44344/api/books/UserId/2")
+        .then(response => response.json())
+        .catch(err => console.error("Call to local books API failed", err) );
 
-async function doWork() {
+    const bookList = books.filter(book => book.gR_Status !== "OK");
+
+    // update a single book
+    // const bookList = books.filter(book => book.bookId == 73));
+
     for (let i = 0; i < bookList.length; i++) {  
         try {
-            if (bookList[i].gR_Status != 'OK') {
-                console.log("Processing " + bookList[i].title);
-                getBookFromGRandUpdateDB(bookList[i]);
-                await sleep(1200);
-            }
+            console.log("Processing " + bookList[i].title);
+            const grData = await getBookFromGR(bookList[i]);
+
+            await updateDB(bookList[i], grData);
+
+            await sleep(1200);
         }
         catch(err) {
-            console.log("Error in getBookFromGRandUpdateDB", err);
-            return;
+            console.error("Error in getBookFromGRandUpdateDB", err);
         }
     }
 
-    // use this to update a single book
-    // getBookFromGRandUpdateDB(bookList.filter(item => item.bookId == 73)[0]);
+})();
 
-}
-
-function getBookFromGRandUpdateDB(book) {
-    let grID = book["goodReadsID"];
-    let url = `http://localhost:3010/book/${grID}`;
-    
-    fetch(url)
-        .then(function(response) {
+async function getBookFromGR(book) {    
+    return await fetch(`http://localhost:3010/book/${book.goodReadsID}`)
+        .then(response => {
             if (!response.ok) {
-                console.log('GR API Call returned error: ' + response.status);
+                console.error('GR API Call returned error: ' + response.status);
                 return;
             }
 
-            response.json().then(function(data) {
-                updateDB(book, data);
-            })
-            .catch(function(err) {
-                console.log('Error getting response text: ', err);
-            });
+            return response.json();
         })
-        .catch(function(err) {
-            console.log('GR API Fetch failed: ', err);
+        .catch(err => {
+            console.error('Error getting response text: ', err);
+            return;
         });
 }
 
-function updateDB(book, apiResponse) {
+async function updateDB(book, apiResponse) {
     // this will print the entire object to the console
     // console.log(util.inspect(apiResponse, false, null));
 
@@ -76,19 +65,20 @@ function updateDB(book, apiResponse) {
     book.gR_SyncDate = new Date().toISOString();
 
     // now update it in the DB
-    fetch(`https://localhost:44344/api/books/${book.bookId}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json; charset=utf-8" },
-        body: JSON.stringify(book)
-    })
-    .then(function(response) {
-        if (!response.ok) {
-            console.log("Error on update: " + response.status);
-        }
-    })
-    .catch(function(err) {
-        console.log("Error on update: ", err);
-    });
+    return (
+        fetch(`https://localhost:44344/api/books/${book.bookId}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json; charset=utf-8" },
+            body: JSON.stringify(book)
+        })
+        .then(function(response) {
+            if (!response.ok) { 
+                console.error("Error on update: " + response.status);
+            }
+        })
+        .catch(function(err) {
+            console.error("Error on update: ", err);
+        }));
 }
 
 function sleep(ms) {
