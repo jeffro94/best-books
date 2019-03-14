@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
-import { Table, Collapse } from 'react-bootstrap';
-import './Home.css';
+import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
+import { Table, Collapse } from "react-bootstrap";
+import "./Home.css";
 
 class Home extends Component {
   render() {
@@ -22,7 +22,7 @@ class BookTable extends Component {
   }
 
   componentDidMount() {
-    fetch("https://localhost:44344/api/books/userId/1")
+    fetch("https://localhost:44344/api/books/userId/2")
       .then(response => response.json())
       .then(result => {
         this.setState({
@@ -214,7 +214,7 @@ function getTableColumns() {
       {
         key: "wantToReadScore",
         name: "Want to Read Score",
-        selected: true,
+        selected: false,
         attributes: { className: "d-none d-xl-table-cell" },
         headerAttributes: { className: "d-none d-xl-table-cell" },
         headerTitle: "Want to Read Score",

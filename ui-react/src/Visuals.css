@@ -1,3 +1,12 @@
+.left-arrow, .right-arrow {
+    text-align: center;
+    font-size: 36px;
+    color: #777;
+    margin-top: 70px;
+    padding: 80px 0px;
+    cursor: pointer;
+}
+
 .chart {
     position: relative;
     padding-bottom: 70px;
@@ -5,6 +14,11 @@
 
 .chart svg circle {
     fill: lightblue;
+}
+
+.chart .title {
+    font-size: 18px;
+    font-weight: bold;
 }
 
 .chart .tooltip {

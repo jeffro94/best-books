@@ -1,6 +1,7 @@
 /*
  * This component uses react-faux-dom to allow D3 to create charts as usual,
- * then render to a React element - https://github.com/Olical/react-faux-dom
+ * then render to a React element - https://github.com/Olical/react-faux-dom.
+ *  - https://www.smashingmagazine.com/2018/02/react-d3-ecosystem/
  *
  * The following two issues helped me immensely with configuring the tooltip
  * most effectively:
@@ -13,11 +14,17 @@
  * 
  */
 
-import React, { Component } from 'react';
-import ReactFauxDOM from 'react-faux-dom';
+import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
+import ReactFauxDOM from "react-faux-dom";
 import * as d3 from "d3";
+import moment from "moment";
 
 class GoodreadsScoreToCount extends Component {
+  // State can also be initialized using a class property
+  // ref: https://daveceddia.com/where-initialize-state-react/
+  //      https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes#Field_declarations
+  //
   constructor(props) {
     super(props);
     this.state = {
@@ -34,7 +41,7 @@ class GoodreadsScoreToCount extends Component {
   render() {
     return (
       <div className="chart">
-        <TheChart 
+        <TheChartWithRouter
           books={ this.props.books }
           updateTooltipState={ newState => this.updateTooltipState(newState) } />
         <ToolTipsy 
@@ -86,6 +93,7 @@ class TheChart extends Component {
       .attr("cx", d => xScale(d.gR_Rating) )
       .attr("cy", d => yScale(d.gR_RatingCount) )
       .attr("r", 4)
+      .style("fill", d => moment(d.dateCreated) > moment().subtract(3, "hours") ? "red" : "lightblue" )
       .on("mouseover", d => {
         this.props.updateTooltipState({
           left: xScale(d.gR_Rating) + 5,
@@ -98,7 +106,8 @@ class TheChart extends Component {
         this.props.updateTooltipState({
           data: null
         });
-      });
+      })
+      .on("click", d => this.props.history.push(`/edit/${d.bookId}`));
 
     // create X axis
     svg.append("g")
@@ -130,14 +139,16 @@ class TheChart extends Component {
     svg.append("text")
       .text("Goodreads Average Score vs Rating Count")
       .attr("x", w/2)
-      .attr("y", padding/2)
+      .attr("y", padding/2 + 4)
       .attr("text-anchor", "middle")
       .classed("title", true);
 
     return svgNode.toReact();
-
+    
   }
 }
+
+const TheChartWithRouter = withRouter(TheChart);
 
 const ToolTipsy = (props) => (
   <div 
