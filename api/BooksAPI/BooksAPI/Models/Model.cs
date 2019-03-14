@@ -25,6 +25,8 @@ namespace BooksAPI.Models
 
         public int? GoodReadsID { get; set; }
         public string ASIN { get; set; }
+        public string Isbn10 { get; set; }
+        public string Isbn13 { get; set; }
         public string AmazonUrl { get; set; }
 
         public string Title { get; set; }
