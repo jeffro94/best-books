@@ -86,6 +86,7 @@ class AddBook extends Component {
           updatedBook.author = result.gR_Author ? result.gR_Author : updatedBook.author;
           updatedBook.yearPublished = result.gR_OriginalPublicationYear ? result.gR_OriginalPublicationYear : updatedBook.yearPublished;
           updatedBook.goodReadsID = result.gR_Id ? result.gR_Id : updatedBook.goodReadsID;
+          updatedBook.asin = result.asin ? result.asin : updatedBook.asin;
 
           this.setState({ book: updatedBook });
         });
