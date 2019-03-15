@@ -29,7 +29,7 @@ app.get('/book/:bookId', async function(req, res) {
         rawResult = await getBookFromGR(req.params["bookId"]);
     }
     catch(e) {
-        res.status(500).send(`API Error: ${e}`);
+        res.status(500).send(`API Error: ${e.toString()}`);
         return;
     }
 
@@ -52,14 +52,14 @@ async function getBookFromGR(bookId) {
                 return xml2js.parseStringPromise(data, {trim: true})
                     .then(function (result, err) {
                         if (err)
-                            throw `Error parsing XML: ${err}`;
+                            throw new Error(`Error parsing XML: ${err}`);
 
                         return result;
                     });
                 });
         })
         .catch(function(err) {
-            throw `GR API Fetch failed: ${err}`;
+            throw new Error(`GR API Fetch failed: ${err}`);
         });
 }
 
@@ -81,6 +81,7 @@ function convertRawToReadable(response) {
             book.gR_Rating = bookResponse.average_rating[0];
             book.gR_RatingCount = bookResponse.work[0]["ratings_count"][0]["_"];
             book.gR_ReviewCount = bookResponse.work[0]["text_reviews_count"][0]["_"];
+            book.asin = bookResponse.asin[0] || bookResponse.isbn[0] || bookResponse.isbn13[0] || bookResponse.kindle_asin[0];
             book.gR_Status = "OK";
         }
         catch(err) {
