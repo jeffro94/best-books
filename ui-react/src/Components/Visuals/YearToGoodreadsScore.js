@@ -142,6 +142,7 @@ class TheChart extends Component {
           fields: [
             `Title: ${ d.title }`,
             `Author: ${ d.author }`,
+            `Year: ${ d.yearPublished }`,
             `Rating: ${ d.gR_Rating ? d.gR_Rating.toFixed(1) : "N/A" }`,
             `Count: ${ d.gR_RatingCount ? d.gR_RatingCount.toLocaleString() : "N/A" }`
           ]
