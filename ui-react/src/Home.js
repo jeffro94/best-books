@@ -254,6 +254,7 @@ function getTableColumns() {
         key: "gR_Rating",
         name: "Goodreads\nRating",
         selected: false,
+        transform: val => val ? val.toFixed(1) : "",
         attributes: { className: "text-right d-none d-xl-table-cell" },
         headerAttributes: { className: "d-none d-xl-table-cell" }
       },
@@ -261,6 +262,7 @@ function getTableColumns() {
         key: "gR_RatingCount",
         name: "Goodreads\nCount",
         selected: false,
+        transform: val => (val != null) ? val.toLocaleString() : "", /* allows for 0 */
         attributes: { className: "text-right d-none d-xl-table-cell" },
         headerAttributes: { className: "d-none d-xl-table-cell" }
       },
@@ -268,6 +270,7 @@ function getTableColumns() {
         key: "amz_Rating",
         name: "Amazon\nRating",
         selected: false,
+        transform: val => val ? val.toFixed(1) : "",
         attributes: { className: "text-right d-none d-xl-table-cell" },
         headerAttributes: { className: "d-none d-xl-table-cell" }
       },
@@ -275,6 +278,7 @@ function getTableColumns() {
         key: "amz_ReviewCount",
         name: "Amazon\nCount",
         selected: false,
+        transform: val => (val != null) ? val.toLocaleString() : "", /* allows for 0 */
         attributes: { className: "text-right d-none d-xl-table-cell" },
         headerAttributes: { className: "d-none d-xl-table-cell" }
       }
