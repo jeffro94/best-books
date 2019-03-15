@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 // import { Carousel } from 'react-bootstrap';
 import GoodreadsScoreToCount from "./Components/Visuals/GoodreadsScoreToCount";
+import AmazonScoreToCount from "./Components/Visuals/AmazonScoreToCount";
+import YearToGoodreadsScore from "./Components/Visuals/YearToGoodreadsScore";
+import AmazonScoreToGoodreadsScore from "./Components/Visuals/AmazonScoreToGoodreadsScore";
 import "./Visuals.css";
 
 class Visuals extends Component {
@@ -8,7 +11,7 @@ class Visuals extends Component {
     super(props);
     this.state = {
       books: [],
-      itemCount: 2,
+      itemCount: 4,
       selectedItem: 0
     };
   }
@@ -34,7 +37,9 @@ class Visuals extends Component {
   render() {
     const items = [
       <GoodreadsScoreToCount books={ this.state.books } />,
-      <div>Hello World.</div>
+      <AmazonScoreToCount books={ this.state.books } />,
+      <YearToGoodreadsScore books={ this.state.books } />,
+      <AmazonScoreToGoodreadsScore books={ this.state.books } />
     ];
 
     return (

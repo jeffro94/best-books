@@ -21,7 +21,7 @@ import * as d3 from "d3";
 import moment from "moment";
 import ToolTipsy from "./ToolTipsy";
 
-class GoodreadsScoreToCount extends Component {
+class AmazonScoreToCount extends Component {
   // State can also be initialized using a class property
   // ref: https://daveceddia.com/where-initialize-state-react/
   //      https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes#Field_declarations
@@ -73,7 +73,7 @@ class TheChart extends Component {
       .range([padding * 2, w - padding]);
 
     const yScale = d3.scaleSqrt()
-      .domain([0, d3.max(data, d => d.gR_RatingCount)])
+      .domain([0, d3.max(data, d => d.amz_ReviewCount)])
       .range([h - padding, padding]);
 
     // define X axis
@@ -93,20 +93,20 @@ class TheChart extends Component {
       .data(data)
       .enter()
       .append("circle")
-      .attr("cx", d => xScale(d.gR_Rating) )
-      .attr("cy", d => yScale(d.gR_RatingCount) )
+      .attr("cx", d => xScale(d.amz_Rating) )
+      .attr("cy", d => yScale(d.amz_ReviewCount) )
       .attr("r", 4)
-      .style("fill", d => moment(d.dateCreated) > moment().subtract(3, "hours") ? "red" : "lightblue" )
+      .style("fill", d => moment(d.dateCreated) > moment().subtract(3, "hours") ? "red" : "#febd69" )
       .on("mouseover", d => {
         this.props.updateTooltipState({
-          left: xScale(d.gR_Rating) + 5,
-          top: yScale(d.gR_RatingCount) + 5,
+          left: xScale(d.amz_Rating) + 5,
+          top: yScale(d.amz_ReviewCount) + 5,
+          data: d,
           fields: [
             `Title: ${ d.title }`,
             `Author: ${ d.author }`,
-            `Year: ${ d.yearPublished }`,
-            `Rating: ${ d.gR_Rating ? d.gR_Rating.toFixed(1) : "N/A" }`,
-            `Count: ${ d.gR_RatingCount ? d.gR_RatingCount.toLocaleString() : "N/A" }`
+            `Rating: ${ d.amz_Rating ? d.amz_Rating.toFixed(1) : "N/A"}`,
+            `Count: ${ d.amz_ReviewCount ? d.amz_ReviewCount.toLocaleString() : "N/A" }`
           ]
         });
       })
@@ -133,7 +133,7 @@ class TheChart extends Component {
     svg.append("text")             
       .attr("transform", "translate(" + (padding * 2 + 20) + "," + (h - padding - 8) + ")")
       .style("text-anchor", "left")
-      .text("Goodreads Average Score");
+      .text("Amazon Average Score");
 
     // text label for the y axis
     svg.append("text")
@@ -141,11 +141,11 @@ class TheChart extends Component {
       .attr("y", padding * 2 + 20)
       .attr("x", 0 - h / 3)
       .style("text-anchor", "middle")
-      .text("Goodreads Rating Count");   
+      .text("Amazon Review Count");   
 
     // create the chart title
     svg.append("text")
-      .text("Goodreads Average Score vs Rating Count")
+      .text("Amazon Average Score vs Review Count")
       .attr("x", w/2)
       .attr("y", padding/2 + 4)
       .attr("text-anchor", "middle")
@@ -159,4 +159,4 @@ class TheChart extends Component {
 const TheChartWithRouter = withRouter(TheChart);
 
 
-export default GoodreadsScoreToCount;
+export default AmazonScoreToCount;

@@ -21,7 +21,7 @@ import * as d3 from "d3";
 import moment from "moment";
 import ToolTipsy from "./ToolTipsy";
 
-class GoodreadsScoreToCount extends Component {
+class YearToGoodreadsScore extends Component {
   // State can also be initialized using a class property
   // ref: https://daveceddia.com/where-initialize-state-react/
   //      https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes#Field_declarations
@@ -69,15 +69,19 @@ class TheChart extends Component {
 
     // create scale functions
     const xScale = d3.scaleLinear()
-      .domain([1, 5])
+      .domain([d3.min(data, d => d.yearPublished) - 5, d3.max(data, d => d.yearPublished) + 5])
       .range([padding * 2, w - padding]);
 
-    const yScale = d3.scaleSqrt()
-      .domain([0, d3.max(data, d => d.gR_RatingCount)])
+    const yScale = d3.scaleLinear()
+      .domain([3.2, 4.8])
       .range([h - padding, padding]);
 
+    const zScale = d3.scaleSqrt()
+      .domain([0, d3.max(data, d => d.gR_RatingCount)])
+      .range([3, 10]);
+
     // define X axis
-    const xAxis = d3.axisBottom(xScale);
+    const xAxis = d3.axisBottom(xScale).tickFormat(d3.format(""));
 
     // define Y axis
     const yAxis = d3.axisLeft(yScale);
@@ -87,35 +91,6 @@ class TheChart extends Component {
     const svg = d3.select(svgNode)
       .attr("width", w)
       .attr("height", h);
-
-    // create the datapoints as circles
-    svg.selectAll("circle")
-      .data(data)
-      .enter()
-      .append("circle")
-      .attr("cx", d => xScale(d.gR_Rating) )
-      .attr("cy", d => yScale(d.gR_RatingCount) )
-      .attr("r", 4)
-      .style("fill", d => moment(d.dateCreated) > moment().subtract(3, "hours") ? "red" : "lightblue" )
-      .on("mouseover", d => {
-        this.props.updateTooltipState({
-          left: xScale(d.gR_Rating) + 5,
-          top: yScale(d.gR_RatingCount) + 5,
-          fields: [
-            `Title: ${ d.title }`,
-            `Author: ${ d.author }`,
-            `Year: ${ d.yearPublished }`,
-            `Rating: ${ d.gR_Rating ? d.gR_Rating.toFixed(1) : "N/A" }`,
-            `Count: ${ d.gR_RatingCount ? d.gR_RatingCount.toLocaleString() : "N/A" }`
-          ]
-        });
-      })
-      .on("mouseout", () => {
-        this.props.updateTooltipState({
-          fields: []
-        });
-      })
-      .on("click", d => this.props.history.push(`/edit/${d.bookId}`));
 
     // create X axis
     svg.append("g")
@@ -133,23 +108,51 @@ class TheChart extends Component {
     svg.append("text")             
       .attr("transform", "translate(" + (padding * 2 + 20) + "," + (h - padding - 8) + ")")
       .style("text-anchor", "left")
-      .text("Goodreads Average Score");
+      .text("Year Published");
 
     // text label for the y axis
     svg.append("text")
       .attr("transform", "rotate(-90)")
-      .attr("y", padding * 2 + 20)
+      .attr("y", padding * 2 - 35)
       .attr("x", 0 - h / 3)
       .style("text-anchor", "middle")
-      .text("Goodreads Rating Count");   
+      .text("Goodreads Average Score");   
 
     // create the chart title
     svg.append("text")
-      .text("Goodreads Average Score vs Rating Count")
+      .text("Year Published vs Goodreads Average Score")
       .attr("x", w/2)
       .attr("y", padding/2 + 4)
       .attr("text-anchor", "middle")
       .classed("title", true);
+
+    // create the datapoints as circles
+    svg.selectAll("circle")
+      .data(data)
+      .enter()
+      .append("circle")
+      .attr("cx", d => xScale(d.yearPublished) )
+      .attr("cy", d => yScale(d.gR_Rating) )
+      .attr("r", d => zScale(d.gR_RatingCount) )
+      .style("fill", d => moment(d.dateCreated) > moment().subtract(3, "hours") ? "red" : "pink" )
+      .on("mouseover", d => {
+        this.props.updateTooltipState({
+          left: xScale(d.yearPublished) + 5,
+          top: yScale(d.gR_Rating) + 5,
+          fields: [
+            `Title: ${ d.title }`,
+            `Author: ${ d.author }`,
+            `Rating: ${ d.gR_Rating ? d.gR_Rating.toFixed(1) : "N/A" }`,
+            `Count: ${ d.gR_RatingCount ? d.gR_RatingCount.toLocaleString() : "N/A" }`
+          ]
+        });
+      })
+      .on("mouseout", () => {
+        this.props.updateTooltipState({
+          fields: []
+        });
+      })
+      .on("click", d => this.props.history.push(`/edit/${d.bookId}`));
 
     return svgNode.toReact();
     
@@ -159,4 +162,4 @@ class TheChart extends Component {
 const TheChartWithRouter = withRouter(TheChart);
 
 
-export default GoodreadsScoreToCount;
+export default YearToGoodreadsScore;

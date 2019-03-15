@@ -21,7 +21,7 @@ import * as d3 from "d3";
 import moment from "moment";
 import ToolTipsy from "./ToolTipsy";
 
-class GoodreadsScoreToCount extends Component {
+class AmazonScoreToGoodreadsScore extends Component {
   // State can also be initialized using a class property
   // ref: https://daveceddia.com/where-initialize-state-react/
   //      https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes#Field_declarations
@@ -69,11 +69,11 @@ class TheChart extends Component {
 
     // create scale functions
     const xScale = d3.scaleLinear()
-      .domain([1, 5])
+      .domain([d3.min(data, d => d.gR_Rating) - 0.5, 4.8])
       .range([padding * 2, w - padding]);
 
-    const yScale = d3.scaleSqrt()
-      .domain([0, d3.max(data, d => d.gR_RatingCount)])
+    const yScale = d3.scaleLinear()
+      .domain([d3.min(data, d => d.amz_Rating) - 0.5, 5])
       .range([h - padding, padding]);
 
     // define X axis
@@ -94,19 +94,18 @@ class TheChart extends Component {
       .enter()
       .append("circle")
       .attr("cx", d => xScale(d.gR_Rating) )
-      .attr("cy", d => yScale(d.gR_RatingCount) )
+      .attr("cy", d => yScale(d.amz_Rating) )
       .attr("r", 4)
-      .style("fill", d => moment(d.dateCreated) > moment().subtract(3, "hours") ? "red" : "lightblue" )
+      .style("fill", d => moment(d.dateCreated) > moment().subtract(3, "hours") ? "red" : "#aaa" )
       .on("mouseover", d => {
         this.props.updateTooltipState({
           left: xScale(d.gR_Rating) + 5,
-          top: yScale(d.gR_RatingCount) + 5,
+          top: yScale(d.amz_Rating) + 5,
           fields: [
             `Title: ${ d.title }`,
             `Author: ${ d.author }`,
-            `Year: ${ d.yearPublished }`,
-            `Rating: ${ d.gR_Rating ? d.gR_Rating.toFixed(1) : "N/A" }`,
-            `Count: ${ d.gR_RatingCount ? d.gR_RatingCount.toLocaleString() : "N/A" }`
+            `Amazon Score:: ${ d.amz_Rating ? d.amz_Rating.toFixed(1) : "N/A" }`,
+            `Goodreads Score: ${ d.gR_Rating ? d.gR_Rating.toFixed(1) : "N/A" }`
           ]
         });
       })
@@ -133,19 +132,19 @@ class TheChart extends Component {
     svg.append("text")             
       .attr("transform", "translate(" + (padding * 2 + 20) + "," + (h - padding - 8) + ")")
       .style("text-anchor", "left")
-      .text("Goodreads Average Score");
+      .text("Goodreads Score");
 
     // text label for the y axis
     svg.append("text")
       .attr("transform", "rotate(-90)")
       .attr("y", padding * 2 + 20)
-      .attr("x", 0 - h / 3)
+      .attr("x", 0 - h / 3 + 20)
       .style("text-anchor", "middle")
-      .text("Goodreads Rating Count");   
+      .text("Amazon Score");   
 
     // create the chart title
     svg.append("text")
-      .text("Goodreads Average Score vs Rating Count")
+      .text("Goodreads Score vs Amazon Score")
       .attr("x", w/2)
       .attr("y", padding/2 + 4)
       .attr("text-anchor", "middle")
@@ -159,4 +158,4 @@ class TheChart extends Component {
 const TheChartWithRouter = withRouter(TheChart);
 
 
-export default GoodreadsScoreToCount;
+export default AmazonScoreToGoodreadsScore;
