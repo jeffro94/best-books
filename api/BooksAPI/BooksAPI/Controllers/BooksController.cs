@@ -116,6 +116,8 @@ namespace BooksAPI.Controllers
                 return BadRequest(ModelState);
             }
 
+            book.UserId = 2;
+
             book.DateModified = DateTime.Now;
             book.DateCreated = DateTime.Now;
             _context.Books.Add(book);
