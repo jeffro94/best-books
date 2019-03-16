@@ -20,7 +20,7 @@ namespace BooksAPI.Models
     {
         public int BookId { get; set; }
 
-        public int? UserId { get; set; }
+        public int UserId { get; set; }
         public User User { get; set; }
 
         public int? GoodReadsID { get; set; }

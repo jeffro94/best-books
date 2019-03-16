@@ -35,7 +35,8 @@ namespace BooksAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user = await _context.Users.SingleOrDefaultAsync(m => m.UserId == id);
+            // return all the books for the queried user
+            var user = await _context.Users.Include(u => u.Books).SingleOrDefaultAsync(u => u.UserId == id);
 
             if (user == null)
             {

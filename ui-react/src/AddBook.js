@@ -59,6 +59,8 @@ class AddBook extends Component {
     e.preventDefault();
 
     const data = this.state.book;
+    
+    data.userId = 2; // hard-coded. todo: change to logged in userId
 
     fetch("https://localhost:44344/api/books", {
       method: "POST",

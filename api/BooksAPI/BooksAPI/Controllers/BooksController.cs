@@ -63,9 +63,6 @@ namespace BooksAPI.Controllers
                 return NotFound();
             }
 
-            // todo: check performance of this ?
-            // var books = await _context.Books.Where(book => book.UserId.Equals(userId) && book.Demo.Equals(true)).ToListAsync();
-
             var books = await _context.Books.Where(book => book.UserId.Equals(userId)).ToListAsync();
 
             return Ok(books);
@@ -115,8 +112,6 @@ namespace BooksAPI.Controllers
             {
                 return BadRequest(ModelState);
             }
-
-            book.UserId = 2;
 
             book.DateModified = DateTime.Now;
             book.DateCreated = DateTime.Now;
