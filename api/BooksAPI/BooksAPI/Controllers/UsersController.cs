@@ -36,6 +36,10 @@ namespace BooksAPI.Controllers
             }
 
             // return all the books for the queried user
+            //   https://docs.microsoft.com/en-us/ef/core/querying/related-data
+            //   https://entityframeworkcore.com/knowledge-base/51158576/include-only-returning-one-row-and-not-closing-json
+            //   https://stackoverflow.com/questions/23453977/what-is-the-difference-between-preservereferenceshandling-and-referenceloophandl/23461179
+            //
             var user = await _context.Users.Include(u => u.Books).SingleOrDefaultAsync(u => u.UserId == id);
 
             if (user == null)
