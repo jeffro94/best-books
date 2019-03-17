@@ -1,12 +1,33 @@
-.card {
+.card.settings-card {
     /* match table styles */
     border-radius: 0;
     border-color: #dee2e6;
 }
 
-.card-header {
+.card.settings-card > .card-header {
     text-align: right;
-    cursor: default;
+    cursor: pointer;
+}
+
+.card.filter-card {
+    margin-bottom: 1rem;
+}
+
+.card.filter-card .card-header {
+    cursor: pointer;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+.card.filter-card.active-filter .card-header {
+    background-color: #28a745;
+    color: white;
+}
+
+.card.filter-card .filter-options {
+    margin: 15px 5px 0px 5px;
+    display: flex;
+    justify-content: space-between;
 }
 
 .table tbody {
