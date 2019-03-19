@@ -34,11 +34,7 @@
     table-layout: fixed;
 }
 
-.table tbody {
-    cursor: pointer;
-}
-
 .table th {
-    cursor: default;
+    cursor: pointer;
     font-size: 0.9em;
 }

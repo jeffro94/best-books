@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { withRouter } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Table, Collapse } from "react-bootstrap";
 import "./Home.css";
 
@@ -17,6 +17,7 @@ class BookTable extends Component {
     this.state = {
       books: [],
       sortOrder: "",
+      lastSort: "",
       columns: tableColumns,
       filters: [
         {
@@ -46,10 +47,20 @@ class BookTable extends Component {
   sortColumns(bookPropertyName) {
     const books = this.state.books.slice();
 
-    const sortOrder = (this.state.sortOrder === "Ascending") ? "Descending" : "Ascending";
+    let sortOrder;
+
+    // if we are re-sorting on the same column, reverse the direction. otherwise use
+    // the default sort order for the selected column
+    //
+    if (this.state.lastSort === bookPropertyName) {
+      sortOrder = (this.state.sortOrder === "asc") ? "desc" : "asc";
+    }
+    else {
+      sortOrder = this.state.columns.find(col => col.key === bookPropertyName).defaultSort;
+    }
 
     books.sort((a,b) => {
-      if (sortOrder === "Ascending") {
+      if (sortOrder === "asc") {
         return (a[bookPropertyName] > b[bookPropertyName]) ? 1 : -1;
       }
       else {
@@ -59,7 +70,8 @@ class BookTable extends Component {
 
     this.setState({
       books,
-      sortOrder
+      sortOrder,
+      lastSort: bookPropertyName
     });
   }
 
@@ -160,22 +172,20 @@ class BookTable extends Component {
   }
 }
 
-const BookTableRow = withRouter(props => {
+const BookTableRow = props => {
   const cols = props.columns.filter(c => c.selected).map(c => (
     <td 
       key ={ c.key } {...c.attributes}
       title={ c.showTitle ? props.book[c.key] : undefined }
     >
-      { c.transform ? c.transform(props.book[c.key]) : props.book[c.key] }
+      { c.key === "title" ?
+        <Link to={ `/edit/${ props.book.bookId }` }>{ props.book[c.key] }</Link> :
+        c.transform ? c.transform(props.book[c.key]) : props.book[c.key] }
     </td>
   ));
 
-  return (
-    <tr onClick={() => { props.history.push(`/edit/${props.book.bookId}`) }}>
-      { cols }
-    </tr>
-  );
-});
+  return <tr>{ cols }</tr>;
+};
 
 class SettingsComponent extends Component {
   constructor(props, context) {
@@ -188,27 +198,6 @@ class SettingsComponent extends Component {
 
   render() {
     const { open } = this.state;
-
-    /*
-    const inputs = [];
-
-    const checkboxColumns = Array(4).fill(null).map(() => [] );
-    
-    for (let i = 0; i < this.props.columns.length; i++) {
-      const currentColumn = this.props.columns[i];
-      checkboxColumns[Math.floor(i * 4 / this.props.columns.length)].push(
-        <div className="form-check" key={ currentColumn.key }>
-          <input className="form-check-input" type="checkbox" id={ currentColumn.key } 
-            checked={ currentColumn.selected } onChange={ (e) => this.props.onChange(e) } />
-          <label className="form-check-label" htmlFor={ currentColumn.key }>{ currentColumn.name }</label>
-        </div>
-      );
-    }
-
-    inputs.push(...checkboxColumns.map((item, index) => (
-      <div className="form-group col-lg-3" key={ index }>{ item }</div>
-    ))); 
-    */
 
     return (
       <div>
@@ -339,7 +328,8 @@ const tableColumns = [
       style: { width: "5%" }
     },
     headerTitle: "Completed",
-    headerAbbreviation: "📗"
+    headerAbbreviation: "📗",
+    defaultSort: "desc"
   },
   {
     key: "flagCurrentlyReading",
@@ -352,7 +342,8 @@ const tableColumns = [
       style: { width: "5%" }
     },
     headerTitle: "Currently Reading",
-    headerAbbreviation: "🕮"
+    headerAbbreviation: "🕮",
+    defaultSort: "desc"
   },
   {
     key: "flagWantToRead",
@@ -365,7 +356,8 @@ const tableColumns = [
       style: { width: "5%" }
     },
     headerTitle: "Want to Read",
-    headerAbbreviation: "🛒"
+    headerAbbreviation: "🛒",
+    defaultSort: "desc"
   },
   {
     key: "wantToReadScore",
@@ -377,7 +369,8 @@ const tableColumns = [
       style: { width: "5%" }
     },
     headerTitle: "Want to Read Score",
-    headerAbbreviation: "💯"
+    headerAbbreviation: "💯",
+    defaultSort: "desc"
   },
   {
     key: "title",
@@ -389,7 +382,8 @@ const tableColumns = [
     },
     headerAttributes: { 
       style: { width: "45%" }
-    }
+    },
+    defaultSort: "asc"
   },
   {
     key: "author",
@@ -402,7 +396,8 @@ const tableColumns = [
     headerAttributes: { 
       className: "d-none d-md-table-cell",
       style: { width: "20%" }
-    }
+    },
+    defaultSort: "asc"
   },
   {
     key: "yearPublished",
@@ -414,7 +409,8 @@ const tableColumns = [
     headerAttributes: { 
       className: "d-none d-lg-table-cell",
       style: { width: "10%" }
-    }
+    },
+    defaultSort: "desc"
   },
   {
     key: "gR_Rating",
@@ -425,7 +421,8 @@ const tableColumns = [
     headerAttributes: { 
       className: "d-none d-xl-table-cell",
       style: { width: "12%" }
-    }
+    },
+    defaultSort: "desc"
   },
   {
     key: "gR_RatingCount",
@@ -436,7 +433,8 @@ const tableColumns = [
     headerAttributes: { 
       className: "d-none d-xl-table-cell",
       style: { width: "12%" }
-    }
+    },
+    defaultSort: "desc"
   },
   {
     key: "amz_Rating",
@@ -447,7 +445,8 @@ const tableColumns = [
     headerAttributes: { 
       className: "d-none d-xl-table-cell",
       style: { width: "10%" }
-    }
+    },
+    defaultSort: "desc"
   },
   {
     key: "amz_ReviewCount",
@@ -458,7 +457,8 @@ const tableColumns = [
     headerAttributes: { 
       className: "d-none d-xl-table-cell",
       style: { width: "10%" }
-    }
+    },
+    defaultSort: "desc"
   }
 ];
 
