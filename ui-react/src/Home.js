@@ -334,7 +334,10 @@ const tableColumns = [
     selected: true,
     transform: val => val ? "✓" : "",
     attributes: { className: "d-none d-xl-table-cell" },
-    headerAttributes: { className: "d-none d-xl-table-cell" },
+    headerAttributes: { 
+      className: "d-none d-xl-table-cell",
+      style: { width: "5%" }
+    },
     headerTitle: "Completed",
     headerAbbreviation: "📗"
   },
@@ -344,7 +347,10 @@ const tableColumns = [
     selected: true,
     transform: val => val ? "✓" : "",
     attributes: { className: "d-none d-xl-table-cell" },
-    headerAttributes: { className: "d-none d-xl-table-cell" },
+    headerAttributes: { 
+      className: "d-none d-xl-table-cell",
+      style: { width: "5%" }
+    },
     headerTitle: "Currently Reading",
     headerAbbreviation: "🕮"
   },
@@ -354,7 +360,10 @@ const tableColumns = [
     selected: true,
     transform: val => val ? "✓" : "",
     attributes: { className: "d-none d-xl-table-cell" },
-    headerAttributes: { className: "d-none d-xl-table-cell" },
+    headerAttributes: { 
+      className: "d-none d-xl-table-cell",
+      style: { width: "5%" }
+    },
     headerTitle: "Want to Read",
     headerAbbreviation: "🛒"
   },
@@ -363,7 +372,10 @@ const tableColumns = [
     name: "Want to Read Score",
     selected: false,
     attributes: { className: "d-none d-xl-table-cell" },
-    headerAttributes: { className: "d-none d-xl-table-cell" },
+    headerAttributes: { 
+      className: "d-none d-xl-table-cell",
+      style: { width: "5%" }
+    },
     headerTitle: "Want to Read Score",
     headerAbbreviation: "💯"
   },
@@ -374,7 +386,9 @@ const tableColumns = [
     showTitle: true,
     attributes: {
       className: "text-truncate",
-      style: { maxWidth: "450px" },
+    },
+    headerAttributes: { 
+      style: { width: "45%" }
     }
   },
   {
@@ -384,18 +398,23 @@ const tableColumns = [
     showTitle: true,
     attributes: {
       className: "text-truncate d-none d-md-table-cell",
-      style: { maxWidth: "240px" }
     },
-    headerAttributes: { className: "d-none d-md-table-cell" }
-    
+    headerAttributes: { 
+      className: "d-none d-md-table-cell",
+      style: { width: "20%" }
+    }
   },
   {
     key: "yearPublished",
     name: "Year",
     selected: true,
-    attributes: { className: "d-none d-lg-table-cell" },
-    headerAttributes: { className: "d-none d-lg-table-cell" }
-
+    attributes: {
+      className: "d-none d-lg-table-cell"
+    },
+    headerAttributes: { 
+      className: "d-none d-lg-table-cell",
+      style: { width: "10%" }
+    }
   },
   {
     key: "gR_Rating",
@@ -403,7 +422,10 @@ const tableColumns = [
     selected: false,
     transform: val => val ? val.toFixed(1) : "",
     attributes: { className: "text-right d-none d-xl-table-cell" },
-    headerAttributes: { className: "d-none d-xl-table-cell" }
+    headerAttributes: { 
+      className: "d-none d-xl-table-cell",
+      style: { width: "12%" }
+    }
   },
   {
     key: "gR_RatingCount",
@@ -411,7 +433,10 @@ const tableColumns = [
     selected: false,
     transform: val => (val != null) ? val.toLocaleString() : "", /* allows for 0 */
     attributes: { className: "text-right d-none d-xl-table-cell" },
-    headerAttributes: { className: "d-none d-xl-table-cell" }
+    headerAttributes: { 
+      className: "d-none d-xl-table-cell",
+      style: { width: "12%" }
+    }
   },
   {
     key: "amz_Rating",
@@ -419,7 +444,10 @@ const tableColumns = [
     selected: false,
     transform: val => val ? val.toFixed(1) : "",
     attributes: { className: "text-right d-none d-xl-table-cell" },
-    headerAttributes: { className: "d-none d-xl-table-cell" }
+    headerAttributes: { 
+      className: "d-none d-xl-table-cell",
+      style: { width: "10%" }
+    }
   },
   {
     key: "amz_ReviewCount",
@@ -427,7 +455,10 @@ const tableColumns = [
     selected: false,
     transform: val => (val != null) ? val.toLocaleString() : "", /* allows for 0 */
     attributes: { className: "text-right d-none d-xl-table-cell" },
-    headerAttributes: { className: "d-none d-xl-table-cell" }
+    headerAttributes: { 
+      className: "d-none d-xl-table-cell",
+      style: { width: "10%" }
+    }
   }
 ];
 
