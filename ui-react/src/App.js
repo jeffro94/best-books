@@ -27,7 +27,7 @@ class App extends Component {
 }
 
 const BooksNavBar = withRouter(props => (
-  <Navbar bg="dark" variant="dark" className="mb-4">
+  <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" className="mb-4">
     <Link to="/">
       <Navbar.Brand>
         <img
@@ -40,11 +40,14 @@ const BooksNavBar = withRouter(props => (
         Best Books!
       </Navbar.Brand>
     </Link>
-    <Nav className="mr-auto">
-      <Link to="/" className={`nav-link ${ props.location.pathname === "/" ? "active" : "" }`}>Home</Link>
-      <Link to="/add" className={`nav-link ${ props.location.pathname === "/add" ? "active" : "" }`}>Add a Book</Link>
-      <Link to="/visuals" className={`nav-link ${ props.location.pathname === "/visuals" ? "active" : "" }`}>Visualizations</Link>
-    </Nav>
+    <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+    <Navbar.Collapse id="responsive-navbar-nav">
+      <Nav className="mr-auto">
+        <Link to="/" className={`nav-link ${ props.location.pathname === "/" ? "active" : "" }`}>Home</Link>
+        <Link to="/add" className={`nav-link ${ props.location.pathname === "/add" ? "active" : "" }`}>Add a Book</Link>
+        <Link to="/visuals" className={`nav-link ${ props.location.pathname === "/visuals" ? "active" : "" }`}>Visualizations</Link>
+      </Nav>
+    </Navbar.Collapse>
   </Navbar>
 ));
 
