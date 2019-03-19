@@ -5,12 +5,14 @@ const util = require("util");
 // it should be removed once the API is moved to cloud host
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
 
-let bookList = [];
 (async () => {
 
     const books = await fetch("https://localhost:44344/api/books/UserId/2")
         .then(response => response.json())
-        .catch(err => console.error("Call to local books API failed", err) );
+        .catch(err => { 
+            console.error("Call to local books API failed", err);
+            return;
+        });
 
     const bookList = books.filter(book => book.gR_Status !== "OK");
 
@@ -27,26 +29,18 @@ let bookList = [];
             await sleep(1200);
         }
         catch(err) {
-            console.error("Error in getBookFromGRandUpdateDB", err);
+            console.error("Error: ", err);
         }
     }
-
 })();
 
-async function getBookFromGR(book) {    
-    return await fetch(`http://localhost:3010/book/${book.goodReadsID}`)
-        .then(response => {
-            if (!response.ok) {
-                console.error('GR API Call returned error: ' + response.status);
-                return;
-            }
+async function getBookFromGR(book) {
+    const response = await fetch(`http://localhost:3010/book/${book.goodReadsID}`);
+    
+    if (!response.ok)
+        throw new Error('GR API Call returned error: ' + response.status);
 
-            return response.json();
-        })
-        .catch(err => {
-            console.error('Error getting response text: ', err);
-            return;
-        });
+    return response.json();
 }
 
 async function updateDB(book, apiResponse) {
@@ -71,14 +65,11 @@ async function updateDB(book, apiResponse) {
             headers: { "Content-Type": "application/json; charset=utf-8" },
             body: JSON.stringify(book)
         })
-        .then(function(response) {
-            if (!response.ok) { 
-                console.error("Error on update: " + response.status);
-            }
+        .then(response => {
+            if (!response.ok)
+                throw new Error(`Error on update: ${response.status}`);
         })
-        .catch(function(err) {
-            console.error("Error on update: ", err);
-        }));
+        .catch(err => { throw new Error(`Error on update: ${err.toString()}`) } ));
 }
 
 function sleep(ms) {
