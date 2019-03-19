@@ -17,8 +17,12 @@ xml2js.parseStringPromise = util.promisify(xml2js.parseString);
 app.use(cors());
 app.options('*', cors());
 
-app.get('/book/:bookId', async function(req, res) {
-    let rawResult = null;
+app.get('/book/:bookId', getBook);
+
+app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+
+async function getBook(req, res) {
+    let book;
 
     if (!req.params || !req.params["bookId"]) {
         res.status(500).send("Invalid params!");
@@ -26,41 +30,28 @@ app.get('/book/:bookId', async function(req, res) {
     }
 
     try {
-        rawResult = await getBookFromGR(req.params["bookId"]);
+        const rawResult = await getBookFromGR(req.params["bookId"]);
+        book = convertRawToReadable(rawResult);
     }
     catch(e) {
         res.status(500).send(`API Error: ${e.toString()}`);
         return;
     }
 
-    const book = convertRawToReadable(rawResult);
-
     res.send(book);
-});
-
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+}
 
 async function getBookFromGR(bookId) {
     const url = `https://www.goodreads.com/book/show/${bookId}?key=${apiKey}`;
 
-    return fetch(url)
-        .then(function(response) {
-            if (!response.ok)
-                throw `GR API Call returned error: ${response.status}`;
+    const response = await fetch(url);
 
-            return response.text().then(function(data) {
-                return xml2js.parseStringPromise(data, {trim: true})
-                    .then(function (result, err) {
-                        if (err)
-                            throw new Error(`Error parsing XML: ${err}`);
+    if (!response.ok) throw new Error(`GR API Call returned error: ${response.status}`);
+    
+    const responseText = await response.text()
+    
+    return await xml2js.parseStringPromise(responseText, {trim: true})
 
-                        return result;
-                    });
-                });
-        })
-        .catch(function(err) {
-            throw new Error(`GR API Fetch failed: ${err}`);
-        });
 }
 
 function convertRawToReadable(response) {
