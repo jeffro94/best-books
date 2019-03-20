@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 
 namespace BooksAPI
 {
@@ -27,15 +28,22 @@ namespace BooksAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddJsonOptions(options =>
                 {
                     options.SerializerSettings.Formatting = Formatting.Indented;
                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                 });
 
-            var connection = @"Server=JEFFRO-X1C5\SQLEXPRESS;Database=BooksDB2;Trusted_Connection=True;ConnectRetryCount=0";
-            services.AddDbContext<BooksAPI.Models.BooksContext> (options => options.UseSqlServer(connection));
+            services.AddDbContextPool<BooksAPI.Models.BooksContext>(
+                options => options.UseMySql(Configuration.GetConnectionString("BooksDatabase"),
+                    mySqlOptions =>
+                    {
+                        mySqlOptions
+                            .ServerVersion(new Version(8, 0, 15), ServerType.MySql);
+                            //.DisableBackslashEscaping();
+                    }
+            ));
 
             services.AddCors();
         }
@@ -49,6 +57,7 @@ namespace BooksAPI
             }
             else
             {
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
@@ -59,7 +68,7 @@ namespace BooksAPI
 
             app.UseHttpsRedirection();
             app.UseMvc();
-            
+
         }
     }
 }

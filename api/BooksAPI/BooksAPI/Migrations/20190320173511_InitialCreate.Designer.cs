@@ -3,31 +3,40 @@ using System;
 using BooksAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BooksAPI.Migrations
 {
     [DbContext(typeof(BooksContext))]
-    [Migration("20181122031509_AnUpdate3")]
-    partial class AnUpdate3
+    [Migration("20190320173511_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "2.2.3-servicing-35854")
+                .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("BooksAPI.Models.Book", b =>
                 {
                     b.Property<int>("BookId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("ASIN");
+
+                    b.Property<string>("AmazonUrl");
+
+                    b.Property<float?>("Amz_Rating");
+
+                    b.Property<int?>("Amz_ReviewCount");
+
+                    b.Property<string>("Amz_Status");
+
+                    b.Property<string>("Amz_StatusMessage");
+
+                    b.Property<DateTime?>("Amz_SyncDate");
 
                     b.Property<string>("Author");
 
@@ -37,6 +46,8 @@ namespace BooksAPI.Migrations
 
                     b.Property<DateTime?>("DateModified");
 
+                    b.Property<bool>("Demo");
+
                     b.Property<bool>("FlagCurrentlyReading");
 
                     b.Property<bool>("FlagPartiallyRead");
@@ -45,7 +56,29 @@ namespace BooksAPI.Migrations
 
                     b.Property<bool>("FlagWantToRead");
 
+                    b.Property<string>("GR_Author");
+
+                    b.Property<int?>("GR_OriginalPublicationYear");
+
+                    b.Property<float?>("GR_Rating");
+
+                    b.Property<int?>("GR_RatingCount");
+
+                    b.Property<int?>("GR_ReviewCount");
+
+                    b.Property<string>("GR_Status");
+
+                    b.Property<string>("GR_StatusMessage");
+
+                    b.Property<DateTime?>("GR_SyncDate");
+
+                    b.Property<string>("GR_Title");
+
                     b.Property<int?>("GoodReadsID");
+
+                    b.Property<string>("Isbn10");
+
+                    b.Property<string>("Isbn13");
 
                     b.Property<string>("Notes");
 
@@ -53,13 +86,27 @@ namespace BooksAPI.Migrations
 
                     b.Property<bool>("OwnKindle");
 
+                    b.Property<bool>("OwnKindleSample");
+
                     b.Property<bool>("OwnOtherAudio");
 
                     b.Property<bool>("OwnPDF");
 
                     b.Property<bool>("OwnPrint");
 
+                    b.Property<string>("Temp1");
+
+                    b.Property<string>("Temp2");
+
+                    b.Property<string>("Temp3");
+
+                    b.Property<string>("Temp4");
+
+                    b.Property<string>("Temp5");
+
                     b.Property<string>("Title");
+
+                    b.Property<int>("UserId");
 
                     b.Property<short?>("WantToReadScore");
 
@@ -75,14 +122,15 @@ namespace BooksAPI.Migrations
 
                     b.HasKey("BookId");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("Books");
                 });
 
             modelBuilder.Entity("BooksAPI.Models.Tag", b =>
                 {
                     b.Property<int>("TagId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("BookId");
 
@@ -93,6 +141,28 @@ namespace BooksAPI.Migrations
                     b.HasIndex("BookId");
 
                     b.ToTable("Tags");
+                });
+
+            modelBuilder.Entity("BooksAPI.Models.User", b =>
+                {
+                    b.Property<int>("UserId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime?>("DateCreated");
+
+                    b.Property<string>("Username");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("BooksAPI.Models.Book", b =>
+                {
+                    b.HasOne("BooksAPI.Models.User", "User")
+                        .WithMany("Books")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("BooksAPI.Models.Tag", b =>
