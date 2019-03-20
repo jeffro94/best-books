@@ -137,8 +137,8 @@ class TheChart extends Component {
       .style("fill", d => moment(d.dateCreated) > moment().subtract(3, "hours") ? "red" : "pink" )
       .on("mouseover", d => {
         this.props.updateTooltipState({
-          left: xScale(d.yearPublished) + 5,
-          top: yScale(d.gR_Rating) + 5,
+          left: xScale(d.yearPublished) + zScale(d.gR_RatingCount),
+          top: yScale(d.gR_Rating) + zScale(d.gR_RatingCount),
           fields: [
             `Title: ${ d.title }`,
             `Author: ${ d.author }`,
