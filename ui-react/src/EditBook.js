@@ -10,8 +10,8 @@
 
 import React, { Component } from 'react';
 import ExternalLinks from './Components/ExternalLinks';
-import BookFormFields, { getEmptyBook } from './Components/BookFormFields';
-import './EditBook.css';
+import BookFormFields, { getEmptyBook } from "./Components/BookFormFields";
+import "./EditBook.css";
 
 class EditBook extends Component {
   constructor(props) {
@@ -40,7 +40,7 @@ class EditBook extends Component {
       });
   } 
 
-  handleUserInput(e) {
+  handleUserInput = (e) => {
     const id = e.target.id;
     let value;
 
@@ -65,7 +65,7 @@ class EditBook extends Component {
     this.setState({ book: updatedBook });
   }
 
-  handleSubmit(e) {
+  handleSubmit = (e) => {
     e.preventDefault();
 
     const data = this.state.book; // do I need to modify this somehow b4 submitting? dealing w/ null, empty strings...
@@ -89,8 +89,8 @@ class EditBook extends Component {
       <div>
         <div className="row">
           <div className="col-sm-11">
-            <form className="mt-3" onSubmit={ (e) => this.handleSubmit(e) }>
-              <BookFormFields book={ this.state.book } onChange={ (e) => this.handleUserInput(e) } />
+            <form className="mt-3" onSubmit={ this.handleSubmit }>
+              <BookFormFields book={ this.state.book } onChange={ this.handleUserInput } />
               <div className="form-group row">
                 <div className="col-sm-10 offset-sm-2">
                   <button type="submit" className="btn btn-primary">Save</button>

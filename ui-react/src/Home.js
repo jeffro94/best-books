@@ -75,7 +75,10 @@ class BookTable extends Component {
     });
   }
 
-  handleColumnChange(e) {
+  // using public class fields syntax to bind 'this' to the class
+  //   https://reactjs.org/docs/handling-events.html
+  //
+  handleColumnChange = (e) => {
     let updatedColumns = [];
     Object.assign(updatedColumns, this.state.columns);
 
@@ -85,7 +88,7 @@ class BookTable extends Component {
     this.setState({ columns: updatedColumns });
   }
 
-  handleFilterChange(e) {
+  handleFilterChange = (e) => {
     let updatedFilters = [];
     Object.assign(updatedFilters, this.state.filters);
 
@@ -103,7 +106,7 @@ class BookTable extends Component {
     this.setState({ filters: updatedFilters });
   }
 
-  setFilterEnabledStatus(filterCategory, value) {
+  setFilterEnabledStatus = (filterCategory, value) => {
     let updatedFilters = [];
     Object.assign(updatedFilters, this.state.filters);
 
@@ -154,9 +157,9 @@ class BookTable extends Component {
     return (
       <div>
         <SettingsComponent 
-          columns={ this.state.columns } onColumnChange={ e => this.handleColumnChange(e) } 
-          filters={ this.state.filters } onFilterChange={ e => this.handleFilterChange(e) } 
-          setFilterEnabledStatus={ (filterCategory, value) => this.setFilterEnabledStatus(filterCategory, value) } />
+          columns={ this.state.columns } onColumnChange={ this.handleColumnChange } 
+          filters={ this.state.filters } onFilterChange={ this.handleFilterChange } 
+          setFilterEnabledStatus={ this.setFilterEnabledStatus } />
         <Table bordered hover>
           <thead className="thead-light">
             <tr>

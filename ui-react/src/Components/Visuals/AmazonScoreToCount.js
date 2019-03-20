@@ -33,7 +33,7 @@ class AmazonScoreToCount extends Component {
     }
   }
 
-  updateTooltipState(tooltipState) {
+  updateTooltipState = (tooltipState) => {
     this.setState({
       tooltipState
     });
@@ -44,7 +44,7 @@ class AmazonScoreToCount extends Component {
       <div className="chart">
         <TheChartWithRouter
           books={ this.props.books }
-          updateTooltipState={ newState => this.updateTooltipState(newState) } />
+          updateTooltipState={ this.updateTooltipState } />
         <ToolTipsy 
           left={ this.state.tooltipState.left }
           top={ this.state.tooltipState.top }

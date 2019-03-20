@@ -10,8 +10,8 @@
 
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import BookFormFields, { getEmptyBook } from './Components/BookFormFields';
-import './AddBook.css';
+import BookFormFields, { getEmptyBook } from "./Components/BookFormFields";
+import "./AddBook.css";
 
 class AddBook extends Component {
   constructor(props) {
@@ -23,14 +23,17 @@ class AddBook extends Component {
   }
 
   componentDidMount() {
-    window.scrollTo(0, 0); // fix scrolling; scroll to top on mount. ref: https://github.com/ReactTraining/react-router/blob/master/packages/react-router-dom/docs/guides/scroll-restoration.md
+    // fix scrolling; scroll to top on mount.
+    //   ref: https://github.com/ReactTraining/react-router/blob/master/packages/react-router-dom/docs/guides/scroll-restoration.md
+    //
+    window.scrollTo(0, 0);  
   }
 
-  handleGrIDChange(e) {
+  handleGrIDChange = (e) => {
     this.setState({ grIDforLookup: e.target.value });
   }
 
-  handleUserInputForBook(e) {
+  handleUserInputForBook = (e) => {
     const id = e.target.id;
     let value;
 
@@ -55,7 +58,7 @@ class AddBook extends Component {
     this.setState({ book: updatedBook });
   }
 
-  handleSubmit(e) {
+  handleSubmit = (e) => {
     e.preventDefault();
 
     const data = this.state.book;
@@ -78,20 +81,20 @@ class AddBook extends Component {
 
   grSearch() {
     fetch(`http://localhost:3010/book/${this.state.grIDforLookup}`)
-        .then(response => response.json())
-        .then(result => {
-          // create a copy of the existing book state (don't mutate state)
-          const updatedBook = {};
-          Object.assign(updatedBook, this.state.book);
+      .then(response => response.json())
+      .then(result => {
+        // create a copy of the existing book state (don't mutate state)
+        const updatedBook = {};
+        Object.assign(updatedBook, this.state.book);
 
-          updatedBook.title = result.gR_Title ? result.gR_Title : updatedBook.title;
-          updatedBook.author = result.gR_Author ? result.gR_Author : updatedBook.author;
-          updatedBook.yearPublished = result.gR_OriginalPublicationYear ? result.gR_OriginalPublicationYear : updatedBook.yearPublished;
-          updatedBook.goodReadsID = result.gR_Id ? result.gR_Id : updatedBook.goodReadsID;
-          updatedBook.asin = result.asin ? result.asin : updatedBook.asin;
+        updatedBook.title = result.gR_Title ? result.gR_Title : updatedBook.title;
+        updatedBook.author = result.gR_Author ? result.gR_Author : updatedBook.author;
+        updatedBook.yearPublished = result.gR_OriginalPublicationYear ? result.gR_OriginalPublicationYear : updatedBook.yearPublished;
+        updatedBook.goodReadsID = result.gR_Id ? result.gR_Id : updatedBook.goodReadsID;
+        updatedBook.asin = result.asin ? result.asin : updatedBook.asin;
 
-          this.setState({ book: updatedBook });
-        });
+        this.setState({ book: updatedBook });
+      });
   }
 
   render() {
@@ -103,7 +106,7 @@ class AddBook extends Component {
             <div className="row mt-3">
               <div className="col-8">
                 <input type="text" id="grIDforLookup" className="form-control d-inline-block" placeholder="GoodReads ID" 
-                  value={ this.state.grIDforLookup } onChange={ (e) => this.handleGrIDChange(e) }/>
+                  value={ this.state.grIDforLookup } onChange={ this.handleGrIDChange }/>
               </div>
               <div className="col-4">
                 <button id="grSearch" className="btn btn-secondary btn-block" onClick={ () => this.grSearch() }>Search</button>
@@ -111,8 +114,8 @@ class AddBook extends Component {
             </div>
           </div>
         </div>
-        <form className="mt-3" onSubmit={ (e) => this.handleSubmit(e) }>
-          <BookFormFields book={ this.state.book } onChange={ (e) => this.handleUserInputForBook(e) } />
+        <form className="mt-3" onSubmit={ this.handleSubmit }>
+          <BookFormFields book={ this.state.book } onChange={ this.handleUserInputForBook } />
           <div className="form-group row">
             <div className="col-sm-10 offset-sm-2">
               <button type="submit" className="btn btn-primary">Save</button>
