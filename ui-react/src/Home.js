@@ -206,13 +206,12 @@ class SettingsComponent extends Component {
       <div>
         <div className="settings-card card">
           <div className="card-header">
-            <div
-              onClick={() => this.setState({ open: !open })}
-              aria-controls="example-collapse-text2"
-              aria-expanded={ open }
-            >
-              <span role="img" title="Open Settings" aria-label="Open Settings">⚙️</span>
-            </div>
+              <span role="img" title="Open Settings" 
+                aria-label="Open Settings"
+                aria-controls="example-collapse-text2"
+                aria-expanded={ open }
+                onClick={() => this.setState({ open: !open })}
+              >⚙️</span>
           </div>
           <Collapse in={ open }>
             <div id="example-collapse-text2">

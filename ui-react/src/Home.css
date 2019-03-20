@@ -6,6 +6,9 @@
 
 .card.settings-card > .card-header {
     text-align: right;
+}
+
+.card.settings-card > .card-header span {
     cursor: pointer;
 }
 
