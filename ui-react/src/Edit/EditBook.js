@@ -75,7 +75,10 @@ class EditBook extends Component {
     //
     const newTags = e.map(selection => (typeof selection === "object") ? selection.label : selection);
 
-    newTags.sort((a, b) => a.localeCompare(b, undefined, {sensitivity: 'base'})); // sort tags in alphabetical order
+    // sort tags in alphabetical order. why is sorting so complicated?
+    // https://stackoverflow.com/questions/8996963/how-to-perform-case-insensitive-sorting-in-javascript
+    //
+    newTags.sort((a, b) => a.localeCompare(b, undefined, {sensitivity: 'base'}));
     newBook.tags = newTags.join(",");
 
     this.setState({
