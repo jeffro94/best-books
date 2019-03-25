@@ -36,7 +36,7 @@ namespace BooksAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var book = await _context.Books.Include(b => b.Tags).SingleOrDefaultAsync(m => m.BookId == id);
+            var book = await _context.Books.SingleOrDefaultAsync(b => b.BookId.Equals(id));
 
             if (book == null)
             {
@@ -66,6 +66,25 @@ namespace BooksAPI.Controllers
             var books = await _context.Books.Where(book => book.UserId.Equals(userId)).ToListAsync();
 
             return Ok(books);
+        }
+
+        // GET: api/Tags/distinct
+        [HttpGet("UserId/{userId}/tags")]
+        public async Task<List<String>> GetDistinctTags([FromRoute] int userId)
+        {
+            List<string> rawValues = await _context.Books
+                .Where(book => book.UserId.Equals(userId) && !String.IsNullOrWhiteSpace(book.Tags))
+                .Select(book => book.Tags).ToListAsync();
+
+            List<string> allValues = new List<string>();
+
+            rawValues.ForEach(value =>
+            {
+                allValues.AddRange(value.Split(","));
+            });
+
+            return new SortedSet<string>(allValues).ToList();
+
         }
 
         // PUT: api/Books/5

@@ -12,7 +12,6 @@ namespace BooksAPI.Models
         { }
 
         public DbSet<Book> Books { get; set; }
-        public DbSet<Tag> Tags { get; set; }
         public DbSet<User> Users { get; set; }
     }
 
@@ -40,7 +39,7 @@ namespace BooksAPI.Models
         public string WikipediaURL { get; set; }
 
         public string Notes { get; set; }
-        public string Categories { get; set; }
+        public string Tags { get; set; }
 
         public bool FlagRead { get; set; }
         public bool FlagCurrentlyReading { get; set; }
@@ -84,17 +83,6 @@ namespace BooksAPI.Models
         public DateTime? DateCreated { get; set; }
         public DateTime? DateModified { get; set; }
 
-        public List<Tag> Tags { get; set; }
-    }
-
-    public class Tag
-    {
-        public int TagId { get; set; }
-        public string Name { get; set; }
-        public DateTime DateCreated { get; set; }
-
-        public int BookId { get; set; }
-        public Book Book { get; set; }
     }
 
     public class User

@@ -1,4 +1,5 @@
 import React from 'react';
+import TagManager from "./TagManager"
 
 const BookFormFields = (props) => (
   <div>
@@ -82,6 +83,7 @@ const BookFormFields = (props) => (
           value={ props.book.wantToReadScore } onChange={ (e) => props.onChange(e) }/>
       </div>
     </div>
+    <TagManager tags={ props.book.tags ? props.book.tags.split(",") : [] } onChange={ props.onTagChange } />
     <div className="form-group row">
       <div className="col-sm-2 col-form-label">Reading Flags</div>
       <div className="col-sm-4">

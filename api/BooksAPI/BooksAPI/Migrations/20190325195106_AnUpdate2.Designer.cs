@@ -3,14 +3,16 @@ using System;
 using BooksAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BooksAPI.Migrations
 {
     [DbContext(typeof(BooksContext))]
-    partial class BooksContextModelSnapshot : ModelSnapshot
+    [Migration("20190325195106_AnUpdate2")]
+    partial class AnUpdate2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,6 +39,8 @@ namespace BooksAPI.Migrations
                     b.Property<DateTime?>("Amz_SyncDate");
 
                     b.Property<string>("Author");
+
+                    b.Property<string>("Categories");
 
                     b.Property<DateTime?>("DateCreated");
 

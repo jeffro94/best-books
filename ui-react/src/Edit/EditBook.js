@@ -66,6 +66,23 @@ class EditBook extends Component {
     this.setState({ book: updatedBook });
   }
 
+  handleTagChange = (e) => {
+    const newBook = {};
+    Object.assign(newBook, this.state.book);
+
+    // the Typeahead component adds any custom new selections as objects, 
+    // so we need to convert it back to a string
+    //
+    const newTags = e.map(selection => (typeof selection === "object") ? selection.label : selection);
+
+    newTags.sort((a, b) => a.localeCompare(b, undefined, {sensitivity: 'base'})); // sort tags in alphabetical order
+    newBook.tags = newTags.join(",");
+
+    this.setState({
+      book: newBook
+    });
+  }
+
   handleSubmit = (e) => {
     e.preventDefault();
 
@@ -91,7 +108,7 @@ class EditBook extends Component {
         <div className="row">
           <div className="col-sm-11">
             <form className="mt-3" onSubmit={ this.handleSubmit }>
-              <BookFormFields book={ this.state.book } onChange={ this.handleUserInput } />
+              <BookFormFields book={ this.state.book } onChange={ this.handleUserInput } onTagChange={ this.handleTagChange } />
               <div className="form-group row">
                 <div className="col-sm-10 offset-sm-2">
                   <button type="submit" className="btn btn-primary" disabled={ DEMO_MODE }>Save</button>
