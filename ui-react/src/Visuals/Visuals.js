@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import ChartWrapper from "./Components/Visuals/ChartWrapper";
-import GoodreadsScoreToCount from "./Components/Visuals/Charts/GoodreadsScoreToCount";
-import AmazonScoreToCount from "./Components/Visuals/Charts/AmazonScoreToCount";
-import YearToGoodreadsScore from "./Components/Visuals/Charts/YearToGoodreadsScore";
-import AmazonScoreToGoodreadsScore from "./Components/Visuals/Charts/AmazonScoreToGoodreadsScore";
+import ChartWrapper from "./ChartWrapper";
+import GoodreadsScoreToCount from "./Charts/GoodreadsScoreToCount";
+import AmazonScoreToCount from "./Charts/AmazonScoreToCount";
+import YearToGoodreadsScore from "./Charts/YearToGoodreadsScore";
+import AmazonScoreToGoodreadsScore from "./Charts/AmazonScoreToGoodreadsScore";
 import "./Visuals.css";
 
 class Visuals extends Component {

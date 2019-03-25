@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link, withRouter } from "react-router-dom";
 import { Navbar, Nav, Container, Alert } from 'react-bootstrap';
 import './App.css';
-import Home from './Home.js';
-import AddBook from './AddBook';
-import EditBook from './EditBook';
-import Visuals from './Visuals';
+import Home from './Home/Home';
+import AddBook from './Add/AddBook';
+import EditBook from './Edit/EditBook';
+import Visuals from './Visuals/Visuals';
 import { DEMO_MODE } from "./Constants";
 
 class App extends Component {

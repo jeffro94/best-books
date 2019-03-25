@@ -10,9 +10,9 @@
 
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import BookFormFields, { getEmptyBook } from "./Components/BookFormFields";
+import BookFormFields, { getEmptyBook } from "../SharedComponents/BookFormFields";
 import "./AddBook.css";
-import { USER_ID, DEMO_MODE } from "./Constants";
+import { USER_ID, DEMO_MODE } from "../Constants";
 
 class AddBook extends Component {
   constructor(props) {

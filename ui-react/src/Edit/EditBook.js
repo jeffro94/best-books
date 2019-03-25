@@ -9,10 +9,10 @@
  */
 
 import React, { Component } from 'react';
-import ExternalLinks from './Components/ExternalLinks';
-import BookFormFields, { getEmptyBook } from "./Components/BookFormFields";
+import ExternalLinks from './ExternalLinks';
+import BookFormFields, { getEmptyBook } from "../SharedComponents/BookFormFields";
 import "./EditBook.css";
-import { DEMO_MODE } from "./Constants";
+import { DEMO_MODE } from "../Constants";
 
 class EditBook extends Component {
   constructor(props) {
