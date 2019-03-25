@@ -14,47 +14,14 @@
  * 
  */
 
-import React, { Component } from "react";
+import React from "react";
 import { withRouter } from "react-router-dom";
 import ReactFauxDOM from "react-faux-dom";
 import * as d3 from "d3";
 import moment from "moment";
-import ToolTipsy from "./ToolTipsy";
 
-class AmazonScoreToGoodreadsScore extends Component {
-  // State can also be initialized using a class property
-  // ref: https://daveceddia.com/where-initialize-state-react/
-  //      https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes#Field_declarations
-  //
-  constructor(props) {
-    super(props);
-    this.state = {
-      tooltipState: { fields: [] }
-    }
-  }
+class AmazonScoreToGoodreadsScore extends React.Component {
 
-  updateTooltipState = (tooltipState) => {
-    this.setState({
-      tooltipState
-    });
-  }
-
-  render() {
-    return (
-      <div className="chart">
-        <TheChartWithRouter
-          books={ this.props.books }
-          updateTooltipState={ this.updateTooltipState } />
-        <ToolTipsy 
-          left={ this.state.tooltipState.left }
-          top={ this.state.tooltipState.top }
-          fields={ this.state.tooltipState.fields } />
-      </div>
-    );
-  }
-}
-
-class TheChart extends Component {
   shouldComponentUpdate(nextProps) {
     return (this.props.books !== nextProps.books);
   }
@@ -155,7 +122,5 @@ class TheChart extends Component {
   }
 }
 
-const TheChartWithRouter = withRouter(TheChart);
 
-
-export default AmazonScoreToGoodreadsScore;
+export default withRouter(AmazonScoreToGoodreadsScore);

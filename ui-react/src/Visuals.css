@@ -6,33 +6,3 @@
     padding: 80px 0px;
     cursor: pointer;
 }
-
-.chart {
-    position: relative;
-    padding-bottom: 70px;
-}
-
-.chart svg circle {
-    fill: lightblue;
-}
-
-.chart .title {
-    font-size: 18px;
-    font-weight: bold;
-}
-
-.chart .tooltip {
-    position: "absolute";
-    opacity: 0.75;
-    background-color: blue;
-    font-family: sans-serif;
-    font-size: 10px;
-    font-weight: bold;
-    color: white;
-    padding: 5px;
-}
-
-.chart .tooltip p {
-    padding: 1px;
-    margin: 1px; 
-}
