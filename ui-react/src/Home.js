@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Table, Collapse } from "react-bootstrap";
 import "./Home.css";
+import { USER_ID } from "./Constants";
 
 class Home extends Component {
   render() {
@@ -35,7 +36,7 @@ class BookTable extends Component {
   }
 
   componentDidMount() {
-    fetch("https://localhost:44344/api/books/userId/2")
+    fetch(`https://localhost:44344/api/books/userId/${ USER_ID }`)
       .then(response => response.json())
       .then(result => {
         this.setState({

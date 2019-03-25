@@ -12,6 +12,7 @@ import React, { Component } from 'react';
 import ExternalLinks from './Components/ExternalLinks';
 import BookFormFields, { getEmptyBook } from "./Components/BookFormFields";
 import "./EditBook.css";
+import { DEMO_MODE } from "./Constants";
 
 class EditBook extends Component {
   constructor(props) {
@@ -93,7 +94,7 @@ class EditBook extends Component {
               <BookFormFields book={ this.state.book } onChange={ this.handleUserInput } />
               <div className="form-group row">
                 <div className="col-sm-10 offset-sm-2">
-                  <button type="submit" className="btn btn-primary">Save</button>
+                  <button type="submit" className="btn btn-primary" disabled={ DEMO_MODE }>Save</button>
                   <span id="successMessage" className="alert alert-success ml-2" role="alert" style={ { opacity: this.state.showSuccessMessage ? 100 : 0 } }>Saved succesfully!</span>
                 </div>
               </div>

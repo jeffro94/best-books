@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link, withRouter } from "react-router-dom";
-import { Container } from 'react-bootstrap';
+import { Navbar, Nav, Container, Alert } from 'react-bootstrap';
 import './App.css';
 import Home from './Home.js';
 import AddBook from './AddBook';
 import EditBook from './EditBook';
 import Visuals from './Visuals';
-import { Navbar, Nav } from 'react-bootstrap';
+import { DEMO_MODE } from "./Constants";
 
 class App extends Component {
   render() {
@@ -15,6 +15,10 @@ class App extends Component {
         <div>
           <BooksNavBar />
           <Container>
+            { DEMO_MODE &&
+            <Alert variant="warning">
+              <em>Note: This application is in read-only demo mode. Updates are not allowed but have a look around!</em> 
+            </Alert> }
             <Route exact path="/" component={ Home } />
             <Route path="/add" component={ AddBook } />
             <Route path="/edit/:bookId" component={ EditBook } />

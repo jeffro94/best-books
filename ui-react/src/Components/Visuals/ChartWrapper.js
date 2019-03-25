@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import ToolTipsy from "./ToolTipsy";
 import "./Charts.css";
-
+import { USER_ID } from "../../Constants";
 
 class ChartWrapper extends Component {
   // State can also be initialized using a class property
@@ -19,7 +19,7 @@ class ChartWrapper extends Component {
   }
 
   componentDidMount() {
-    fetch("https://localhost:44344/api/books/userId/2")
+    fetch(`https://localhost:44344/api/books/userId/${ USER_ID }`)
       .then(response => response.json())
       .then(result => {
         this.setState({
