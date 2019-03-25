@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-// import { Carousel } from 'react-bootstrap';
 import ChartWrapper from "./Components/Visuals/ChartWrapper";
 import GoodreadsScoreToCount from "./Components/Visuals/Charts/GoodreadsScoreToCount";
 import AmazonScoreToCount from "./Components/Visuals/Charts/AmazonScoreToCount";
@@ -45,17 +44,6 @@ class Visuals extends Component {
         </div>
       </div>
     );
-
-      // <div className="mt-5">
-      //   <Carousel interval={ null } slide={ true }>
-      //     <Carousel.Item>
-      //       <GoodreadsScoreToCount books={ this.state.books } />
-      //     </Carousel.Item>
-      //     <Carousel.Item>
-      //       <div>Hello World.</div>
-      //     </Carousel.Item>
-      //   </Carousel>
-      // </div>
   }
 }
 
