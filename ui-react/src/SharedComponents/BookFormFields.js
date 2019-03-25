@@ -70,13 +70,6 @@ const BookFormFields = (props) => (
       </div>
     </div>
     <div className="form-group row">
-      <label htmlFor="categories" className="col-sm-2 col-form-label">Categories</label>
-      <div className="col-sm-10">
-        <input type="text" className="form-control" id="categories" 
-          value={ props.book.categories } onChange={ (e) => props.onChange(e) }/>
-      </div>
-    </div>
-    <div className="form-group row">
       <label htmlFor="wantToReadScore" className="col-sm-2 col-form-label">Want-to-Read Score</label>
       <div className="col-sm-10">
         <input type="number" min="1" max="5" step="1" className="form-control" id="wantToReadScore" 
@@ -156,7 +149,6 @@ const getEmptyBook = () => ({
   goodReadsID: "",
   wikipediaURL: "",
   notes: "",
-  categories: "",
   wantToReadScore: "",
   flagRead: false,
   flagCurrentlyReading: false,
