@@ -3,6 +3,9 @@ import { Link } from "react-router-dom";
 import { Table, Collapse } from "react-bootstrap";
 import "./Home.css";
 import { USER_ID } from "../Constants";
+import { TableColumns } from "./HomeConfig"
+import { StatusFilters, OwnershipFilters} from "./FiltersConfig"
+import { Filter, TagFilter } from "./Filters";
 
 class Home extends Component {
   render() {
@@ -19,19 +22,20 @@ class BookTable extends Component {
       books: [],
       sortOrder: "",
       lastSort: "",
-      columns: tableColumns,
+      columns: TableColumns,
       filters: [
         {
           category: "Status",
-          options: statusFilters,
+          options: StatusFilters,
           enabled: false
         },
         {
           category: "Ownership",
-          options: ownershipFilters,
+          options: OwnershipFilters,
           enabled: false
         }
-      ]
+      ],
+      tagFilters: []
     };
   }
 
@@ -122,7 +126,29 @@ class BookTable extends Component {
     this.setState({ filters: updatedFilters });
   }
 
+  handleTagFilterChange = (e) => {
+    let updatedTagFilters = this.state.tagFilters.slice();
+
+    const filterKey = e.target.attributes["data-filter-value"].value;
+    const filterValue = e.target.checked;
+
+    if (filterValue) {
+      updatedTagFilters.push(filterKey); // add the new value
+    }
+    else {
+      updatedTagFilters = updatedTagFilters.filter(e => e !== filterKey ); // remove the value
+    }
+
+    this.setState({ tagFilters: updatedTagFilters });
+  }
+
+  clearTagFilters = () => {
+    this.setState({ tagFilters: [] });
+  }
+
   render() {
+    const { books, columns, filters, tagFilters } = this.state;
+
     const tableHeaders = this.state.columns.filter(c => c.selected).map(col =>
       <th 
         scope="col" key={ col.key } 
@@ -134,10 +160,10 @@ class BookTable extends Component {
     );
 
     let filteredBooks = [];
-    Object.assign(filteredBooks, this.state.books);
+    Object.assign(filteredBooks, books);
 
-    const statusFilter = this.state.filters.find(f => f.category === "Status");
-    const ownershipFilter = this.state.filters.find(f => f.category === "Ownership");
+    const statusFilter = filters.find(f => f.category === "Status");
+    const ownershipFilter = filters.find(f => f.category === "Ownership");
 
     if (statusFilter.enabled) {
       filteredBooks = filteredBooks.filter(book =>
@@ -151,16 +177,24 @@ class BookTable extends Component {
       );
     }
 
+    if (tagFilters.length > 0) {
+      // https://stackoverflow.com/questions/16312528/check-if-an-array-contains-any-element-of-another-array-in-javascript
+      //
+      filteredBooks = filteredBooks.filter(book => book.tags && book.tags.split(",").some( t => tagFilters.includes(t) ));
+    }
+
     const tableRows = filteredBooks.map(book => 
-      <BookTableRow key={ book.bookId } book={ book } columns={ this.state.columns } />
+      <BookTableRow key={ book.bookId } book={ book } columns={ columns } />
     );
 
     return (
       <div>
         <SettingsComponent 
-          columns={ this.state.columns } onColumnChange={ this.handleColumnChange } 
-          filters={ this.state.filters } onFilterChange={ this.handleFilterChange } 
-          setFilterEnabledStatus={ this.setFilterEnabledStatus } />
+          columns={ columns } onColumnChange={ this.handleColumnChange } 
+          filters={ filters } onFilterChange={ this.handleFilterChange } 
+          setFilterEnabledStatus={ this.setFilterEnabledStatus } 
+          tagFilters={ tagFilters } onTagFilterChange={ this.handleTagFilterChange }
+          clearTagFilters= { this.clearTagFilters } />
         <Table bordered hover>
           <thead className="thead-light">
             <tr>
@@ -222,14 +256,16 @@ class SettingsComponent extends Component {
                 </div>
                 <div className="col-lg-6">
                   <h4>Filter</h4>
-                  <FilterSettingComponent 
+                  <Filter
                     categoryName="Status" options={ this.props.filters.find(f => f.category === "Status").options } 
                     enabled={ this.props.filters.find(f => f.category === "Status").enabled } 
                     setFilterEnabledStatus={ this.props.setFilterEnabledStatus } onFilterChange={ this.props.onFilterChange } />
-                  <FilterSettingComponent 
+                  <Filter 
                     categoryName="Ownership" options={ this.props.filters.find(f => f.category === "Ownership").options } 
                     enabled={ this.props.filters.find(f => f.category === "Ownership").enabled } 
                     setFilterEnabledStatus={ this.props.setFilterEnabledStatus } onFilterChange={ this.props.onFilterChange } />
+                  <TagFilter enabled={ this.props.tagFilters.length > 0 } selected={ this.props.tagFilters } 
+                    onChange={ this.props.onTagFilterChange } clearTagFilters={ this.props.clearTagFilters } />
                 </div>
               </div>
             </div>
@@ -261,259 +297,5 @@ class ColumnSettingsComponent extends Component {
   }
 }
 
-class FilterSettingComponent extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      expanded: false
-    }
-  }
-
-  render() {
-    const { expanded } = this.state;
-
-    const anyOptionSelected = this.props.options.filter(option => option.selected).length !== 0;
-
-    return (
-      <div className={ `card filter-card ${ this.props.enabled ? "active-filter" : ""}` }>
-        <div
-          onClick={() => this.setState({ expanded: !expanded })}
-          aria-controls="filter-options"
-          aria-expanded={ expanded }
-        >
-          <div className="card-header"
-            onClick={ () => this.setState( { expanded: !this.state.expanded } )}>{ this.props.categoryName }</div>
-        </div>
-        <Collapse in={ expanded }>
-          <div id="filter-options">
-            <div className="card-body">
-              <div>
-                <div className="form-group">
-                  { 
-                    this.props.options.map(option => (
-                      <div className="form-check" key={ option.key }>
-                        <input className="form-check-input" type="checkbox" id={ "filter-option-" + option.key } 
-                          data-filter-type={ this.props.categoryName } data-filter-key={ option.key }
-                           checked={ option.selected } onChange={ this.props.onFilterChange } />
-                        <label className="form-check-label" htmlFor={ "filter-option-" + option.key }>{ option.name }</label>
-                      </div>
-                    ))
-                  }
-                </div>
-                <div className="filter-options">
-                  <button 
-                    className="btn btn-light btn-sm"
-                    onClick={ () => this.props.setFilterEnabledStatus(this.props.categoryName, false) }
-                    disabled={ !anyOptionSelected ? "disabled" : false }
-                    aria-disabled={ !anyOptionSelected ? "true" : false }
-                  >
-                    Clear
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </Collapse>
-      </div>
-    );
-  }
-}
-
-const tableColumns = [
-  {
-    key: "flagRead",
-    name: "Completed",
-    selected: true,
-    transform: val => val ? "✓" : "",
-    attributes: { className: "d-none d-xl-table-cell" },
-    headerAttributes: { 
-      className: "d-none d-xl-table-cell",
-      style: { width: "5%" }
-    },
-    headerTitle: "Completed",
-    headerAbbreviation: "📗",
-    defaultSort: "desc"
-  },
-  {
-    key: "flagCurrentlyReading",
-    name: "Currently Reading",
-    selected: true,
-    transform: val => val ? "✓" : "",
-    attributes: { className: "d-none d-xl-table-cell" },
-    headerAttributes: { 
-      className: "d-none d-xl-table-cell",
-      style: { width: "5%" }
-    },
-    headerTitle: "Currently Reading",
-    headerAbbreviation: "🕮",
-    defaultSort: "desc"
-  },
-  {
-    key: "flagWantToRead",
-    name: "Want to Read",
-    selected: true,
-    transform: val => val ? "✓" : "",
-    attributes: { className: "d-none d-xl-table-cell" },
-    headerAttributes: { 
-      className: "d-none d-xl-table-cell",
-      style: { width: "5%" }
-    },
-    headerTitle: "Want to Read",
-    headerAbbreviation: "🛒",
-    defaultSort: "desc"
-  },
-  {
-    key: "wantToReadScore",
-    name: "Want to Read Score",
-    selected: false,
-    attributes: { className: "d-none d-xl-table-cell" },
-    headerAttributes: { 
-      className: "d-none d-xl-table-cell",
-      style: { width: "5%" }
-    },
-    headerTitle: "Want to Read Score",
-    headerAbbreviation: "💯",
-    defaultSort: "desc"
-  },
-  {
-    key: "title",
-    name: "Title",
-    selected: true,
-    showTitle: true,
-    attributes: {
-      className: "text-truncate",
-    },
-    headerAttributes: { 
-      style: { width: "45%" }
-    },
-    defaultSort: "asc"
-  },
-  {
-    key: "author",
-    name: "Author",
-    selected: true,
-    showTitle: true,
-    attributes: {
-      className: "text-truncate d-none d-md-table-cell",
-    },
-    headerAttributes: { 
-      className: "d-none d-md-table-cell",
-      style: { width: "20%" }
-    },
-    defaultSort: "asc"
-  },
-  {
-    key: "yearPublished",
-    name: "Year",
-    selected: true,
-    attributes: {
-      className: "d-none d-lg-table-cell"
-    },
-    headerAttributes: { 
-      className: "d-none d-lg-table-cell",
-      style: { width: "10%" }
-    },
-    defaultSort: "desc"
-  },
-  {
-    key: "gR_Rating",
-    name: "Goodreads\nRating",
-    selected: false,
-    transform: val => val ? val.toFixed(1) : "",
-    attributes: { className: "text-right d-none d-xl-table-cell" },
-    headerAttributes: { 
-      className: "d-none d-xl-table-cell",
-      style: { width: "12%" }
-    },
-    defaultSort: "desc"
-  },
-  {
-    key: "gR_RatingCount",
-    name: "Goodreads\nCount",
-    selected: false,
-    transform: val => (val != null) ? val.toLocaleString() : "", /* allows for 0 */
-    attributes: { className: "text-right d-none d-xl-table-cell" },
-    headerAttributes: { 
-      className: "d-none d-xl-table-cell",
-      style: { width: "12%" }
-    },
-    defaultSort: "desc"
-  },
-  {
-    key: "amz_Rating",
-    name: "Amazon\nRating",
-    selected: false,
-    transform: val => val ? val.toFixed(1) : "",
-    attributes: { className: "text-right d-none d-xl-table-cell" },
-    headerAttributes: { 
-      className: "d-none d-xl-table-cell",
-      style: { width: "10%" }
-    },
-    defaultSort: "desc"
-  },
-  {
-    key: "amz_ReviewCount",
-    name: "Amazon\nCount",
-    selected: false,
-    transform: val => (val != null) ? val.toLocaleString() : "", /* allows for 0 */
-    attributes: { className: "text-right d-none d-xl-table-cell" },
-    headerAttributes: { 
-      className: "d-none d-xl-table-cell",
-      style: { width: "10%" }
-    },
-    defaultSort: "desc"
-  }
-];
-
-const statusFilters = [
-  {
-    name: "Completed",
-    key: "flagRead",
-    selected: false
-  },
-  {
-    name: "Currently Reading",
-    key: "flagCurrentlyReading",
-    selected: false
-  },
-  {
-    name: "Want to Read",
-    key: "flagWantToRead",
-    selected: false
-  },
-  {
-    name: "Partially Read",
-    key: "flagPartiallyRead",
-    selected: false
-  }
-];
-
-const ownershipFilters = [
-  {
-    name: "Print",
-    key: "ownPrint",
-    selected: false
-  },
-  {
-    name: "Kindle",
-    key: "ownKindle",
-    selected: false
-  },
-  {
-    name: "PDF",
-    key: "ownPDF",
-    selected: false
-  },
-  {
-    name: "Audible",
-    key: "ownAudible",
-    selected: false
-  },
-  {
-    name: "Other Audio",
-    key: "ownOtherAudio",
-    selected: false
-  }
-];
 
 export default Home;
