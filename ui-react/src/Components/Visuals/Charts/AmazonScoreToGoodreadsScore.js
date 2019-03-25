@@ -59,6 +59,7 @@ class AmazonScoreToGoodreadsScore extends React.Component {
     svg.selectAll("circle")
       .data(data)
       .enter()
+      .append("a").attr("href", d => `/edit/${d.bookId}`)
       .append("circle")
       .attr("cx", d => xScale(d.gR_Rating) )
       .attr("cy", d => yScale(d.amz_Rating) )
@@ -80,8 +81,8 @@ class AmazonScoreToGoodreadsScore extends React.Component {
         this.props.updateTooltipState({
           fields: []
         });
-      })
-      .on("click", d => this.props.history.push(`/edit/${d.bookId}`));
+      });
+      //.on("click", d => this.props.history.push(`/edit/${d.bookId}`));
 
     // create X axis
     svg.append("g")

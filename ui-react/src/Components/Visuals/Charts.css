@@ -5,6 +5,7 @@
 
 .chart svg circle {
   fill: lightblue;
+  cursor: default;
 }
 
 .chart .title {
