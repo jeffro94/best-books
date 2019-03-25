@@ -91,6 +91,7 @@ namespace BooksAPI.Models
     {
         public int TagId { get; set; }
         public string Name { get; set; }
+        public DateTime DateCreated { get; set; }
 
         public int BookId { get; set; }
         public Book Book { get; set; }

@@ -36,7 +36,7 @@ namespace BooksAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var book = await _context.Books.SingleOrDefaultAsync(m => m.BookId == id);
+            var book = await _context.Books.Include(b => b.Tags).SingleOrDefaultAsync(m => m.BookId == id);
 
             if (book == null)
             {

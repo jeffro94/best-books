@@ -27,6 +27,13 @@ namespace BooksAPI.Controllers
             return _context.Tags;
         }
 
+        // GET: api/Tags/distinct
+        [HttpGet("distinct")]
+        public IEnumerable<String> GetDistinctTags()
+        {
+            return _context.Tags.Select(t => t.Name).Distinct().ToList();
+        }
+
         // GET: api/Tags/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetTag([FromRoute] int id)
