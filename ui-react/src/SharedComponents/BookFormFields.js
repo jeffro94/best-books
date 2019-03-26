@@ -48,6 +48,7 @@ const BookFormFields = (props) => (
           value={ props.book.wikipediaURL } onChange={ (e) => props.onChange(e) }/>
       </div>
     </div>
+    <TagManager tags={ props.book.tags ? props.book.tags.split(",") : [] } onChange={ props.onTagChange } />
     <div className="form-group row">
       <label htmlFor="whereHeardAbout" className="col-sm-2 col-form-label">Where I heard about it</label>
       <div className="col-sm-10">
@@ -76,7 +77,6 @@ const BookFormFields = (props) => (
           value={ props.book.wantToReadScore } onChange={ (e) => props.onChange(e) }/>
       </div>
     </div>
-    <TagManager tags={ props.book.tags ? props.book.tags.split(",") : [] } onChange={ props.onTagChange } />
     <div className="form-group row">
       <div className="col-sm-2 col-form-label">Reading Flags</div>
       <div className="col-sm-4">
@@ -105,7 +105,7 @@ const BookFormFields = (props) => (
       <div className="col-sm-4">
         <div className="form-check">
           <input className="form-check-input" type="checkbox" id="ownPrint" 
-            checked={ props.book.wnPrint } onChange={ (e) => props.onChange(e) }/>
+            checked={ props.book.ownPrint } onChange={ (e) => props.onChange(e) }/>
           <label className="form-check-label" htmlFor="ownPrint">Print</label>
         </div>
         <div className="form-check">
@@ -115,7 +115,7 @@ const BookFormFields = (props) => (
         </div>
         <div className="form-check">
           <input className="form-check-input" type="checkbox" id="ownKindleSample" 
-            checked={ props.book.wnKindleSample } onChange={ (e) => props.onChange(e) }/>
+            checked={ props.book.ownKindleSample } onChange={ (e) => props.onChange(e) }/>
           <label className="form-check-label" htmlFor="ownKindleSample">Kindle Sample</label>
         </div>
         <div className="form-check">
