@@ -73,6 +73,8 @@ function convertRawToReadable(response) {
             book.gR_RatingCount = bookResponse.work[0]["ratings_count"][0]["_"];
             book.gR_ReviewCount = bookResponse.work[0]["text_reviews_count"][0]["_"];
             book.asin = bookResponse.asin[0] || bookResponse.isbn[0] || bookResponse.isbn13[0] || bookResponse.kindle_asin[0];
+            book.gR_ImageUrlSmall = bookResponse.small_image_url[0];
+            book.gR_ImageUrlMedium = bookResponse.image_url[0];
             book.gR_Status = "OK";
         }
         catch(err) {

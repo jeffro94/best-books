@@ -7,14 +7,16 @@ process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
 
 (async () => {
 
-    const books = await fetch("https://localhost:44344/api/books/UserId/2")
+    const books = await fetch("https://localhost:44344/api/books")
         .then(response => response.json())
         .catch(err => { 
             console.error("Call to local books API failed", err);
             return;
         });
 
-    const bookList = books.filter(book => book.gR_Status !== "OK");
+    // const bookList = books.filter(book => book.gR_Status !== "OK");
+
+    const bookList = books.filter(book => book.goodReadsID);
 
     // update a single book
     // const bookList = books.filter(book => book.bookId == 73));
@@ -56,6 +58,8 @@ async function updateDB(book, apiResponse) {
     book.gR_ReviewCount = apiResponse.gR_ReviewCount;
     book.gR_Status = apiResponse.gR_Status;
     book.gR_Status_Message = apiResponse.gR_Status_Message;
+    book.gR_ImageUrlSmall = apiResponse.gR_ImageUrlSmall;
+    book.gR_ImageUrlMedium = apiResponse.gR_ImageUrlMedium;
     book.gR_SyncDate = new Date().toISOString();
 
     // now update it in the DB
