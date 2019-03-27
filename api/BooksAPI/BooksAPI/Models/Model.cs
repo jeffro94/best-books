@@ -41,6 +41,8 @@ namespace BooksAPI.Models
         public string Notes { get; set; }
         public string Tags { get; set; }
 
+        public DateTime? DateCompleted { get; set; }
+
         public bool FlagRead { get; set; }
         public bool FlagCurrentlyReading { get; set; }
         public bool FlagPartiallyRead { get; set; }
@@ -65,6 +67,9 @@ namespace BooksAPI.Models
         public string GR_Status { get; set; }
         public string GR_StatusMessage { get; set; }
         public int? GR_OriginalPublicationYear { get; set; }
+        public string GR_ImageUrlSmall { get; set; }
+        public string GR_ImageUrlMedium { get; set; }
+        public string GR_ImageUrlLarge { get; set; }
 
         public float? Amz_Rating { get; set; }
         public int? Amz_ReviewCount { get; set; }
