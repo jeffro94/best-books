@@ -41,3 +41,7 @@
     cursor: pointer;
     font-size: 0.9em;
 }
+
+td.cover-image {
+    padding: 8px 12px;
+}

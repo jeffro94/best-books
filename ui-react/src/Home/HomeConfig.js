@@ -1,8 +1,21 @@
 export const TableColumns = [
   {
+    key: "coverImage",
+    name: "Cover Image",
+    selected: true,
+    attributes: { className: "d-none d-xl-table-cell cover-image" },
+    headerAttributes: { 
+      className: "d-none d-xl-table-cell",
+      style: { width: "6%" }
+    },
+    headerTitle: "Cover Image",
+    headerAbbreviation: "📷",
+    defaultSort: "none"
+  },
+  {
     key: "flagRead",
     name: "Completed",
-    selected: true,
+    selected: false,
     transform: val => val ? "✓" : "",
     attributes: { className: "d-none d-xl-table-cell" },
     headerAttributes: { 
@@ -30,7 +43,7 @@ export const TableColumns = [
   {
     key: "flagWantToRead",
     name: "Want to Read",
-    selected: true,
+    selected: false,
     transform: val => val ? "✓" : "",
     attributes: { className: "d-none d-xl-table-cell" },
     headerAttributes: { 
@@ -90,6 +103,19 @@ export const TableColumns = [
     },
     headerAttributes: { 
       className: "d-none d-lg-table-cell",
+      style: { width: "10%" }
+    },
+    defaultSort: "desc"
+  },
+  {
+    key: "yearRevised",
+    name: "Year Revised",
+    selected: false,
+    attributes: {
+      className: "d-none d-xl-table-cell"
+    },
+    headerAttributes: { 
+      className: "d-none d-xl-table-cell",
       style: { width: "10%" }
     },
     defaultSort: "desc"

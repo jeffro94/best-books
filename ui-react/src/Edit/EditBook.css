@@ -1,0 +1,12 @@
+.external-links {
+  display: flex;
+  margin-top: 10px;
+}
+
+.external-links .link-icon {
+  margin: 8px;
+}
+
+.external-links .link-icon:first-child {
+  margin-left: 0;
+}

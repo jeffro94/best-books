@@ -211,18 +211,35 @@ class BookTable extends Component {
 }
 
 const BookTableRow = props => {
-  const cols = props.columns.filter(c => c.selected).map(c => (
-    <td 
-      key ={ c.key } {...c.attributes}
-      title={ c.showTitle ? props.book[c.key] : undefined }
-    >
-      { c.key === "title" ?
-        <Link to={ `/edit/${ props.book.bookId }` }>{ props.book[c.key] }</Link> :
-        c.transform ? c.transform(props.book[c.key]) : props.book[c.key] }
-    </td>
-  ));
+  const result = [];
+  const cols = props.columns.filter(c => c.selected)
+  
+  cols.forEach(c => {
+    let inner;
 
-  return <tr>{ cols }</tr>;
+    switch (c.key) {
+      case "title":
+        inner = <Link to={ `/edit/${ props.book.bookId }` }>{ props.book[c.key] }</Link>;
+        break;
+      case "coverImage":
+        const imgUrl = props.book.gR_ImageUrlSmall || props.book.gR_ImageUrlLarge || "https://s.gr-assets.com/assets/nophoto/book/50x75-a91bf249278a81aabab721ef782c4a74.png";
+        inner = <img src={ imgUrl } alt="Cover" width="50px" />;
+        break;
+      default:
+        inner = c.transform ? c.transform(props.book[c.key]) : props.book[c.key];
+    }
+
+    result.push( 
+      <td 
+        key ={ c.key } {...c.attributes}
+        title={ c.showTitle ? props.book[c.key] : undefined }
+      >
+        { inner }
+      </td>
+    );
+  });
+
+  return <tr>{ result }</tr>;
 };
 
 class SettingsComponent extends Component {

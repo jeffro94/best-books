@@ -108,9 +108,9 @@ class EditBook extends Component {
   render() {
     return (
       <div>
-        <div className="row">
-          <div className="col-sm-11">
-            <form className="mt-3" onSubmit={ this.handleSubmit }>
+        <div className="row mt-3">
+          <div className="col-sm-10">
+            <form onSubmit={ this.handleSubmit }>
               <BookFormFields book={ this.state.book } onChange={ this.handleUserInput } onTagChange={ this.handleTagChange } />
               <div className="form-group row">
                 <div className="col-sm-10 offset-sm-2">
@@ -120,7 +120,10 @@ class EditBook extends Component {
               </div>
             </form>
           </div>
-          <div id="externalNav" className="col-sm-1">
+          <div id="externalNav" className="col-sm-2">
+            <div>
+              <img src={ this.state.book.gR_ImageUrlLarge } alt="Cover" width="200px" />
+            </div>
             <ExternalLinks book={ this.state.book } />
           </div>
         </div>
