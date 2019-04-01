@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Collapse } from "react-bootstrap";
-import { USER_ID } from "../Constants";
 
 export class Filter extends Component {
   constructor(props) {
@@ -63,18 +62,12 @@ export class Filter extends Component {
 export class TagFilter extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
-      expanded: false,
-      availableTags: []
+      expanded: false
     }
   }
-
-  componentDidMount() {
-    fetch(`https://localhost:44344/api/books/UserId/${ USER_ID }/tags`)
-      .then(response => response.json())
-      .then(result => this.setState({ availableTags: result }));
-  }
-
+  
   // create a friendly key name by replacing all special characters and spaces in the filter value with _
   // https://stackoverflow.com/questions/13020246/remove-special-symbols-and-extra-spaces-and-replace-with-underscore-using-the-re
   //
@@ -97,7 +90,7 @@ export class TagFilter extends Component {
               <div>
                 <div className="form-group">
                   { 
-                    this.state.availableTags.map(tag => (
+                    this.props.availableTags.map(tag => (
                       <div className="form-check" key={ tag.replace(/[^A-Z0-9]+/ig, "_") }>
                         <input className="form-check-input" type="checkbox" id={ "filter-option-" + tag.replace(/[^A-Z0-9]+/ig, "_") } 
                           data-filter-value={ tag }

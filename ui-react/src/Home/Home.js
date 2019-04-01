@@ -35,7 +35,8 @@ class BookTable extends Component {
           enabled: false
         }
       ],
-      tagFilters: []
+      tagFilters: [],
+      availableTags: []
     };
   }
 
@@ -43,8 +44,19 @@ class BookTable extends Component {
     fetch(`https://localhost:44344/api/books/userId/${ USER_ID }`)
       .then(response => response.json())
       .then(result => {
+        // filter out books with private flag, if in private mode
+        if (PRIVATE_MODE && result) {
+          result = result.filter(book => !book.private);
+        }
+
+        //default sort by title
+        result.sort((a,b) => a.title > b.title ? 1 : -1); 
+
         this.setState({
-          books: result
+          books: result,
+          lastSort: "title",
+          sortOrder: "asc",
+          availableTags: Array.from(new Set(result.reduce((tags, book) => book.tags ? tags.concat(book.tags.split(",")) : tags, []))).sort()
         });
       });
   }
@@ -64,14 +76,31 @@ class BookTable extends Component {
       sortOrder = this.state.columns.find(col => col.key === bookPropertyName).defaultSort;
     }
 
-    books.sort((a,b) => {
-      if (sortOrder === "asc") {
-        return (a[bookPropertyName] > b[bookPropertyName]) ? 1 : -1;
-      }
-      else {
-        return (a[bookPropertyName] > b[bookPropertyName]) ? -1 : 1;
-      }
-    });
+    // cover image required specialized sort algorithm
+    if (bookPropertyName === "coverImage") {
+      books.sort((a,b) => {
+        if (sortOrder === "asc") {
+          if ((a.gR_ImageUrlLarge || a.gR_ImageUrlSmall) && !(b.gR_ImageUrlLarge || b.gR_ImageUrlSmall)) return 1;
+          if (!(a.gR_ImageUrlLarge || a.gR_ImageUrlSmall) && (b.gR_ImageUrlLarge || b.gR_ImageUrlSmall)) return -1;
+          else return 0;
+        }
+        else {
+          if ((a.gR_ImageUrlLarge || a.gR_ImageUrlSmall) && !(b.gR_ImageUrlLarge || b.gR_ImageUrlSmall)) return -1;
+          if (!(a.gR_ImageUrlLarge || a.gR_ImageUrlSmall) && (b.gR_ImageUrlLarge || b.gR_ImageUrlSmall)) return 1;
+          else return 0;
+        }
+      });
+    }
+    else {
+      books.sort((a,b) => {
+        if (sortOrder === "asc") {
+          return (a[bookPropertyName] > b[bookPropertyName]) ? 1 : -1;
+        }
+        else {
+          return (a[bookPropertyName] > b[bookPropertyName]) ? -1 : 1;
+        }
+      });
+    }
 
     this.setState({
       books,
@@ -165,10 +194,6 @@ class BookTable extends Component {
     const statusFilter = filters.find(f => f.category === "Status");
     const ownershipFilter = filters.find(f => f.category === "Ownership");
 
-    if (PRIVATE_MODE) {
-      filteredBooks = filteredBooks.filter(book => !book.private);
-    }
-
     if (statusFilter.enabled) {
       filteredBooks = filteredBooks.filter(book =>
         statusFilter.options.reduce((acc, option) => option.selected ? acc || book[option.key] : acc, false)
@@ -198,7 +223,7 @@ class BookTable extends Component {
           filters={ filters } onFilterChange={ this.handleFilterChange } 
           setFilterEnabledStatus={ this.setFilterEnabledStatus } 
           tagFilters={ tagFilters } onTagFilterChange={ this.handleTagFilterChange }
-          clearTagFilters= { this.clearTagFilters } />
+          clearTagFilters={ this.clearTagFilters } availableTags={ this.state.availableTags } />
         <Table bordered hover>
           <thead className="thead-light">
             <tr>
@@ -285,7 +310,7 @@ class SettingsComponent extends Component {
                     categoryName="Ownership" options={ this.props.filters.find(f => f.category === "Ownership").options } 
                     enabled={ this.props.filters.find(f => f.category === "Ownership").enabled } 
                     setFilterEnabledStatus={ this.props.setFilterEnabledStatus } onFilterChange={ this.props.onFilterChange } />
-                  <TagFilter enabled={ this.props.tagFilters.length > 0 } selected={ this.props.tagFilters } 
+                  <TagFilter enabled={ this.props.tagFilters.length > 0 } selected={ this.props.tagFilters } availableTags={ this.props.availableTags }
                     onChange={ this.props.onTagFilterChange } clearTagFilters={ this.props.clearTagFilters } />
                 </div>
               </div>
@@ -301,7 +326,7 @@ class ColumnSettingsComponent extends Component {
   render() {
     const inputs =  this.props.columns.map(col => (
       <div className="form-check" key={ col.key }>
-        <input className="form-check-input" type="checkbox" id={ col.key } 
+        <input className="form-check-input" type="checkbox" id={ col.key } disabled={ col.disabled }
           checked={ col.selected } onChange={ this.props.onColumnChange } />
         <label className="form-check-label" htmlFor={ col.key }>{ `${ col.headerAbbreviation ? col.headerAbbreviation + ' ' : '' }${col.name}` }</label>
       </div>
@@ -312,6 +337,9 @@ class ColumnSettingsComponent extends Component {
         <h4>Columns</h4>
         <div className="form-group">
           { inputs }
+        </div>
+        <div className="alert alert-light d-xl-none">
+          <em>Some columns will be automatically hidden on small window sizes and mobile devices.</em>
         </div>
       </div>
     );

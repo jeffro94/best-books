@@ -15,12 +15,12 @@ export const TableColumns = [
   {
     key: "flagRead",
     name: "Completed",
-    selected: false,
+    selected: true,
     transform: val => val ? "✓" : "",
     attributes: { className: "d-none d-xl-table-cell" },
     headerAttributes: { 
       className: "d-none d-xl-table-cell",
-      style: { width: "28px" }
+      style: { width: "30px" }
     },
     headerTitle: "Completed",
     headerAbbreviation: "📗",
@@ -34,7 +34,7 @@ export const TableColumns = [
     attributes: { className: "d-none d-xl-table-cell" },
     headerAttributes: { 
       className: "d-none d-xl-table-cell",
-      style: { width: "28px" }
+      style: { width: "30px" }
     },
     headerTitle: "Currently Reading",
     headerAbbreviation: "🕮",
@@ -43,12 +43,12 @@ export const TableColumns = [
   {
     key: "flagWantToRead",
     name: "Want to Read",
-    selected: false,
+    selected: true,
     transform: val => val ? "✓" : "",
     attributes: { className: "d-none d-xl-table-cell" },
     headerAttributes: { 
       className: "d-none d-xl-table-cell",
-      style: { width: "28px" }
+      style: { width: "30px" }
     },
     headerTitle: "Want to Read",
     headerAbbreviation: "🛒",
@@ -57,11 +57,11 @@ export const TableColumns = [
   {
     key: "wantToReadScore",
     name: "Want to Read Score",
-    selected: false,
+    selected: true,
     attributes: { className: "d-none d-xl-table-cell" },
     headerAttributes: { 
       className: "d-none d-xl-table-cell",
-      style: { width: "28px" }
+      style: { width: "30px" }
     },
     headerTitle: "Want to Read Score",
     headerAbbreviation: "💯",
@@ -76,7 +76,8 @@ export const TableColumns = [
     headerAttributes: { 
       style: { width: "60%" }
     },
-    defaultSort: "asc"
+    defaultSort: "asc",
+    disabled: true
   },
   {
     key: "author",
