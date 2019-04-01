@@ -77,13 +77,7 @@ namespace BooksAPI.Models
         public string Amz_StatusMessage { get; set; }
         public DateTime? Amz_SyncDate { get; set; }
 
-        public string Temp1 { get; set; }
-        public string Temp2 { get; set; }
-        public string Temp3 { get; set; }
-        public string Temp4 { get; set; }
-        public string Temp5 { get; set; }
-
-        public Boolean Demo { get; set; }
+        public bool Private { get; set; }
 
         public DateTime? DateCreated { get; set; }
         public DateTime? DateModified { get; set; }

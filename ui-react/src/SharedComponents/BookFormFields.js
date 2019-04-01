@@ -1,5 +1,6 @@
 import React from 'react';
 import TagManager from "./TagManager"
+import { PRIVATE_MODE } from "../Constants";
 
 const BookFormFields = (props) => (
   <div>
@@ -81,26 +82,26 @@ const BookFormFields = (props) => (
       <div className="col-sm-2 col-form-label">Reading Flags</div>
       <div className="col-sm-4">
         <div className="form-check">
-            <input className="form-check-input" type="checkbox" id="flagRead" 
-              checked={ props.book.flagRead } onChange={ (e) => props.onChange(e) }/>
-            <label className="form-check-label" htmlFor="flagRead">Read</label>
+          <input className="form-check-input" type="checkbox" id="flagRead" 
+            checked={ props.book.flagRead } onChange={ (e) => props.onChange(e) }/>
+          <label className="form-check-label" htmlFor="flagRead">Read</label>
         </div>
         <div className="form-check">
-            <input className="form-check-input" type="checkbox" id="flagCurrentlyReading" 
-              checked={ props.book.flagCurrentlyReading } onChange={ (e) => props.onChange(e) }/>
-            <label className="form-check-label" htmlFor="flagCurrentlyReading">Currently Reading</label>
+          <input className="form-check-input" type="checkbox" id="flagCurrentlyReading" 
+            checked={ props.book.flagCurrentlyReading } onChange={ (e) => props.onChange(e) }/>
+          <label className="form-check-label" htmlFor="flagCurrentlyReading">Currently Reading</label>
         </div>
         <div className="form-check">
-            <input className="form-check-input" type="checkbox" id="flagPartiallyRead" 
-              checked={ props.book.flagPartiallyRead } onChange={ (e) => props.onChange(e) }/>
-            <label className="form-check-label" htmlFor="flagPartiallyRead">Partially Read</label>
+          <input className="form-check-input" type="checkbox" id="flagPartiallyRead" 
+            checked={ props.book.flagPartiallyRead } onChange={ (e) => props.onChange(e) }/>
+          <label className="form-check-label" htmlFor="flagPartiallyRead">Partially Read</label>
         </div>
         <div className="form-check">
-            <input className="form-check-input" type="checkbox" id="flagWantToRead" 
-              checked={ props.book.flagWantToRead } onChange={ (e) => props.onChange(e) }/>
-            <label className="form-check-label" htmlFor="flagWantToRead">Want to Read</label>
-          </div>
+          <input className="form-check-input" type="checkbox" id="flagWantToRead" 
+            checked={ props.book.flagWantToRead } onChange={ (e) => props.onChange(e) }/>
+          <label className="form-check-label" htmlFor="flagWantToRead">Want to Read</label>
         </div>
+      </div>
       <div className="col-sm-2 col-form-label">Ownership Flags</div>
       <div className="col-sm-4">
         <div className="form-check">
@@ -133,6 +134,13 @@ const BookFormFields = (props) => (
             checked={ props.book.ownOtherAudio } onChange={ (e) => props.onChange(e) }/>
           <label className="form-check-label" htmlFor="ownOtherAudio">Other Audio</label>
         </div>
+        { !PRIVATE_MODE &&
+        <div className="form-check">
+          <input className="form-check-input" type="checkbox" id="private" 
+            checked={ props.book.private } onChange={ (e) => props.onChange(e) }/>
+          <label className="form-check-label" htmlFor="private">Private</label>
+        </div>
+        }
       </div>
     </div>
   </div>
