@@ -35,11 +35,13 @@
 
 .table {
     table-layout: fixed;
+    width: 100%;
 }
 
 .table th {
     cursor: pointer;
     font-size: 0.9em;
+    box-sizing: content-box;
 }
 
 td.cover-image {

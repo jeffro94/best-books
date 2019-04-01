@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Table, Collapse } from "react-bootstrap";
 import "./Home.css";
-import { USER_ID } from "../Constants";
+import { USER_ID, PRIVATE_MODE } from "../Constants";
 import { TableColumns } from "./HomeConfig"
 import { StatusFilters, OwnershipFilters} from "./FiltersConfig"
 import { Filter, TagFilter } from "./Filters";
@@ -164,6 +164,10 @@ class BookTable extends Component {
 
     const statusFilter = filters.find(f => f.category === "Status");
     const ownershipFilter = filters.find(f => f.category === "Ownership");
+
+    if (PRIVATE_MODE) {
+      filteredBooks = filteredBooks.filter(book => !book.private);
+    }
 
     if (statusFilter.enabled) {
       filteredBooks = filteredBooks.filter(book =>

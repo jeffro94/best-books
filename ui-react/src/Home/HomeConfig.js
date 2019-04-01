@@ -6,7 +6,7 @@ export const TableColumns = [
     attributes: { className: "d-none d-xl-table-cell cover-image" },
     headerAttributes: { 
       className: "d-none d-xl-table-cell",
-      style: { width: "6%" }
+      style: { width: "50px", minWidth: "50px", maxWidth: "50px" }
     },
     headerTitle: "Cover Image",
     headerAbbreviation: "📷",
@@ -20,7 +20,7 @@ export const TableColumns = [
     attributes: { className: "d-none d-xl-table-cell" },
     headerAttributes: { 
       className: "d-none d-xl-table-cell",
-      style: { width: "5%" }
+      style: { width: "28px" }
     },
     headerTitle: "Completed",
     headerAbbreviation: "📗",
@@ -34,7 +34,7 @@ export const TableColumns = [
     attributes: { className: "d-none d-xl-table-cell" },
     headerAttributes: { 
       className: "d-none d-xl-table-cell",
-      style: { width: "5%" }
+      style: { width: "28px" }
     },
     headerTitle: "Currently Reading",
     headerAbbreviation: "🕮",
@@ -48,7 +48,7 @@ export const TableColumns = [
     attributes: { className: "d-none d-xl-table-cell" },
     headerAttributes: { 
       className: "d-none d-xl-table-cell",
-      style: { width: "5%" }
+      style: { width: "28px" }
     },
     headerTitle: "Want to Read",
     headerAbbreviation: "🛒",
@@ -61,7 +61,7 @@ export const TableColumns = [
     attributes: { className: "d-none d-xl-table-cell" },
     headerAttributes: { 
       className: "d-none d-xl-table-cell",
-      style: { width: "5%" }
+      style: { width: "28px" }
     },
     headerTitle: "Want to Read Score",
     headerAbbreviation: "💯",
@@ -72,11 +72,9 @@ export const TableColumns = [
     name: "Title",
     selected: true,
     showTitle: true,
-    attributes: {
-      className: "text-truncate",
-    },
+    attributes: { className: "text-truncate" },
     headerAttributes: { 
-      style: { width: "45%" }
+      style: { width: "60%" }
     },
     defaultSort: "asc"
   },
@@ -90,7 +88,7 @@ export const TableColumns = [
     },
     headerAttributes: { 
       className: "d-none d-md-table-cell",
-      style: { width: "20%" }
+      style: { width: "40%" }
     },
     defaultSort: "asc"
   },
@@ -103,7 +101,7 @@ export const TableColumns = [
     },
     headerAttributes: { 
       className: "d-none d-lg-table-cell",
-      style: { width: "10%" }
+      style: { width: "65px" }
     },
     defaultSort: "desc"
   },
@@ -116,7 +114,7 @@ export const TableColumns = [
     },
     headerAttributes: { 
       className: "d-none d-xl-table-cell",
-      style: { width: "10%" }
+      style: { width: "65px" }
     },
     defaultSort: "desc"
   },
@@ -128,7 +126,7 @@ export const TableColumns = [
     attributes: { className: "text-right d-none d-xl-table-cell" },
     headerAttributes: { 
       className: "d-none d-xl-table-cell",
-      style: { width: "12%" }
+      style: { width: "70px" }
     },
     defaultSort: "desc"
   },
@@ -140,7 +138,7 @@ export const TableColumns = [
     attributes: { className: "text-right d-none d-xl-table-cell" },
     headerAttributes: { 
       className: "d-none d-xl-table-cell",
-      style: { width: "12%" }
+      style: { width: "70px" }
     },
     defaultSort: "desc"
   },
@@ -152,7 +150,7 @@ export const TableColumns = [
     attributes: { className: "text-right d-none d-xl-table-cell" },
     headerAttributes: { 
       className: "d-none d-xl-table-cell",
-      style: { width: "10%" }
+      style: { width: "60px" }
     },
     defaultSort: "desc"
   },
@@ -164,7 +162,7 @@ export const TableColumns = [
     attributes: { className: "text-right d-none d-xl-table-cell" },
     headerAttributes: { 
       className: "d-none d-xl-table-cell",
-      style: { width: "10%" }
+      style: { width: "60px" }
     },
     defaultSort: "desc"
   }
