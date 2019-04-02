@@ -1,11 +1,12 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Link, withRouter } from "react-router-dom";
-import { Navbar, Nav, Container, Alert } from 'react-bootstrap';
-import './App.css';
-import Home from './Home/Home';
-import AddBook from './Add/AddBook';
-import EditBook from './Edit/EditBook';
-import Visuals from './Visuals/Visuals';
+import { Navbar, Nav, Container, Alert } from "react-bootstrap";
+import "./App.css";
+import Home from "./Home/Home";
+import AddBook from "./Add/AddBook";
+import EditBook from "./Edit/EditBook";
+import Next from "./Next/Next";
+import Visuals from "./Visuals/Visuals";
 import { DEMO_MODE } from "./Constants";
 
 class App extends Component {
@@ -22,6 +23,7 @@ class App extends Component {
             <Route exact path="/" component={ Home } />
             <Route path="/add" component={ AddBook } />
             <Route path="/edit/:bookId" component={ EditBook } />
+            <Route path="/next" component={ Next } />
             <Route path="/visuals" component={ Visuals } />
           </Container>
         </div>
@@ -49,6 +51,7 @@ const BooksNavBar = withRouter(props => (
       <Nav className="mr-auto">
         <Link to="/" className={`nav-link ${ props.location.pathname === "/" ? "active" : "" }`}>Home</Link>
         <Link to="/add" className={`nav-link ${ props.location.pathname === "/add" ? "active" : "" }`}>Add a Book</Link>
+        <Link to="/next" className={`nav-link ${ props.location.pathname === "/next" ? "active" : "" }`}>Up Next</Link>
         <Link to="/visuals" className={`nav-link ${ props.location.pathname === "/visuals" ? "active" : "" }`}>Visualizations</Link>
       </Nav>
     </Navbar.Collapse>

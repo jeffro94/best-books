@@ -1,0 +1,19 @@
+.book-tiles {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.book-tile {
+  width: 75px;
+  margin: 5px;
+  padding: 5px;
+  border: 1px solid #777;
+}
+
+.book-tile .book-title {
+  font-size: 0.8em;
+  width: 70px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
