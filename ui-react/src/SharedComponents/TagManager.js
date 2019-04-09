@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Typeahead } from 'react-bootstrap-typeahead'
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 import 'react-bootstrap-typeahead/css/Typeahead-bs4.css';
-import { USER_ID } from '../Constants';
 
 class TagManager extends Component {
   constructor(props) {
@@ -13,7 +12,7 @@ class TagManager extends Component {
   }
 
   componentDidMount() {
-    fetch(`https://localhost:44344/api/books/UserId/${ USER_ID }/tags`)
+    fetch(`https://localhost:44344/api/books/UserId/${ process.env.REACT_APP_USER_ID }/tags`)
       .then(response => response.json())
       .then(result => this.setState({ availableTags: result }));
   }

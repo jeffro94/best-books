@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Table, Collapse } from "react-bootstrap";
 import "./Home.css";
-import { USER_ID, PRIVATE_MODE } from "../Constants";
 import { TableColumns } from "./HomeConfig"
 import { StatusFilters, OwnershipFilters} from "./FiltersConfig"
 import { Filter, TagFilter } from "./Filters";
@@ -41,11 +40,11 @@ class BookTable extends Component {
   }
 
   componentDidMount() {
-    fetch(`https://localhost:44344/api/books/userId/${ USER_ID }`)
+    fetch(`https://localhost:44344/api/books/userId/${ process.env.REACT_APP_USER_ID }`)
       .then(response => response.json())
       .then(result => {
         // filter out books with private flag, if in private mode
-        if (PRIVATE_MODE && result) {
+        if (process.env.REACT_APP_PRIVATE_MODE !== "false" && result) {
           result = result.filter(book => !book.private);
         }
 

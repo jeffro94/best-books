@@ -12,7 +12,6 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import BookFormFields, { getEmptyBook } from "../SharedComponents/BookFormFields";
 import "./AddBook.css";
-import { USER_ID, DEMO_MODE } from "../Constants";
 
 class AddBook extends Component {
   constructor(props) {
@@ -84,7 +83,7 @@ class AddBook extends Component {
 
     const data = this.state.book;
     
-    data.userId = USER_ID; // hard-coded. todo: change to logged in userId
+    data.userId = process.env.REACT_APP_USER_ID; // hard-coded. todo: change to logged in userId
 
     fetch("https://localhost:44344/api/books", {
       method: "POST",
@@ -139,7 +138,7 @@ class AddBook extends Component {
           <BookFormFields book={ this.state.book } onChange={ this.handleUserInputForBook } onTagChange={ this.handleTagChange } />
           <div className="form-group row">
             <div className="col-sm-10 offset-sm-2">
-              <button type="submit" className="btn btn-primary" disabled={ DEMO_MODE }>Save</button>
+              <button type="submit" className="btn btn-primary" disabled={ process.env.REACT_APP_DEMO_MODE !== "false" }>Save</button>
               <span id="successMessage" className="alert alert-success ml-2" role="alert" style={ { opacity: this.state.showSuccessMessage ? 100 : 0 } }>Saved succesfully!</span>
             </div>
           </div>

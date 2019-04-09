@@ -1,6 +1,5 @@
 import React from 'react';
 import TagManager from "./TagManager"
-import { PRIVATE_MODE } from "../Constants";
 
 const BookFormFields = (props) => (
   <div>
@@ -134,7 +133,7 @@ const BookFormFields = (props) => (
             checked={ props.book.ownOtherAudio } onChange={ (e) => props.onChange(e) }/>
           <label className="form-check-label" htmlFor="ownOtherAudio">Other Audio</label>
         </div>
-        { !PRIVATE_MODE &&
+        { process.env.REACT_APP_PRIVATE_MODE === "false" &&
         <div className="form-check">
           <input className="form-check-input" type="checkbox" id="private" 
             checked={ props.book.private } onChange={ (e) => props.onChange(e) }/>

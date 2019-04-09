@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 const ExternalLinks = (props) => (
   <div className="external-links">

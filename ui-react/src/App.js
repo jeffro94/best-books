@@ -7,7 +7,6 @@ import AddBook from "./Add/AddBook";
 import EditBook from "./Edit/EditBook";
 import Next from "./Next/Next";
 import Visuals from "./Visuals/Visuals";
-import { DEMO_MODE } from "./Constants";
 
 class App extends Component {
   render() {
@@ -16,7 +15,7 @@ class App extends Component {
         <div>
           <BooksNavBar />
           <Container>
-            { DEMO_MODE &&
+            { process.env.REACT_APP_DEMO_MODE !== "false" &&
             <Alert variant="warning">
               <em>Note: This application is in read-only demo mode. Updates are not allowed but have a look around!</em> 
             </Alert> }

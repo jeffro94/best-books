@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { USER_ID, PRIVATE_MODE } from "../Constants";
 import "./Next.css";
 
 class Next extends Component {
@@ -11,11 +10,11 @@ class Next extends Component {
   }
 
   componentDidMount() {
-    fetch(`https://localhost:44344/api/books/userId/${ USER_ID }`)
+    fetch(`https://localhost:44344/api/books/userId/${ process.env.REACT_APP_USER_ID }`)
       .then(response => response.json())
       .then(result => {
         // filter out books with private flag, if in private mode
-        if (PRIVATE_MODE && result) {
+        if (process.env.REACT_APP_PRIVATE_MODE !== "false" && result) {
           result = result.filter(book => !book.private);
         }
 

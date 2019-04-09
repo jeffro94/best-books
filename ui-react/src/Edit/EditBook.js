@@ -12,7 +12,6 @@ import React, { Component } from 'react';
 import ExternalLinks from './ExternalLinks';
 import BookFormFields, { getEmptyBook } from "../SharedComponents/BookFormFields";
 import "./EditBook.css";
-import { DEMO_MODE } from "../Constants";
 
 class EditBook extends Component {
   constructor(props) {
@@ -114,7 +113,7 @@ class EditBook extends Component {
               <BookFormFields book={ this.state.book } onChange={ this.handleUserInput } onTagChange={ this.handleTagChange } />
               <div className="form-group row">
                 <div className="col-sm-10 offset-sm-2">
-                  <button type="submit" className="btn btn-primary" disabled={ DEMO_MODE }>Save</button>
+                  <button type="submit" className="btn btn-primary" disabled={ process.env.REACT_APP_DEMO_MODE !== "false" }>Save</button>
                   <span id="successMessage" className="alert alert-success ml-2" role="alert" style={ { opacity: this.state.showSuccessMessage ? 100 : 0 } }>Saved succesfully!</span>
                 </div>
               </div>
