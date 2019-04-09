@@ -119,16 +119,39 @@ class EditBook extends Component {
               </div>
             </form>
           </div>
-          <div id="externalNav" className="col-lg-2">
-            <div>
-              <img src={ this.state.book.gR_ImageUrlLarge } alt="Cover" width="200px" />
-            </div>
-            <ExternalLinks book={ this.state.book } />
+          <div className="col-lg-2 mt-3">
+            <SideBar book={ this.state.book } />
           </div>
         </div>
       </div>
     );
   }
+}
+
+function SideBar(props) {
+  return (
+    <div className="sidebar">
+      <div>
+        <img src={ props.book.gR_ImageUrlLarge } alt="Cover" width="200px" />
+      </div>
+      <ExternalLinks book={ props.book } />
+      <div className="stats-section">
+        <span>GoodReads</span>
+        <ul>
+          { (props.book.gR_Rating != null) && <li>Rating: { props.book.gR_Rating.toFixed(2) }</li> }
+          { (props.book.gR_RatingCount != null) && <li>Rating Count: { props.book.gR_RatingCount.toLocaleString() }</li> }
+          { (props.book.gR_ReviewCount != null) && <li>Review Count: { props.book.gR_ReviewCount.toLocaleString() }</li> }
+        </ul>
+      </div>
+      <div className="stats-section">
+        <span>Amazon</span>
+        <ul>
+          { (props.book.amz_Rating != null) && <li>Rating: { props.book.amz_Rating.toFixed(1) }</li> }
+          { (props.book.amz_ReviewCount != null) && <li>Review Count: { props.book.amz_ReviewCount.toLocaleString() }</li> }
+        </ul>
+      </div>
+    </div>
+  );  
 }
 
 export default EditBook;
