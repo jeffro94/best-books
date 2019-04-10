@@ -10,7 +10,7 @@ namespace BooksAPI.Migrations
         {
             // as described in https://github.com/PomeloFoundation/Pomelo.EntityFrameworkCore.MySql/issues/84
             //
-            migrationBuilder.Sql($@"ALTER DATABASE CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;");
+            // migrationBuilder.Sql($@"ALTER DATABASE CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;");
 
             // generated migration code
 
