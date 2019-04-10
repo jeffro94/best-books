@@ -3,10 +3,12 @@ const xml2js = require("xml2js");
 const fetch = require("node-fetch");
 const util = require('util');
 const cors = require('cors');
-const apiKey = require('./apiKey');
 
 const app = express();
-const port = 3010;
+
+require('dotenv').config();
+
+const port = process.env.PORT || 3010;
 
 // ref: https://stackoverflow.com/questions/35756453/promisifying-xml2js-parse-function-es6-promises
 xml2js.parseStringPromise = util.promisify(xml2js.parseString);
@@ -19,7 +21,7 @@ app.options('*', cors());
 
 app.get('/book/:bookId', getBook);
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+app.listen(port, () => console.log(`Example app listening on port ${ port }!`));
 
 async function getBook(req, res) {
     let book;
@@ -42,11 +44,11 @@ async function getBook(req, res) {
 }
 
 async function getBookFromGR(bookId) {
-    const url = `https://www.goodreads.com/book/show/${bookId}?key=${apiKey}`;
+    const url = `https://www.goodreads.com/book/show/${ bookId }?key=${ process.env.GOODREADS_API_KEY }`;
 
     const response = await fetch(url);
 
-    if (!response.ok) throw new Error(`GR API Call returned error: ${response.status}`);
+    if (!response.ok) throw new Error(`GR API Call returned error: ${ response.status }`);
     
     const responseText = await response.text()
     
