@@ -8,6 +8,12 @@ namespace BooksAPI.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            // as described in https://github.com/PomeloFoundation/Pomelo.EntityFrameworkCore.MySql/issues/84
+            //
+            migrationBuilder.Sql($@"ALTER DATABASE CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;");
+
+            // generated migration code
+
             migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
@@ -42,7 +48,8 @@ namespace BooksAPI.Migrations
                     WhenHeardAbout = table.Column<string>(nullable: true),
                     WikipediaURL = table.Column<string>(nullable: true),
                     Notes = table.Column<string>(nullable: true),
-                    Categories = table.Column<string>(nullable: true),
+                    Tags = table.Column<string>(nullable: true),
+                    DateCompleted = table.Column<DateTime>(nullable: true),
                     FlagRead = table.Column<bool>(nullable: false),
                     FlagCurrentlyReading = table.Column<bool>(nullable: false),
                     FlagPartiallyRead = table.Column<bool>(nullable: false),
@@ -63,17 +70,15 @@ namespace BooksAPI.Migrations
                     GR_Status = table.Column<string>(nullable: true),
                     GR_StatusMessage = table.Column<string>(nullable: true),
                     GR_OriginalPublicationYear = table.Column<int>(nullable: true),
+                    GR_ImageUrlSmall = table.Column<string>(nullable: true),
+                    GR_ImageUrlMedium = table.Column<string>(nullable: true),
+                    GR_ImageUrlLarge = table.Column<string>(nullable: true),
                     Amz_Rating = table.Column<float>(nullable: true),
                     Amz_ReviewCount = table.Column<int>(nullable: true),
                     Amz_Status = table.Column<string>(nullable: true),
                     Amz_StatusMessage = table.Column<string>(nullable: true),
                     Amz_SyncDate = table.Column<DateTime>(nullable: true),
-                    Temp1 = table.Column<string>(nullable: true),
-                    Temp2 = table.Column<string>(nullable: true),
-                    Temp3 = table.Column<string>(nullable: true),
-                    Temp4 = table.Column<string>(nullable: true),
-                    Temp5 = table.Column<string>(nullable: true),
-                    Demo = table.Column<bool>(nullable: false),
+                    Private = table.Column<bool>(nullable: false),
                     DateCreated = table.Column<DateTime>(nullable: true),
                     DateModified = table.Column<DateTime>(nullable: true)
                 },
@@ -88,42 +93,14 @@ namespace BooksAPI.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Tags",
-                columns: table => new
-                {
-                    TagId = table.Column<int>(nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true),
-                    BookId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Tags", x => x.TagId);
-                    table.ForeignKey(
-                        name: "FK_Tags_Books_BookId",
-                        column: x => x.BookId,
-                        principalTable: "Books",
-                        principalColumn: "BookId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_Books_UserId",
                 table: "Books",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Tags_BookId",
-                table: "Tags",
-                column: "BookId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Tags");
-
             migrationBuilder.DropTable(
                 name: "Books");
 
