@@ -133,13 +133,11 @@ const BookFormFields = (props) => (
             checked={ props.book.ownOtherAudio } onChange={ (e) => props.onChange(e) }/>
           <label className="form-check-label" htmlFor="ownOtherAudio">Other Audio</label>
         </div>
-        { process.env.REACT_APP_PRIVATE_MODE === "false" &&
-        <div className="form-check">
+        <div className={ `form-check ${ process.env.REACT_APP_PRIVATE_MODE !== "false" ? "d-none" : "" }` }>
           <input className="form-check-input" type="checkbox" id="private" 
             checked={ props.book.private } onChange={ (e) => props.onChange(e) }/>
           <label className="form-check-label" htmlFor="private">Private</label>
         </div>
-        }
       </div>
     </div>
   </div>
