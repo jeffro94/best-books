@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import TagManager from "./TagManager"
 
 const BookFormFields = (props) => (
@@ -48,7 +48,7 @@ const BookFormFields = (props) => (
           value={ props.book.wikipediaURL } onChange={ (e) => props.onChange(e) }/>
       </div>
     </div>
-    <TagManager tags={ props.book.tags ? props.book.tags.split(",") : [] } onChange={ props.onTagChange } />
+    <TagManager currentUser={ props.currentUser } tags={ props.book.tags ? props.book.tags.split(",") : [] } onChange={ props.onTagChange } />
     <div className="form-group row">
       <label htmlFor="whereHeardAbout" className="col-sm-2 col-form-label">Where I heard about it</label>
       <div className="col-sm-10">

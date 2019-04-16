@@ -10,8 +10,9 @@
 
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import BookFormFields, { getEmptyBook } from "../SharedComponents/BookFormFields";
+import BookFormFields, { getEmptyBook } from "../_components/BookFormFields";
 import "./AddBook.css";
+import { bookService } from "../_services";
 
 class AddBook extends Component {
   constructor(props) {
@@ -23,6 +24,8 @@ class AddBook extends Component {
   }
 
   componentDidMount() {
+    document.title = "Best Books! - Add";
+
     // fix scrolling; scroll to top on mount.
     //   ref: https://github.com/ReactTraining/react-router/blob/master/packages/react-router-dom/docs/guides/scroll-restoration.md
     //
@@ -83,19 +86,14 @@ class AddBook extends Component {
 
     const data = this.state.book;
     
-    data.userId = process.env.REACT_APP_USER_ID; // hard-coded. todo: change to logged in userId
+    data.userId = this.props.currentUser.userId;
 
-    fetch("https://localhost:44344/api/books", {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers:{ 'Content-Type': 'application/json' }
-    })
-    .then(response => response.json())
-    .then(result => {
-      // redirect to the edit page with the new ID right away
-      this.props.history.push(`/edit/${result.bookId}`);
-    })
-    .catch(error => console.error("Error on create: ", error));
+    bookService.addBook(this.state.book)
+      .then(result => {
+        // redirect to the edit page with the new ID right away
+        this.props.history.push(`/edit/${result.bookId}`);
+      })
+      .catch(error => console.error("Error on create: ", error));
 
   }
 
@@ -135,7 +133,7 @@ class AddBook extends Component {
           </div>
         </div>
         <form className="mt-3" onSubmit={ this.handleSubmit }>
-          <BookFormFields book={ this.state.book } onChange={ this.handleUserInputForBook } onTagChange={ this.handleTagChange } />
+          <BookFormFields currentUser={ this.props.currentUser } book={ this.state.book } onChange={ this.handleUserInputForBook } onTagChange={ this.handleTagChange } />
           <div className="form-group row">
             <div className="col-sm-10 offset-sm-2">
               <button type="submit" className="btn btn-primary" disabled={ process.env.REACT_APP_DEMO_MODE !== "false" }>Save</button>

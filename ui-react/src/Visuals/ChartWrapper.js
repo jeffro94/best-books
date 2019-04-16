@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import ToolTipsy from "./ToolTipsy";
 import "./Charts.css";
+import { bookService } from "../_services";
 
 class ChartWrapper extends Component {
   // State can also be initialized using a class property
@@ -18,11 +19,22 @@ class ChartWrapper extends Component {
   }
 
   componentDidMount() {
-    fetch(`https://localhost:44344/api/books/userId/${ process.env.REACT_APP_USER_ID }`)
-      .then(response => response.json())
+    if (this.props.currentUser) {
+      this.getBooks();
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.currentUser && this.props.currentUser !== prevProps.currentUser) {
+      this.getBooks();
+    }
+  }
+
+  getBooks() {
+    bookService.getAllByUserId(this.props.currentUser.userId)
       .then(result => {
         this.setState({
-          books: result.filter(book => process.env.REACT_APP_PRIVATE_MODE === "false" || !book.private)
+          books: result
         });
       });
   }

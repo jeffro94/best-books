@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "./Next.css";
+import { bookService } from "../_services";
 
 class Next extends Component {
   constructor(props) {
@@ -10,17 +11,22 @@ class Next extends Component {
   }
 
   componentDidMount() {
-    fetch(`https://localhost:44344/api/books/userId/${ process.env.REACT_APP_USER_ID }`)
-      .then(response => response.json())
+    document.title = "Best Books! - Up Next";
+
+    if (this.props.currentUser) {
+      this.getBooks();
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.currentUser && this.props.currentUser !== prevProps.currentUser) {
+      this.getBooks();
+    }
+  }
+
+  getBooks() {
+    bookService.getAllByUserId(this.props.currentUser.userId)
       .then(result => {
-        // filter out books with private flag, if in private mode
-        if (process.env.REACT_APP_PRIVATE_MODE !== "false" && result) {
-          result = result.filter(book => !book.private);
-        }
-
-        //default sort by title
-        result.sort((a,b) => a.title > b.title ? 1 : -1); 
-
         this.setState({
           books: result
         });

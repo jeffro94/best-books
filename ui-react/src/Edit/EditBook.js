@@ -8,10 +8,11 @@
  * 
  */
 
-import React, { Component } from 'react';
-import ExternalLinks from './ExternalLinks';
-import BookFormFields, { getEmptyBook } from "../SharedComponents/BookFormFields";
+import React, { Component } from "react";
+import ExternalLinks from "./ExternalLinks";
+import BookFormFields, { getEmptyBook } from "../_components/BookFormFields";
 import "./EditBook.css";
+import { bookService } from "../_services";
 
 class EditBook extends Component {
   constructor(props) {
@@ -26,8 +27,7 @@ class EditBook extends Component {
   componentDidMount() {
     window.scrollTo(0, 0); // fix scrolling; scroll to top on mount. ref: https://github.com/ReactTraining/react-router/blob/master/packages/react-router-dom/docs/guides/scroll-restoration.md
 
-    fetch(`https://localhost:44344/api/books/${this.state.bookId}`)
-      .then(response => response.json())
+    bookService.getById(this.state.bookId)
       .then(result => {
         // set any null fields to empty string..
         // ref: https://stackoverflow.com/questions/921789/how-to-loop-through-a-plain-javascript-object-with-the-objects-as-members
@@ -36,10 +36,12 @@ class EditBook extends Component {
           if (result[key] === null) result[key] = "";
         });
 
+        document.title = `Best Books! - Edit: ${ result.title }`;
+
         this.setState({ book: result });
       });
   } 
-
+  
   handleUserInput = (e) => {
     const id = e.target.id;
     let value;
@@ -77,7 +79,7 @@ class EditBook extends Component {
     // sort tags in alphabetical order. why is sorting so complicated?
     // https://stackoverflow.com/questions/8996963/how-to-perform-case-insensitive-sorting-in-javascript
     //
-    newTags.sort((a, b) => a.localeCompare(b, undefined, {sensitivity: 'base'}));
+    newTags.sort((a, b) => a.localeCompare(b, undefined, {sensitivity: "base"}));
     newBook.tags = newTags.join(",");
 
     this.setState({
@@ -88,13 +90,7 @@ class EditBook extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
 
-    const data = this.state.book; // do I need to modify this somehow b4 submitting? dealing w/ null, empty strings...
-
-    fetch(`https://localhost:44344/api/books/${this.state.bookId}`, {
-      method: "PUT",
-      body: JSON.stringify(data), // data can be `string` or {object}!
-      headers:{ 'Content-Type': 'application/json' }
-    })
+    bookService.updateBook(this.state.bookId, this.state.book)
     .then(res => {
       // show the success message, then hide it after 2 seconds
       this.setState({ showSuccessMessage: true });
@@ -110,7 +106,7 @@ class EditBook extends Component {
         <div className="row mt-3">
           <div className="col-lg-10">
             <form onSubmit={ this.handleSubmit }>
-              <BookFormFields book={ this.state.book } onChange={ this.handleUserInput } onTagChange={ this.handleTagChange } />
+              <BookFormFields currentUser={ this.props.currentUser } book={ this.state.book } onChange={ this.handleUserInput } onTagChange={ this.handleTagChange } />
               <div className="form-group row">
                 <div className="col-sm-10 offset-sm-2">
                   <button type="submit" className="btn btn-primary" disabled={ process.env.REACT_APP_DEMO_MODE !== "false" }>Save</button>
@@ -138,16 +134,16 @@ function SideBar(props) {
       <div className="stats-section">
         <span>GoodReads</span>
         <ul>
-          { (props.book.gR_Rating != null) && <li>Rating: { props.book.gR_Rating.toFixed(2) }</li> }
-          { (props.book.gR_RatingCount != null) && <li>Rating Count: { props.book.gR_RatingCount.toLocaleString() }</li> }
-          { (props.book.gR_ReviewCount != null) && <li>Review Count: { props.book.gR_ReviewCount.toLocaleString() }</li> }
+          <li>Rating: { props.book.gR_Rating && props.book.gR_Rating.toFixed(2) }</li>
+          <li>Rating Count: { props.book.gR_RatingCount && props.book.gR_RatingCount.toLocaleString() }</li>
+          <li>Review Count: { props.book.gR_ReviewCount && props.book.gR_ReviewCount.toLocaleString() }</li>
         </ul>
       </div>
       <div className="stats-section">
         <span>Amazon</span>
         <ul>
-          { (props.book.amz_Rating != null) && <li>Rating: { props.book.amz_Rating.toFixed(1) }</li> }
-          { (props.book.amz_ReviewCount != null) && <li>Review Count: { props.book.amz_ReviewCount.toLocaleString() }</li> }
+          <li>Rating: { props.book.amz_Rating && props.book.amz_Rating.toFixed(1) }</li>
+          <li>Review Count: { props.book.amz_ReviewCount && props.book.amz_ReviewCount.toLocaleString() }</li>
         </ul>
       </div>
     </div>

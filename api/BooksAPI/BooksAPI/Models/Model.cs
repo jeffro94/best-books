@@ -89,9 +89,20 @@ namespace BooksAPI.Models
         public int UserId { get; set; }
         public string Username { get; set; }
 
+        public byte[] PasswordHash { get; set; }
+        public byte[] PasswordSalt { get; set; }
+
+        public bool IsAdmin { get; set; }
+
         public DateTime? DateCreated { get; set; }
 
         public List<Book> Books { get; set; }
+    }
+
+    public static class Role
+    {
+        public const string Admin = "Admin";
+        public const string User = "User";
     }
 
 }

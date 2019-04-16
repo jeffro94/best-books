@@ -3,14 +3,16 @@ using System;
 using BooksAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BooksAPI.Migrations
 {
     [DbContext(typeof(BooksContext))]
-    partial class BooksContextModelSnapshot : ModelSnapshot
+    [Migration("20190410185045_AnUpdate1")]
+    partial class AnUpdate1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -130,11 +132,9 @@ namespace BooksAPI.Migrations
 
                     b.Property<DateTime?>("DateCreated");
 
-                    b.Property<bool>("IsAdmin");
+                    b.Property<string>("Password");
 
-                    b.Property<byte[]>("PasswordHash");
-
-                    b.Property<byte[]>("PasswordSalt");
+                    b.Property<string>("Token");
 
                     b.Property<string>("Username");
 

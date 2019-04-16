@@ -22,6 +22,10 @@ class Visuals extends Component {
     };
   }
 
+  componentDidMount() {
+    document.title = "Best Books! - Visualizations";
+  }
+
   incrementItem() {
     this.setState({ selectedItem: this.state.selectedItem === this.charts.length - 1 ? 0 : this.state.selectedItem + 1 });
   }
@@ -37,7 +41,7 @@ class Visuals extends Component {
           <div className="left-arrow" onClick={ () => this.decrementItem() }>⬅</div>
         </div>
         <div className="col-xs-10 col-lg-8">
-          <ChartWrapper chart={ this.charts[this.state.selectedItem] } />
+          <ChartWrapper chart={ this.charts[this.state.selectedItem] } currentUser={ this.props.currentUser } />
         </div>
         <div className="col-xs-1 col-lg-2">
           <div className="right-arrow" onClick={ () => this.incrementItem() }>➡</div>

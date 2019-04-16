@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
-import { Typeahead } from 'react-bootstrap-typeahead'
-import 'react-bootstrap-typeahead/css/Typeahead.css';
-import 'react-bootstrap-typeahead/css/Typeahead-bs4.css';
+import React, { Component } from "react";
+import { bookService } from "../_services";
+import { Typeahead } from "react-bootstrap-typeahead"
+import "react-bootstrap-typeahead/css/Typeahead.css";
+import "react-bootstrap-typeahead/css/Typeahead-bs4.css";
 
 class TagManager extends Component {
   constructor(props) {
@@ -12,8 +13,19 @@ class TagManager extends Component {
   }
 
   componentDidMount() {
-    fetch(`https://localhost:44344/api/books/UserId/${ process.env.REACT_APP_USER_ID }/tags`)
-      .then(response => response.json())
+    if (this.props.currentUser) {
+      this.getAvailableTags();
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.currentUser && this.props.currentUser !== prevProps.currentUser) {
+      this.getAvailableTags();
+    }
+  }
+
+  getAvailableTags() {
+    bookService.getTagsByUserId(this.props.currentUser.userId)
       .then(result => this.setState({ availableTags: result }));
   }
 

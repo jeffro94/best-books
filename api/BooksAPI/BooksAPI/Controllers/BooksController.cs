@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using BooksAPI.Models;
 
 namespace BooksAPI.Controllers
 {
+    [Authorize]
     [Produces("application/json")]
     [Route("api/Books")]
     public class BooksController : Controller
@@ -22,6 +23,7 @@ namespace BooksAPI.Controllers
 
         // GET: api/Books
         [HttpGet]
+        [Authorize(Roles = Role.Admin)]
         public IEnumerable<Book> GetBooks()
         {
             return _context.Books;
@@ -41,6 +43,13 @@ namespace BooksAPI.Controllers
             if (book == null)
             {
                 return NotFound();
+            }
+
+            // users can only get their own books
+            var currentUserId = int.Parse(User.Identity.Name);
+            if (book.UserId != currentUserId && !User.IsInRole(Role.Admin))
+            {
+                return Forbid();
             }
 
             return Ok(book);
@@ -63,6 +72,13 @@ namespace BooksAPI.Controllers
                 return NotFound();
             }
 
+            // users can only get their own books
+            var currentUserId = int.Parse(User.Identity.Name);
+            if (userId != currentUserId && !User.IsInRole(Role.Admin))
+            {
+                return Forbid();
+            }
+
             var books = await _context.Books.Where(book => book.UserId.Equals(userId)).ToListAsync();
 
             return Ok(books);
@@ -70,8 +86,14 @@ namespace BooksAPI.Controllers
 
         // GET: api/Tags/distinct
         [HttpGet("UserId/{userId}/tags")]
-        public async Task<List<String>> GetDistinctTags([FromRoute] int userId)
+        public async Task<ActionResult<List<String>>> GetDistinctTags([FromRoute] int userId)
         {
+            var currentUserId = int.Parse(User.Identity.Name);
+            if (userId != currentUserId && !User.IsInRole(Role.Admin))
+            {
+                return Forbid();
+            }
+
             List<string> rawValues = await _context.Books
                 .Where(book => book.UserId.Equals(userId) && !String.IsNullOrWhiteSpace(book.Tags))
                 .Select(book => book.Tags).ToListAsync();
@@ -96,9 +118,25 @@ namespace BooksAPI.Controllers
                 return BadRequest(ModelState);
             }
 
+            // book object Id must match url param Id
             if (id != book.BookId)
             {
                 return BadRequest();
+            }
+
+            var dbBook = await _context.Books.Select(b => new { b.BookId, b.UserId }).SingleOrDefaultAsync(b => b.BookId.Equals(id));
+
+            // specfied book must exist
+            if (dbBook == null)
+            {
+                return NotFound();
+            }
+
+            // users can only update books belonging to themselves
+            var currentUserId = int.Parse(User.Identity.Name);
+            if ((dbBook.UserId != currentUserId || book.UserId != currentUserId) && !User.IsInRole(Role.Admin))
+            {
+                return Forbid();
             }
 
             book.DateModified = DateTime.Now;
@@ -130,6 +168,13 @@ namespace BooksAPI.Controllers
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
+            }
+
+            // users can only create books for themselves
+            var currentUserId = int.Parse(User.Identity.Name);
+            if (book.UserId != currentUserId && !User.IsInRole(Role.Admin))
+            {
+                return Forbid();
             }
 
             book.DateModified = DateTime.Now;
