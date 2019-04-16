@@ -2,7 +2,7 @@ import React from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
-import { authenticationService } from "../_services";
+import { authenticationService, userService } from "../_services";
 
 class Register extends React.Component {
   constructor(props) {
@@ -39,10 +39,17 @@ class Register extends React.Component {
                 .oneOf([Yup.ref("password"), null], "Passwords must match")
                 .required("Confirm password is required")
             })}
-            onSubmit={({ username, password, confirmPassword }, { setStatus, setSubmitting }) => {
+            onSubmit={async ({ username, password }, { setStatus, setSubmitting }) => {
               setStatus();
-              // do some stuff
-
+              try {
+                await userService.register(username, password);
+                await authenticationService.login(username, password);
+                this.props.history.push("/");
+              }
+              catch(error) {
+                setSubmitting(false);
+                setStatus(error.message);
+              }
             }}
             render={({ errors, status, touched, isSubmitting }) => (
               <Form>
