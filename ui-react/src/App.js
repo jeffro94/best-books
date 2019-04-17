@@ -41,7 +41,7 @@ class App extends Component {
           <header>
             <BooksNavBar currentUser={ this.state.currentUser } />
           </header>
-          <main className="pb-3">
+          <main className="pb-4">
             <Container>
               { process.env.REACT_APP_DEMO_MODE !== "false" &&
               <Alert variant="warning">

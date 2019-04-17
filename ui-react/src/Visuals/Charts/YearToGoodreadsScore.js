@@ -33,7 +33,7 @@ class YearToGoodreadsScore extends React.Component {
     const padding = 30;
 
     // filter any books published earlier than 1800 as they skew the chart. to-do: show a message
-    const data = this.props.books.filter(book => book.yearPublished >= 1800);
+    const data = this.props.books.filter(book => book.gR_RatingCount && book.gR_Rating && book.yearPublished && book.yearPublished >= 1800);
 
     // create scale functions
     const xScale = d3.scaleLinear()

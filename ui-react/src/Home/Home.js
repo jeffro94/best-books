@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { Table, Collapse } from "react-bootstrap";
+import { Table } from "react-bootstrap";
 import "./Home.css";
-import { TableColumns } from "./HomeConfig"
+import { TableColumns } from "./HomeConfig";
+import TableSettings from "./TableSettings";
 import { StatusFilters, OwnershipFilters} from "./FiltersConfig"
-import { Filter, TagFilter } from "./Filters";
 import { bookService } from "../_services";
 
 class Home extends Component {
@@ -215,7 +215,7 @@ class Home extends Component {
 
     return (
       <div>
-        <SettingsComponent 
+        <TableSettings 
           columns={ columns } onColumnChange={ this.handleColumnChange } 
           filters={ filters } onFilterChange={ this.handleFilterChange } 
           setFilterEnabledStatus={ this.setFilterEnabledStatus } 
@@ -231,6 +231,9 @@ class Home extends Component {
             { tableRows }
           </tbody>
         </Table>
+        { (filteredBooks.length === 0) &&
+          <p className="text-center"><em>No books match the current filters.</em> <Link to="/add">Add a new book</Link></p>
+        }
       </div>
     );
   }
@@ -267,81 +270,6 @@ const BookTableRow = props => {
 
   return <tr>{ result }</tr>;
 };
-
-class SettingsComponent extends Component {
-  constructor(props, context) {
-    super(props, context);
-
-    this.state = {
-      open: false
-    };
-  }
-
-  render() {
-    const { open } = this.state;
-
-    return (
-      <div>
-        <div className="settings-card card">
-          <div className="card-header">
-              <span role="img" title="Open Settings" 
-                aria-label="Open Settings"
-                aria-controls="example-collapse-text2"
-                aria-expanded={ open }
-                onClick={() => this.setState({ open: !open })}
-              >⚙️</span>
-          </div>
-          <Collapse in={ open }>
-            <div id="example-collapse-text2">
-              <div className="card-body row">
-                <div className="col-lg-6">
-                  <ColumnSettingsComponent columns={ this.props.columns } onColumnChange={ this.props.onColumnChange }/>
-                </div>
-                <div className="col-lg-6">
-                  <h4>Filter</h4>
-                  <Filter
-                    categoryName="Status" options={ this.props.filters.find(f => f.category === "Status").options } 
-                    enabled={ this.props.filters.find(f => f.category === "Status").enabled } 
-                    setFilterEnabledStatus={ this.props.setFilterEnabledStatus } onFilterChange={ this.props.onFilterChange } />
-                  <Filter 
-                    categoryName="Ownership" options={ this.props.filters.find(f => f.category === "Ownership").options } 
-                    enabled={ this.props.filters.find(f => f.category === "Ownership").enabled } 
-                    setFilterEnabledStatus={ this.props.setFilterEnabledStatus } onFilterChange={ this.props.onFilterChange } />
-                  <TagFilter enabled={ this.props.tagFilters.length > 0 } selected={ this.props.tagFilters } availableTags={ this.props.availableTags }
-                    onChange={ this.props.onTagFilterChange } clearTagFilters={ this.props.clearTagFilters } />
-                </div>
-              </div>
-            </div>
-          </Collapse>
-        </div>
-      </div>
-    );
-  }
-}
-
-class ColumnSettingsComponent extends Component {
-  render() {
-    const inputs =  this.props.columns.map(col => (
-      <div className="form-check" key={ col.key }>
-        <input className="form-check-input" type="checkbox" id={ col.key } disabled={ col.disabled }
-          checked={ col.selected } onChange={ this.props.onColumnChange } />
-        <label className="form-check-label" htmlFor={ col.key }>{ `${ col.headerAbbreviation ? col.headerAbbreviation + ' ' : '' }${col.name}` }</label>
-      </div>
-    ));
-
-    return (
-      <div>
-        <h4>Columns</h4>
-        <div className="form-group">
-          { inputs }
-        </div>
-        <div className="alert alert-light d-xl-none">
-          <em>Some columns will be automatically hidden on small window sizes and mobile devices.</em>
-        </div>
-      </div>
-    );
-  }
-}
 
 
 export default Home;

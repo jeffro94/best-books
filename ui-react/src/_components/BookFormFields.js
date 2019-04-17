@@ -164,7 +164,8 @@ const getEmptyBook = () => ({
   ownKindleSample: false,
   ownPDF: false,
   ownAudible: false,
-  ownOtherAudio: false
+  ownOtherAudio: false,
+  private: false
 });
 
 export default BookFormFields;

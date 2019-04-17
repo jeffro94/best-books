@@ -32,7 +32,8 @@ class AmazonScoreToCount extends React.Component {
     const h = 400;
     const padding = 30;
 
-    const data = this.props.books;
+    // books must have relavent data fields to be charted
+    const data = this.props.books.filter(book => book.amz_Rating && book.amz_ReviewCount);
 
     // create scale functions
     const xScale = d3.scaleLinear()
