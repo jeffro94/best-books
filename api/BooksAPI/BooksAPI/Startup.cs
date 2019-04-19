@@ -19,6 +19,7 @@ using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using AutoMapper;
 using BooksAPI.Helpers;
 using BooksAPI.Services;
+using Microsoft.AspNetCore.HttpOverrides;
 
 namespace BooksAPI
 {
@@ -78,6 +79,12 @@ namespace BooksAPI
                 };
             });
 
+            // https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/proxy-load-balancer?view=aspnetcore-2.2
+            services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+            });
+
             // configure DI for application services
             services.AddScoped<IUserService, UserService>();
 
@@ -86,6 +93,8 @@ namespace BooksAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseForwardedHeaders();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -101,7 +110,6 @@ namespace BooksAPI
                     .WithMethods("GET", "POST", "PUT")
                     .AllowAnyHeader());
 
-            app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseMvc();
 

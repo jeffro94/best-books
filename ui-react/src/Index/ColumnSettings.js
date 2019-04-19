@@ -16,7 +16,7 @@ export default (props) => {
         { inputs }
       </div>
       <div className="alert alert-light d-xl-none">
-        <em>Some columns will be automatically hidden on small window sizes and mobile devices.</em>
+        <em>Some columns will be automatically hidden on small screen sizes.</em>
       </div>
     </div>
   );

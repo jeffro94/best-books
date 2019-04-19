@@ -97,7 +97,7 @@ const BooksNavBar = withRouter(props => {
           </Nav>
           <Nav>
             { props.currentUser ?
-            <button type="button"onClick={ logout } className="nav-link btn btn-link">Logout</button> :
+            <button type="button"onClick={ logout } className="nav-link btn btn-link text-left">Logout</button> :
             <>
               <NavLink to="/register" className="nav-link">Register</NavLink>
               <NavLink to="/login" className="nav-link">Login</NavLink>
