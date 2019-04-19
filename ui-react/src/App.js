@@ -72,7 +72,7 @@ class App extends Component {
 const BooksNavBar = withRouter(props => {
   function logout() {
     authenticationService.logout();
-    props.history.push('/login');
+    props.history.push('/');
   }
 
   return (
