@@ -1,7 +1,9 @@
-import { handleResponse } from "../_helpers";
+import { Role, handleResponse } from "../_helpers";
 
 export const userService = {
-  register
+  register,
+  isAdminUser,
+  isDemoUser
 };
 
 function register(username, password) {
@@ -14,4 +16,12 @@ function register(username, password) {
   return fetch(`${ process.env.REACT_APP_API_URL }/api/users/register`, requestOptions)
     .then(handleResponse);
 
+}
+
+function isAdminUser(user) {
+  return user && user.role === Role.Admin;
+}
+
+function isDemoUser(user) {
+  return user && user.role === Role.Demo;
 }

@@ -4,8 +4,7 @@ import { Navbar, Nav, Container, Alert } from "react-bootstrap";
 import "./App.css";
 
 import { PrivateRoute } from "./_components/PrivateRoute";
-import { Role } from "./_helpers";
-import { authenticationService } from "./_services";
+import { authenticationService, userService } from "./_services";
 
 import AddBook from "./Add/AddBook";
 import EditBook from "./Edit/EditBook";
@@ -21,17 +20,13 @@ class App extends Component {
     super(props);
 
     this.state = {
-      currentUser: null,
-      isAdmin: false,
-      isDemo: false
+      currentUser: null
     };
   }
 
   componentDidMount() {
     authenticationService.currentUser.subscribe(x => this.setState({
-      currentUser: x,
-      isAdmin: x && x.role === Role.Admin,
-      isDemo: x && x.role === Role.Demo
+      currentUser: x
     }));
   }
 
@@ -44,7 +39,7 @@ class App extends Component {
           </header>
           <main className="pb-4">
             <Container>
-              { this.state.isDemo && <DemoMessage /> }
+              { userService.isDemoUser(this.state.currentUser) && <DemoMessage /> }
               <Route exact path="/" render={ (props) => <Home {...props} currentUser={ this.state.currentUser } /> } />
               <PrivateRoute path="/add" component={ AddBook } currentUser={ this.state.currentUser } />
               <PrivateRoute path="/edit/:bookId" component={ EditBook } currentUser={ this.state.currentUser } />

@@ -12,7 +12,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import BookFormFields, { getEmptyBook } from "../_components/BookFormFields";
 import "./AddBook.css";
-import { bookService } from "../_services";
+import { userService, bookService } from "../_services";
 
 class AddBook extends Component {
   constructor(props) {
@@ -136,7 +136,7 @@ class AddBook extends Component {
           <BookFormFields currentUser={ this.props.currentUser } book={ this.state.book } onChange={ this.handleUserInputForBook } onTagChange={ this.handleTagChange } />
           <div className="form-group row">
             <div className="col-sm-10 offset-sm-2">
-              <button type="submit" className="btn btn-primary" disabled={ process.env.REACT_APP_DEMO_MODE !== "false" }>Save</button>
+              <button type="submit" className="btn btn-primary" disabled={ userService.isDemoUser(this.props.currentUser) }>Save</button>
               <span id="successMessage" className="alert alert-success ml-2" role="alert" style={ { opacity: this.state.showSuccessMessage ? 100 : 0 } }>Saved succesfully!</span>
             </div>
           </div>
