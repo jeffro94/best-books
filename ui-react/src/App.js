@@ -11,7 +11,7 @@ import EditBook from "./Edit/EditBook";
 import Home from "./Home/Home";
 import Index from "./Index/Index";
 import Login from "./Login/Login";
-import Next from "./Next/Next";
+//import Next from "./Next/Next";
 import Register from "./Register/Register";
 import Visuals from "./Visuals/Visuals";
 
@@ -44,7 +44,7 @@ class App extends Component {
               <PrivateRoute path="/add" component={ AddBook } currentUser={ this.state.currentUser } />
               <PrivateRoute path="/edit/:bookId" component={ EditBook } currentUser={ this.state.currentUser } />
               <PrivateRoute path="/index" component={ Index } currentUser={ this.state.currentUser } />
-              <PrivateRoute path="/next" component={ Next } currentUser={ this.state.currentUser } />
+              {/* }<PrivateRoute path="/upnext" component={ UpNext } currentUser={ this.state.currentUser } /> */}
               <PrivateRoute path="/visuals" component={ Visuals } currentUser={ this.state.currentUser } />
               <Route path="/register" component={ Register } />
               <Route path="/login" component={ Login } />
@@ -91,7 +91,7 @@ const BooksNavBar = withRouter(props => {
             <>
               <NavLink to="/index" className="nav-link">My Books</NavLink>
               <NavLink to="/add" className="nav-link">Add a Book</NavLink>
-              <NavLink to="/next" className="nav-link">Up Next</NavLink>
+              {/* <NavLink to="/next" className="nav-link">Up Next</NavLink> */}
               <NavLink to="/visuals" className="nav-link">Visualizations</NavLink>
             </> }
           </Nav>
