@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Table } from "react-bootstrap";
-import "./Home.css";
-import { TableColumns } from "./HomeConfig";
+import "./Index.css";
+import { TableColumns } from "./IndexConfig";
 import TableSettings from "./TableSettings";
 import { StatusFilters, OwnershipFilters} from "./FiltersConfig"
 import { bookService } from "../_services";
 
-class Home extends Component {
+class Index extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -33,7 +33,7 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    document.title = "Best Books! - Home";
+    document.title = "Best Books! - Index";
 
     if (this.props.currentUser) {
       this.getBooks();
@@ -272,4 +272,4 @@ const BookTableRow = props => {
 };
 
 
-export default Home;
+export default Index;

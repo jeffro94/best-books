@@ -7,7 +7,7 @@ import { PrivateRoute } from "./_components/PrivateRoute";
 import { Role } from "./_helpers";
 import { authenticationService } from "./_services";
 
-import Home from "./Home/Home";
+import Index from "./Index/Index";
 import AddBook from "./Add/AddBook";
 import EditBook from "./Edit/EditBook";
 import Login from "./Login/Login";
@@ -47,7 +47,7 @@ class App extends Component {
               <Alert variant="warning">
                 <em>Note: This application is in read-only demo mode. Updates are not allowed but have a look around!</em> 
               </Alert> }
-              <PrivateRoute exact path="/" component={ Home } currentUser={ this.state.currentUser } />
+              <PrivateRoute exact path="/" component={ Index } currentUser={ this.state.currentUser } />
               <PrivateRoute path="/add" component={ AddBook } currentUser={ this.state.currentUser } />
               <PrivateRoute path="/edit/:bookId" component={ EditBook } currentUser={ this.state.currentUser } />
               <PrivateRoute path="/next" component={ Next } currentUser={ this.state.currentUser } />
@@ -95,7 +95,7 @@ const BooksNavBar = withRouter(props => {
           <Nav className="mr-auto">
           { props.currentUser && 
             <>
-              <NavLink exact to="/" className="nav-link" >Home</NavLink>
+              <NavLink exact to="/" className="nav-link" >Index</NavLink>
               <NavLink to="/add" className="nav-link" >Add a Book</NavLink>
               <NavLink to="/next" className="nav-link" >Up Next</NavLink>
               <NavLink to="/visuals" className="nav-link" >Visualizations</NavLink>
