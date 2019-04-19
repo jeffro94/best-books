@@ -2,6 +2,7 @@ import { authHeader, handleResponse } from "../_helpers";
 
 export const bookService = {
   getAllByUserId,
+  getBookCountByUserId,
   getById,
   getTagsByUserId,
   addBook,
@@ -23,6 +24,11 @@ function getAllByUserId(userId) {
 
       return result;
     });
+}
+
+function getBookCountByUserId(userId) {
+  const requestOptions = { method: "GET", headers: authHeader() };
+  return fetch(`${ process.env.REACT_APP_API_URL }/api/books/userId/${ userId }/count`, requestOptions).then(handleResponse);
 }
 
 function getById(bookId) {

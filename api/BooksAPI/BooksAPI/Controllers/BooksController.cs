@@ -38,7 +38,7 @@ namespace BooksAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var book = await _context.Books.SingleOrDefaultAsync(b => b.BookId.Equals(id));
+            var book = await _context.Books.SingleOrDefaultAsync(b => b.BookId == id);
 
             if (book == null)
             {
@@ -65,7 +65,7 @@ namespace BooksAPI.Controllers
             }
 
             // first make sure the user exists. if not, return 404
-            var userCount = await _context.Users.CountAsync(m => m.UserId == userId);
+            var userCount = await _context.Users.CountAsync(u => u.UserId == userId);
 
             if (userCount == 0)
             {
@@ -79,9 +79,37 @@ namespace BooksAPI.Controllers
                 return Forbid();
             }
 
-            var books = await _context.Books.Where(book => book.UserId.Equals(userId)).ToListAsync();
+            var books = await _context.Books.Where(b => b.UserId == userId).ToListAsync();
 
             return Ok(books);
+        }
+
+        [HttpGet("UserId/{userId}/count")]
+        public async Task<IActionResult> GetBooksCountByUserId([FromRoute] int userId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            // first make sure the user exists. if not, return 404
+            var userCount = await _context.Users.CountAsync(u => u.UserId == userId);
+
+            if (userCount == 0)
+            {
+                return NotFound();
+            }
+
+            // users can only get their own books
+            var currentUserId = int.Parse(User.Identity.Name);
+            if (userId != currentUserId && !User.IsInRole(Role.Admin))
+            {
+                return Forbid();
+            }
+
+            var booksCount = await _context.Books.CountAsync(b => b.UserId == userId);
+
+            return Ok(booksCount);
         }
 
         // GET: api/Tags/distinct
