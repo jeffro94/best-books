@@ -57,7 +57,7 @@ export const TableColumns = [
   {
     key: "wantToReadScore",
     name: "Want to Read Score",
-    selected: true,
+    selected: false,
     attributes: { className: "d-none d-xl-table-cell" },
     headerAttributes: { 
       className: "d-none d-xl-table-cell",

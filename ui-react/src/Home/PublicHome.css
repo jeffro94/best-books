@@ -1,9 +1,3 @@
-img {
+img.example-img {
   max-width: 100%;
-}
-
-.btn-link.btn-anchor {
-  padding: 0;
-  border: 0;
-  vertical-align: baseline;
 }

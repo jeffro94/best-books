@@ -21,7 +21,7 @@ class PublicHome extends Component {
         <p className="mb-3"><strong>Best Books!</strong> is a web application designed to facilitate organization and exploration of your personal library.</p>
         <div className="row mb-3">
           <div className="col-lg-6 offset-lg-3 col-md-8 offset-md-2">
-            <img src="/images/bb_example2.png" alt="Example" />
+            <img className="example-img" src="/images/bb_example2.png" alt="Example" />
           </div>
         </div>
         <p><Link to="/login">Login</Link>, <Link to="/register">register</Link> or <button type="button" className="btn btn-link btn-anchor" onClick={ () => this.loginAsGuest() }>explore as a guest</button> to get started.</p>

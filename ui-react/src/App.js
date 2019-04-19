@@ -44,10 +44,7 @@ class App extends Component {
           </header>
           <main className="pb-4">
             <Container>
-              { process.env.REACT_APP_DEMO_MODE !== "false" &&
-              <Alert variant="warning">
-                <em>Note: This application is in read-only demo mode. Updates are not allowed but have a look around!</em> 
-              </Alert> }
+              { this.state.isDemo && <DemoMessage /> }
               <Route exact path="/" render={ (props) => <Home {...props} currentUser={ this.state.currentUser } /> } />
               <PrivateRoute path="/add" component={ AddBook } currentUser={ this.state.currentUser } />
               <PrivateRoute path="/edit/:bookId" component={ EditBook } currentUser={ this.state.currentUser } />
@@ -114,6 +111,21 @@ const BooksNavBar = withRouter(props => {
         </Navbar.Collapse>
       </Container>
     </Navbar>
+  );
+});
+
+const DemoMessage = withRouter((props) => {
+  const logoutAndRegister = () => {
+    authenticationService.logout();
+    props.history.push('/register');
+  }
+
+  return (
+    <Alert variant="warning">
+      <em>Note: This application is in read-only demo mode. Updates are not allowed but have a look around or </em>
+      <button type="button" className="btn btn-link btn-anchor" onClick={ logoutAndRegister }><em>register</em></button>
+      <em>!</em>
+    </Alert>
   );
 });
 

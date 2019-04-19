@@ -93,6 +93,7 @@ namespace BooksAPI.Models
         public byte[] PasswordSalt { get; set; }
 
         public bool IsAdmin { get; set; }
+        public bool IsDemo { get; set; }
 
         public DateTime? DateCreated { get; set; }
 
@@ -102,6 +103,7 @@ namespace BooksAPI.Models
     public static class Role
     {
         public const string Admin = "Admin";
+        public const string Demo = "Demo";
         public const string User = "User";
     }
 

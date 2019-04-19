@@ -9,6 +9,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.btn-link.btn-anchor {
+  padding: 0;
+  border: 0;
+  vertical-align: baseline;
+}
+
 /* Sticky footer styles */
 html {
   position: relative;

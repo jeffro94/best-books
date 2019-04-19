@@ -45,6 +45,8 @@ namespace BooksAPI.Controllers
             if (user == null)
                 return BadRequest(new { message = "Username or password is incorrect" });
 
+            var userRole = user.IsDemo ? Role.Demo : (user.IsAdmin ? Role.Admin : Role.User);
+
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor
@@ -52,7 +54,7 @@ namespace BooksAPI.Controllers
                 Subject = new ClaimsIdentity(new Claim[]
                 {
                     new Claim(ClaimTypes.Name, user.UserId.ToString()),
-                    new Claim(ClaimTypes.Role, user.IsAdmin ? Role.Admin : Role.User)
+                    new Claim(ClaimTypes.Role, userRole)
                 }),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
@@ -65,6 +67,7 @@ namespace BooksAPI.Controllers
             {
                 user.UserId,
                 user.Username,
+                Role = userRole,
                 Token = tokenString
             });
         }
