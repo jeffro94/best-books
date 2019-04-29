@@ -6,11 +6,11 @@ export const userService = {
   isDemoUser
 };
 
-function register(username, password) {
+function register(username, email, password) {
   const requestOptions = {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ username, password })
+    body: JSON.stringify({ username, email, password })
   };
 
   return fetch(`${ process.env.REACT_APP_API_URL }/api/users/register`, requestOptions)

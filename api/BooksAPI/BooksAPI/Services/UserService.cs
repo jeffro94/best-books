@@ -107,6 +107,7 @@ namespace BooksAPI.Services
 
             // update user properties
             user.Username = userParam.Username;
+            user.Email = userParam.Email;
 
             // update password if it was entered
             if (!string.IsNullOrWhiteSpace(password))

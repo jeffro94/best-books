@@ -27,11 +27,13 @@ class Register extends React.Component {
           <Formik
             initialValues={{
               username: "",
+              email: "",
               password: "",
               confirmPassword: ""
             }}
             validationSchema={Yup.object().shape({ /* https://github.com/jaredpalmer/formik/issues/90 */
               username: Yup.string().required("Username is required"),
+              email: Yup.string().email("Email address is not valid"),
               password: Yup.string()
                 .min(6, "Password must be at least 6 characters long")
                 .required("Password is required"),
@@ -39,10 +41,10 @@ class Register extends React.Component {
                 .oneOf([Yup.ref("password"), null], "Passwords must match")
                 .required("Confirm password is required")
             })}
-            onSubmit={async ({ username, password }, { setStatus, setSubmitting }) => {
+            onSubmit={async ({ username, email, password }, { setStatus, setSubmitting }) => {
               setStatus();
               try {
-                await userService.register(username, password);
+                await userService.register(username, email, password);
                 await authenticationService.login(username, password);
                 this.props.history.push("/");
               }
@@ -57,6 +59,11 @@ class Register extends React.Component {
                   <label htmlFor="username">Username</label>
                   <Field name="username" type="text" className={"form-control" + (errors.username && touched.username ? " is-invalid" : "")} />
                   <ErrorMessage name="username" component="div" className="invalid-feedback" />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="email">Email address (optional)</label>
+                  <Field name="email" type="email" className={"form-control" + (errors.email && touched.email ? " is-invalid" : "")} />
+                  <ErrorMessage name="email" component="div" className="invalid-feedback" />
                 </div>
                 <div className="form-group">
                   <label htmlFor="password">Password</label>
