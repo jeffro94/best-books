@@ -60,6 +60,7 @@ class Index extends Component {
 
   sortColumns(bookPropertyName) {
     const books = this.state.books.slice();
+    const currentColumnConfig = this.state.columns.find(c => c.key === bookPropertyName);
 
     let sortOrder;
 
@@ -70,34 +71,18 @@ class Index extends Component {
       sortOrder = (this.state.sortOrder === "asc") ? "desc" : "asc";
     }
     else {
-      sortOrder = this.state.columns.find(col => col.key === bookPropertyName).defaultSort;
+      sortOrder = currentColumnConfig.defaultSort;
     }
 
-    // cover image required specialized sort algorithm
-    if (bookPropertyName === "coverImage") {
-      books.sort((a,b) => {
-        if (sortOrder === "asc") {
-          if ((a.gR_ImageUrlLarge || a.gR_ImageUrlSmall) && !(b.gR_ImageUrlLarge || b.gR_ImageUrlSmall)) return 1;
-          if (!(a.gR_ImageUrlLarge || a.gR_ImageUrlSmall) && (b.gR_ImageUrlLarge || b.gR_ImageUrlSmall)) return -1;
-          else return 0;
-        }
-        else {
-          if ((a.gR_ImageUrlLarge || a.gR_ImageUrlSmall) && !(b.gR_ImageUrlLarge || b.gR_ImageUrlSmall)) return -1;
-          if (!(a.gR_ImageUrlLarge || a.gR_ImageUrlSmall) && (b.gR_ImageUrlLarge || b.gR_ImageUrlSmall)) return 1;
-          else return 0;
-        }
-      });
+    // check if the selected column has a specialized sort algorithm
+    if (currentColumnConfig.hasOwnProperty("sort")) {
+      books.sort(currentColumnConfig.sort);
     }
     else {
-      books.sort((a,b) => {
-        if (sortOrder === "asc") {
-          return (a[bookPropertyName] > b[bookPropertyName]) ? 1 : -1;
-        }
-        else {
-          return (a[bookPropertyName] > b[bookPropertyName]) ? -1 : 1;
-        }
-      });
+      books.sort((a,b) => a[bookPropertyName] > b[bookPropertyName] ? 1 : -1);
     }
+
+    if (sortOrder === "desc") books.reverse();
 
     this.setState({
       books,

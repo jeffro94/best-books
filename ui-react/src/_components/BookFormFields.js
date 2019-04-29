@@ -1,5 +1,6 @@
 import React from "react";
 import TagManager from "./TagManager"
+import moment from "moment";
 
 const BookFormFields = (props) => (
   <div>
@@ -72,9 +73,14 @@ const BookFormFields = (props) => (
     </div>
     <div className="form-group row">
       <label htmlFor="wantToReadScore" className="col-sm-2 col-form-label">Want-to-Read Score</label>
-      <div className="col-sm-10">
+      <div className="col-sm-4">
         <input type="number" min="1" max="5" step="1" className="form-control" id="wantToReadScore" 
           value={ props.book.wantToReadScore } onChange={ (e) => props.onChange(e) }/>
+      </div>
+      <label htmlFor="dateCompleted" className="col-sm-2 col-form-label">Date Completed</label>
+      <div className="col-sm-4">
+        <input type="date" className="form-control" id="dateCompleted" 
+          value={ props.book.dateCompleted ? moment(props.book.dateCompleted).format("YYYY-MM-DD") : "" } onChange={ (e) => props.onChange(e) }/>
       </div>
     </div>
     <div className="form-group row">
@@ -155,6 +161,7 @@ const getEmptyBook = () => ({
   wikipediaURL: "",
   notes: "",
   wantToReadScore: "",
+  dateCompleted: "",
   flagRead: false,
   flagCurrentlyReading: false,
   flagPartiallyRead: false,

@@ -1,8 +1,11 @@
+import moment from "moment";
+
 export const TableColumns = [
   {
     key: "coverImage",
     name: "Cover Image",
     selected: true,
+    sort: coverImageSort,
     attributes: { className: "d-none d-xl-table-cell cover-image" },
     headerAttributes: { 
       className: "d-none d-xl-table-cell",
@@ -133,7 +136,7 @@ export const TableColumns = [
   },
   {
     key: "gR_RatingCount",
-    name: "Goodreads\nCount",
+    name: "Goodreads\nRatings",
     selected: false,
     transform: val => (val != null) ? val.toLocaleString() : "", /* allows for 0 */
     attributes: { className: "text-right d-none d-xl-table-cell" },
@@ -157,7 +160,7 @@ export const TableColumns = [
   },
   {
     key: "amz_ReviewCount",
-    name: "Amazon\nCount",
+    name: "Amazon\nReviews",
     selected: false,
     transform: val => (val != null) ? val.toLocaleString() : "", /* allows for 0 */
     attributes: { className: "text-right d-none d-xl-table-cell" },
@@ -166,5 +169,33 @@ export const TableColumns = [
       style: { width: "60px" }
     },
     defaultSort: "desc"
+  },
+  {
+    key: "dateCompleted",
+    name: "Date Completed",
+    selected: false,
+    transform: val => val ? moment(val).format("MM/DD/YYYY") : "",
+    sort: dateCompletedSort,
+    attributes: {
+      className: "d-none d-xl-table-cell"
+    },
+    headerAttributes: { 
+      className: "d-none d-xl-table-cell",
+      style: { width: "75px" }
+    },
+    defaultSort: "desc"
   }
 ];
+
+function dateCompletedSort(a,b) {
+  const aDate = a.dateCompleted ? moment(a.dateCompleted) : moment("0001-01-01");
+  const bDate = b.dateCompleted ? moment(b.dateCompleted) : moment("0001-01-01");
+
+  return aDate.isBefore(bDate) ? -1 : 1;
+}
+
+function coverImageSort(a,b) {
+  if ((a.gR_ImageUrlLarge || a.gR_ImageUrlSmall) && !(b.gR_ImageUrlLarge || b.gR_ImageUrlSmall)) return 1;
+  if (!(a.gR_ImageUrlLarge || a.gR_ImageUrlSmall) && (b.gR_ImageUrlLarge || b.gR_ImageUrlSmall)) return -1;
+  else return 0;
+}
