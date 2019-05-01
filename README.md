@@ -10,6 +10,7 @@ Technologies used:
 - React
 - Bootstrap 4
 - Formik
+- D3.js
 - Express
 - Node.js
 - .NET Core (C#)
