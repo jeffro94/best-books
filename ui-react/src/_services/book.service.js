@@ -15,7 +15,7 @@ function getAllByUserId(userId) {
     .then(handleResponse)
     .then((result) => {
       // filter out books with private flag, if in private mode
-      if (process.env.REACT_APP_PRIVATE_MODE !== "false" && result) {
+      if (process.env.REACT_APP_PRIVATE_MODE !== "2" && result) {
         result = result.filter(book => !book.private);
       }
 
