@@ -1,3 +1,7 @@
+.edit-book, .edit-book .form-control {
+  font-size: 0.875rem;
+}
+
 .external-links {
   display: flex;
   margin-top: 1em;
@@ -13,6 +17,6 @@
 }
 
 .stats-section {
-  font-size: 0.8em;
+  /* font-size: 0.8em; */
   margin-top: 1em;
 }

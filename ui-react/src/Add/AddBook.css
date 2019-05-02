@@ -1,3 +1,18 @@
+/*
+.add-book, .add-book .form-control {
+    font-size: 0.875rem;
+}
+*/
+
 #populateFromGR {
-    width: 30rem;
+    max-width: 30rem;
+}
+
+#populateFromGR .heading {
+    display: flex;
+    justify-content: space-between;
+}
+
+#populateFromGR .heading span {
+    user-select: none;
 }

@@ -8,18 +8,18 @@
  * 
  */
 
-import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
+import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
 import BookFormFields, { getEmptyBook } from "../_components/BookFormFields";
 import "./AddBook.css";
 import { userService, bookService } from "../_services";
+import GoodreadsLookup from "./GoodreadsLookup";
 
 class AddBook extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      book: getEmptyBook(),
-      grIDforLookup: ""
+      book: getEmptyBook()
     };
   }
 
@@ -30,10 +30,6 @@ class AddBook extends Component {
     //   ref: https://github.com/ReactTraining/react-router/blob/master/packages/react-router-dom/docs/guides/scroll-restoration.md
     //
     window.scrollTo(0, 0);  
-  }
-
-  handleGrIDChange = (e) => {
-    this.setState({ grIDforLookup: e.target.value });
   }
 
   handleUserInputForBook = (e) => {
@@ -97,8 +93,8 @@ class AddBook extends Component {
 
   }
 
-  grSearch() {
-    fetch(`http://localhost:3010/book/${this.state.grIDforLookup}`)
+  grSearch(grID) {
+    fetch(`https://books.jeffro.xyz/api/gr-lookup/book/${ grID }`)
       .then(response => response.json())
       .then(result => {
         // create a copy of the existing book state (don't mutate state)
@@ -117,21 +113,8 @@ class AddBook extends Component {
 
   render() {
     return (
-      <div>
-        <div id="populateFromGR" className="card ml-auto">
-          <div className="card-body">
-            <h5>Populate from GoodReads</h5>
-            <div className="row mt-3">
-              <div className="col-8">
-                <input type="text" id="grIDforLookup" className="form-control d-inline-block" placeholder="GoodReads ID" 
-                  value={ this.state.grIDforLookup } onChange={ this.handleGrIDChange }/>
-              </div>
-              <div className="col-4">
-                <button id="grSearch" className="btn btn-secondary btn-block" onClick={ () => this.grSearch() }>Search</button>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div className="add-book">
+        <GoodreadsLookup grSearch={ (grID) => this.grSearch(grID) } />
         <form className="mt-3" onSubmit={ this.handleSubmit }>
           <BookFormFields currentUser={ this.props.currentUser } book={ this.state.book } onChange={ this.handleUserInputForBook } onTagChange={ this.handleTagChange } />
           <div className="form-group row">

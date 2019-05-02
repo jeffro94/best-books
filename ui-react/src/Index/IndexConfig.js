@@ -181,7 +181,7 @@ export const TableColumns = [
     },
     headerAttributes: { 
       className: "d-none d-xl-table-cell",
-      style: { width: "75px" }
+      style: { width: "80px" }
     },
     defaultSort: "desc"
   }

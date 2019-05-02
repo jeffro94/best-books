@@ -102,9 +102,9 @@ class EditBook extends Component {
 
   render() {
     return (
-      <div>
+      <div className="edit-book">
         <div className="row mt-3">
-          <div className="col-lg-10">
+          <div className="col-lg-9">
             <form onSubmit={ this.handleSubmit }>
               <BookFormFields currentUser={ this.props.currentUser } book={ this.state.book } onChange={ this.handleUserInput } onTagChange={ this.handleTagChange } />
               <div className="form-group row">
@@ -115,7 +115,7 @@ class EditBook extends Component {
               </div>
             </form>
           </div>
-          <div className="col-lg-2 mt-3">
+          <div className="col-lg-3 mt-3">
             <SideBar book={ this.state.book } />
           </div>
         </div>
@@ -132,18 +132,18 @@ function SideBar(props) {
       </div>
       <ExternalLinks book={ props.book } />
       <div className="stats-section">
-        <span>GoodReads</span>
+        <span>Goodreads</span>
         <ul>
-          <li>Rating: { props.book.gR_Rating && props.book.gR_Rating.toFixed(2) }</li>
-          <li>Rating Count: { props.book.gR_RatingCount && props.book.gR_RatingCount.toLocaleString() }</li>
-          <li>Review Count: { props.book.gR_ReviewCount && props.book.gR_ReviewCount.toLocaleString() }</li>
+          <li>{ props.book.gR_Rating && props.book.gR_Rating.toFixed(2) } average rating</li>
+          <li>{ props.book.gR_RatingCount && props.book.gR_RatingCount.toLocaleString() } ratings</li>
+          <li>{ props.book.gR_ReviewCount && props.book.gR_ReviewCount.toLocaleString() } reviews</li>
         </ul>
       </div>
       <div className="stats-section">
         <span>Amazon</span>
         <ul>
-          <li>Rating: { props.book.amz_Rating && props.book.amz_Rating.toFixed(1) }</li>
-          <li>Review Count: { props.book.amz_ReviewCount && props.book.amz_ReviewCount.toLocaleString() }</li>
+          <li>{ props.book.amz_Rating && props.book.amz_Rating.toFixed(1) } average rating</li>
+          <li>{ props.book.amz_ReviewCount && props.book.amz_ReviewCount.toLocaleString() } reviews</li>
         </ul>
       </div>
     </div>
