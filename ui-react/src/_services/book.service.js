@@ -15,11 +15,11 @@ function getAllByUserId(userId) {
     .then(handleResponse)
     .then((result) => {
       // filter out books with private flag, if in private mode
-      if (process.env.REACT_APP_PRIVATE_MODE !== "2" && result) {
+      if (process.env.REACT_APP_PRIVATE_MODE === "2" && result) {
         result = result.filter(book => !book.private);
       }
 
-      //default sort by title
+      // default sort by title
       result.sort((a,b) => a.title > b.title ? 1 : -1);
 
       return result;
