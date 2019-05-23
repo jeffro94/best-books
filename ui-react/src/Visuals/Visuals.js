@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons"
 import ChartWrapper from "./ChartWrapper";
 import GoodreadsScoreToCount from "./Charts/GoodreadsScoreToCount";
 import AmazonScoreToCount from "./Charts/AmazonScoreToCount";
@@ -36,15 +38,15 @@ class Visuals extends Component {
 
   render() {
     return (
-      <div className="row mt-5">
-        <div className="col-xs-1 col-lg-2">
-          <div className="left-arrow" onClick={ () => this.decrementItem() }>⬅</div>
-        </div>
-        <div className="col-xs-10 col-lg-8">
+      <div className="mt-5">
+        <div className="d-flex justify-content-around align-items-center">
+          <div className="d-none d-lg-block left-arrow" onClick={ () => this.decrementItem() }><FontAwesomeIcon icon={ faChevronLeft } /></div>
           <ChartWrapper chart={ this.charts[this.state.selectedItem] } currentUser={ this.props.currentUser } />
+          <div className="d-none d-lg-block right-arrow" onClick={ () => this.incrementItem() }><FontAwesomeIcon icon={ faChevronRight } /></div>
         </div>
-        <div className="col-xs-1 col-lg-2">
-          <div className="right-arrow" onClick={ () => this.incrementItem() }>➡</div>
+        <div className="d-flex d-lg-none justify-content-around">
+          <div className="left-arrow" onClick={ () => this.decrementItem() }><FontAwesomeIcon icon={ faChevronLeft } /></div>
+          <div className="right-arrow" onClick={ () => this.incrementItem() }><FontAwesomeIcon icon={ faChevronRight } /></div>
         </div>
       </div>
     );

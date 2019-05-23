@@ -1,4 +1,7 @@
+import React from "react";
 import moment from "moment";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faCamera, faBook, faBookReader, faShoppingCart, faTachometerAlt } from "@fortawesome/free-solid-svg-icons"
 
 export const TableColumns = [
   {
@@ -9,10 +12,10 @@ export const TableColumns = [
     attributes: { className: "d-none d-xl-table-cell cover-image" },
     headerAttributes: { 
       className: "d-none d-xl-table-cell",
-      style: { width: "50px", minWidth: "50px", maxWidth: "50px" }
+      style: { width: "50px", textAlign: "center" }
     },
     headerTitle: "Cover Image",
-    headerAbbreviation: "📷",
+    headerAbbreviation: <FontAwesomeIcon icon={ faCamera } />,
     defaultSort: "none"
   },
   {
@@ -23,10 +26,10 @@ export const TableColumns = [
     attributes: { className: "d-none d-xl-table-cell" },
     headerAttributes: { 
       className: "d-none d-xl-table-cell",
-      style: { width: "30px" }
+      style: { width: "30px", textAlign: "center" }
     },
     headerTitle: "Completed",
-    headerAbbreviation: "📗",
+    headerAbbreviation: <FontAwesomeIcon icon={ faBook } />,
     defaultSort: "desc"
   },
   {
@@ -37,10 +40,10 @@ export const TableColumns = [
     attributes: { className: "d-none d-xl-table-cell" },
     headerAttributes: { 
       className: "d-none d-xl-table-cell",
-      style: { width: "30px" }
+      style: { width: "30px", textAlign: "center" }
     },
     headerTitle: "Currently Reading",
-    headerAbbreviation: "🕮",
+    headerAbbreviation: <FontAwesomeIcon icon={ faBookReader } />,
     defaultSort: "desc"
   },
   {
@@ -51,10 +54,10 @@ export const TableColumns = [
     attributes: { className: "d-none d-xl-table-cell" },
     headerAttributes: { 
       className: "d-none d-xl-table-cell",
-      style: { width: "30px" }
+      style: { width: "30px", textAlign: "center" }
     },
     headerTitle: "Want to Read",
-    headerAbbreviation: "🛒",
+    headerAbbreviation: <FontAwesomeIcon icon={ faShoppingCart } />,
     defaultSort: "desc"
   },
   {
@@ -64,10 +67,10 @@ export const TableColumns = [
     attributes: { className: "d-none d-xl-table-cell" },
     headerAttributes: { 
       className: "d-none d-xl-table-cell",
-      style: { width: "30px" }
+      style: { width: "30px", textAlign: "center" }
     },
     headerTitle: "Want to Read Score",
-    headerAbbreviation: "💯",
+    headerAbbreviation: <FontAwesomeIcon icon={ faTachometerAlt } />,
     defaultSort: "desc"
   },
   {

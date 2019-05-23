@@ -3,6 +3,8 @@ import ColumnSettings from "./ColumnSettings";
 import Filter from "./Filter";
 import TagFilter from "./TagFilter";
 import { Collapse } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faCog } from "@fortawesome/free-solid-svg-icons"
 
 const TableSettings = (props) => {
   const [open, setOpen] = useState(false);
@@ -19,7 +21,7 @@ const TableSettings = (props) => {
               aria-controls="example-collapse-text2"
               aria-expanded={ open }
               onClick={ () => setOpen(!open) }
-            >⚙️</span>
+            ><FontAwesomeIcon icon={ faCog } /></span>
         </div>
         <Collapse in={ open }>
           <div id="example-collapse-text2">
