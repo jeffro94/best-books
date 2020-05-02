@@ -52,7 +52,7 @@ class App extends Component {
           </main>
           <footer className="border-top footer text-muted">
             <div className="container">
-                © 2019 - J. Ross - <a href="https://github.com/jeffro94/best-books">GitHub</a>
+                © 2020 - J. Ross - <a href="https://github.com/jeffro94/best-books">GitHub</a>
             </div>
           </footer>
         </div>

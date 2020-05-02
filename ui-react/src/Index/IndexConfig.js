@@ -40,7 +40,7 @@ export const TableColumns = [
       style: { width: "30px" }
     },
     headerTitle: "Currently Reading",
-    headerAbbreviation: "🕮",
+    headerAbbreviation: "📖",
     defaultSort: "desc"
   },
   {
